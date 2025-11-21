@@ -6,7 +6,8 @@ We are working on the "page-builder-framework" WordPress theme located in `wp-co
 
 ## Directory Structure
 
-The `ai-docs/page-builder-framework/` directory contains documentation to facilitate context handoffs between AI agents:
+The `ai-docs/page-builder-framework/{developer}/` directory contains documentation to facilitate context handoffs between AI agents.
+**Note:** `{developer}` corresponds to the current developer's name (e.g., `bagus`, `dwi`, `david`).
 
 - `progress-handoffs/`: Contains project handoff files.
   - `PROGRESS_HANDOFF.md`: The **current** handoff file. This is the source of truth for the next agent.
@@ -20,7 +21,7 @@ The `ai-docs/page-builder-framework/` directory contains documentation to facili
 
 ### 1. Initialization (Start of Session)
 
-- **Read Context**: Always check `ai-docs/page-builder-framework/progress-handoffs/PROGRESS_HANDOFF.md` to understand the current status, recent changes, and immediate next steps.
+- **Read Context**: Always check `ai-docs/page-builder-framework/{developer}/progress-handoffs/PROGRESS_HANDOFF.md` to understand the current status, recent changes, and immediate next steps.
 - **Check Rules**: Review this `rules.md` file for project-specific guidelines.
 
 ### 2. During Work
@@ -31,7 +32,7 @@ The `ai-docs/page-builder-framework/` directory contains documentation to facili
 ### 3. Handoff (End of Session)
 
 - **1. Update Handoff File**:
-  - Update `ai-docs/page-builder-framework/progress-handoffs/PROGRESS_HANDOFF.md`.
+  - Update `ai-docs/page-builder-framework/{developer}/progress-handoffs/PROGRESS_HANDOFF.md`.
   - **Status**: Mark as `Completed` (for this session).
   - **Accomplishments**: List what YOU did.
   - **Next Steps**: List what the NEXT agent should do.
@@ -47,7 +48,7 @@ The `ai-docs/page-builder-framework/` directory contains documentation to facili
   - **Current Session**: Increment the version (e.g., `v2.11.8+1` -> `v2.11.8+2`).
   - **Content**: Clear "Recent Accomplishments" and move "Next Steps" to "Pending Tasks".
 - **5. Suggest What are Next For Next Agent's Works**
-- **6. Show the copy-able prompt for the next agent** with following wording: "Please execute the instructions in: ai-docs/page-builder-framework/prompts/AGENT_PROMPT.md".
+- **6. Show the copy-able prompt for the next agent** with following wording: "Please execute the instructions in: ai-docs/page-builder-framework/{developer}/prompts/AGENT_PROMPT.md".
 
 ## General Project Guidelines
 

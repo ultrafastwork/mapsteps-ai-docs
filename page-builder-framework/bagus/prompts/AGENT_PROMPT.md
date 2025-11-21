@@ -5,7 +5,7 @@
 **Context**:
 You are working on the "page-builder-framework" WordPress theme.
 Your primary source of truth for the current state and tasks is the file:
-`ai-docs/page-builder-framework/progress-handoffs/PROGRESS_HANDOFF.md`
+`ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 
 **Rules**:
 Please strictly follow the rules defined in:
@@ -19,7 +19,7 @@ Refactor `styles.php` and `header-builder-styles.php` by splitting them into sma
 
 **Instructions**:
 
-1. **Read Context**: Read `ai-docs/page-builder-framework/progress-handoffs/PROGRESS_HANDOFF.md` to understand the current state and the files involved.
+1. **Read Context**: Read `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md` to understand the current state and the files involved.
 
 2. **Analyze & Plan**:
    - Analyze `inc/customizer/styles.php` (~1800 lines) and `inc/customizer/styles/header-builder-styles.php` (~850 lines).
