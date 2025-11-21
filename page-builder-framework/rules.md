@@ -46,6 +46,8 @@ The `ai-docs/page-builder-framework/` directory contains documentation to facili
   - **Status**: Set to `Active`.
   - **Current Session**: Increment the version (e.g., `v2.11.8+1` -> `v2.11.8+2`).
   - **Content**: Clear "Recent Accomplishments" and move "Next Steps" to "Pending Tasks".
+- **5. Suggest What are Next For Next Agent's Works**
+- **6. Show the copy-able prompt for the next agent** with following wording: "Please execute the instructions in: ai-docs/page-builder-framework/prompts/AGENT_PROMPT.md".
 
 ## General Project Guidelines
 
