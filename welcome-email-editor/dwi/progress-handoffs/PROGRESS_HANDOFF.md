@@ -1,77 +1,57 @@
 # Progress Handoff
 
-**Current Version:** `v6.2.2+3`  
-**Status:** Pending Verification  
+**Current Version:** `v6.2.2+5`
+**Status:** Pending
 **Last Updated:** 2025-11-21
 
 ## 📋 Pending Tasks
 
-### Verify Mailjet Implementation Correctness
+### Reorganize Settings & Verify Visibility
 
-Before manual testing, the Mailjet integration (both SMTP and API backends) needs to be reviewed for correctness against Mailjet's official specifications.
+Reorganize the settings fields and sections to improve the UI structure and ensure correct visibility logic.
 
 **Task Checklist:**
-- [ ] Verify SMTP configuration (host, port, encryption, authentication)
-- [ ] Verify API endpoint and payload structure
-- [ ] Verify email interception logic and filter hooks
-- [ ] Check for common issues (encoding, parsing, error handling)
-- [ ] Review security (credentials, sanitization, escaping)
-- [ ] Verify backward compatibility
+- [ ] **Move Mailer Type:** Move `mailer-type` field to `weed-general-section`.
+- [ ] **New Section:** Create a new section for "Mailjet API Settings".
+- [ ] **Move Fields:** Move Mailjet API Key, Secret, Sender Name, and Sender Email to the new section.
+- [ ] **Update Visibility:** Ensure JS logic correctly shows/hides fields based on Mailer Type:
+    - **SMTP:** Show Host, Encryption, Port, Username, Password. Hide Mailjet fields.
+    - **Mailjet API:** Show API Key, Secret, Sender Name, Sender Email. Hide SMTP fields.
 
-**See:** `ai-docs/welcome-email-editor/dwi/prompts/AGENT_PROMPT.md` for detailed verification instructions.
+**See:** `ai-docs/welcome-email-editor/dwi/prompts/AGENT_PROMPT.md` for detailed instructions.
 
 ## ✅ Recently Completed
 
-### Mailjet Backend Choice (SMTP vs API) - v6.2.2+3
+### Refactor Mailjet Settings - v6.2.2+4
 
-Successfully implemented the ability to choose between SMTP and API backends for Mailjet email sending.
+Refactored the settings UI to simplify the Mailjet configuration experience.
 
-**Files Modified:**
-- `modules/settings/class-settings-module.php`
-- `modules/smtp/class-smtp-output.php`
-
-**Files Created:**
-- `modules/settings/templates/fields/smtp/mailjet-backend.php`
-- `modules/mailjet-api/class-mailjet-api-sender.php`
-
-**Documentation:** See `PROGRESS_HANDOFF_v6.2.2+3_COMPLETE.md` for implementation details.
+**Documentation:** `ai-docs/welcome-email-editor/dwi/progress-handoffs/PROGRESS_HANDOFF_v6.2.2+4_COMPLETE.md`
 
 ## 🎯 Next Steps for Agent
 
-1. **Execute verification instructions** in `AGENT_PROMPT.md`
-2. **Review implementation** against Mailjet documentation:
-   - [SMTP Relay Docs](https://dev.mailjet.com/smtp-relay/overview/)
-   - [Send API v3.1 Docs](https://dev.mailjet.com/email/guides/send-api-v31/)
-3. **Document findings** in a verification report
-4. **Fix any issues** found during review
-5. **Update progress handoff** when verification is complete
+1.  Execute the instructions in `AGENT_PROMPT.md`.
+2.  Verify the UI changes and visibility logic.
 
 ## 📖 Available Documentation
 
-- **Implementation Guide:** `ai-docs/welcome-email-editor/dwi/MAILJET_BACKEND_IMPLEMENTATION.md`
-- **Archived Sessions:** `ai-docs/welcome-email-editor/dwi/progress-handoffs/PROGRESS_HANDOFF_v6.2.2+3_COMPLETE.md`
-- **Verification Prompt:** `ai-docs/welcome-email-editor/dwi/prompts/AGENT_PROMPT.md`
+- **Implementation Plan:** `implementation_plan.md` (v6.2.2+4 - Reference)
+- **Task Checklist:** `task.md` (v6.2.2+4 - Reference)
 
 ## 💡 Plugin Context
 
-**Plugin:** Welcome Email Editor  
-**Version:** v6.2.2+3  
+**Plugin:** Welcome Email Editor
+**Version:** v6.2.2+5
 **Main Features:**
 - Custom welcome email templates
-- SMTP configuration (Default, Mailjet)
-- Mailjet backend choice (SMTP/API)
-- Email logging
-- Reset password email customization
-
-**Key Files to Review:**
-- `modules/smtp/class-smtp-output.php` - SMTP configuration and API interception
-- `modules/mailjet-api/class-mailjet-api-sender.php` - Mailjet API implementation
-- `modules/settings/class-settings-module.php` - Settings and sanitization
+- SMTP configuration
+- Mailjet API integration
 
 ## 🧪 Testing Notes
 
-Manual testing will be performed by the user after verification is complete. The agent should focus on code correctness, not testing.
+- **SMTP:** Host, Port, Encryption, Auth.
+- **Mailjet API:** API Key, Secret Key, Sender Name, Sender Email.
 
 ---
 
-**Status:** ⏳ Awaiting verification of Mailjet implementation correctness.
+**Status:** ⏳ Ready for settings reorganization.
