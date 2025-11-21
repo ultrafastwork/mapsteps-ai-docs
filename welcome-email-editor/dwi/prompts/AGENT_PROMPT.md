@@ -1,117 +1,116 @@
-# Agent Prompt: Implement Mailjet Backend Choice (SMTP vs API)
+# Agent Prompt: Verify Mailjet Implementation Correctness
 
 ## Objective
 
-Extend the existing Mailjet implementation to allow users to choose between **Mailjet SMTP** or **Mailjet API** as the backend method for sending emails.
+Review and verify that the Mailjet integration (both SMTP and API backends) is implemented correctly according to Mailjet's specifications and best practices.
 
 ## Context
 
-Currently, the plugin supports Mailjet via SMTP only. Mailjet also provides a REST API for sending emails, which has a key advantage: **emails sent via the API do not automatically save contacts to the Mailjet contact list**. This prevents hitting contact list limitations, making the API method more suitable for high-volume transactional emails.
+The previous session (v6.2.2+3) implemented the Mailjet backend choice feature, allowing users to select between SMTP and API methods. Before manual testing, we need to ensure the implementation is correct.
 
-The existing implementation includes:
+## Current Implementation
 
-- Mailer Type selection: `default` (Manual SMTP) or `mailjet` (Mailjet SMTP)
-- Mailjet API Key and Secret Key fields
-- SMTP configuration in `class-smtp-output.php`
+### SMTP Backend
+- **File:** `modules/smtp/class-smtp-output.php`
+- **Configuration:**
+  - Host: `in-v3.mailjet.com`
+  - Port: `587`
+  - Encryption: `STARTTLS`
+  - Authentication: API Key (username) + Secret Key (password)
+
+### API Backend
+- **File:** `modules/mailjet-api/class-mailjet-api-sender.php`
+- **Endpoint:** `https://api.mailjet.com/v3.1/send`
+- **Authentication:** Basic Auth (API Key:Secret Key)
+- **Method:** POST with JSON payload
 
 ## Instructions
 
-### 1. Update Settings Module (`modules/settings/class-settings-module.php`)
+### 1. Verify SMTP Configuration
 
-#### A. Add "Mailjet Backend" Setting
+Review `modules/smtp/class-smtp-output.php` and verify:
 
-- Add a new setting field `mailjet_backend` to the `weed-smtp-section`.
-- Type: Radio buttons.
-- Options:
-  - `smtp`: "SMTP" (default)
-  - `api`: "API"
-- Default value: `smtp`.
-- This field should only be visible when `mailer_type` is set to `mailjet`.
+- [ ] **Host is correct**: Should be `in-v3.mailjet.com` (or check if there's a regional variant)
+- [ ] **Port is correct**: `587` for STARTTLS or `465` for SSL
+- [ ] **Encryption is correct**: Using `PHPMailer::ENCRYPTION_STARTTLS`
+- [ ] **Authentication method**: API Key as username, Secret Key as password
+- [ ] **No hardcoded credentials**: Using values from settings
 
-#### B. Update Sanitization
+**Reference:** [Mailjet SMTP Documentation](https://dev.mailjet.com/smtp-relay/overview/)
 
-- Add sanitization for `mailjet_backend` in the `sanitize_settings` method.
-- Allowed values: `smtp`, `api`.
+### 2. Verify API Implementation
 
-#### C. Add Field Callback
+Review `modules/mailjet-api/class-mailjet-api-sender.php` and verify:
 
-- Create `mailjet_backend_field()` method to render the radio buttons.
+- [ ] **Endpoint is correct**: `https://api.mailjet.com/v3.1/send` (not v3)
+- [ ] **Authentication format**: Basic Auth with `base64_encode(api_key:secret_key)`
+- [ ] **Request headers**: `Content-Type: application/json`
+- [ ] **Payload structure**: Matches Mailjet Send API v3.1 spec
+  - `Messages` array
+  - `From` object with `Email` and `Name`
+  - `To` array with objects containing `Email` and optionally `Name`
+  - `Subject` string
+  - `HTMLPart` and/or `TextPart`
+- [ ] **Response handling**: Checks for `Status: "success"` in response
+- [ ] **Error handling**: Logs appropriate error messages
 
-### 2. Template Updates
+**Reference:** [Mailjet Send API v3.1 Documentation](https://dev.mailjet.com/email/guides/send-api-v31/)
 
-#### A. Create New Template
+### 3. Verify Email Interception Logic
 
-- Create `modules/settings/templates/fields/smtp/mailjet-backend.php`.
-- Render radio buttons for SMTP and API options.
-- Add `data-show-when-mailer-type="mailjet"` attribute for conditional visibility.
+Review `modules/smtp/class-smtp-output.php` method `maybe_use_mailjet_api()`:
 
-### 3. Implement Mailjet API Support
+- [ ] **Filter hook is correct**: Using `pre_wp_mail` filter
+- [ ] **Priority is appropriate**: Currently set to `10`
+- [ ] **Return value handling**: Returns boolean to short-circuit `wp_mail()`
+- [ ] **Conditional logic**: Only intercepts when both conditions are true:
+  - `mailer_type === 'mailjet'`
+  - `mailjet_backend === 'api'`
 
-#### A. Create New Email Sender Module
+### 4. Check for Common Issues
 
-- Create `modules/mailjet-api/class-mailjet-api-sender.php`.
-- Implement a method to send emails using Mailjet's Send API v3.1.
-- API Endpoint: `https://api.mailjet.com/v3.1/send`
-- Authentication: Basic Auth using API Key and Secret Key.
-- Request format: JSON with proper message structure.
+- [ ] **Character encoding**: Verify UTF-8 handling for international characters
+- [ ] **Email address parsing**: Check regex patterns for "Name <email>" format
+- [ ] **Multiple recipients**: Verify array handling for multiple To addresses
+- [ ] **Empty values**: Check handling of empty/missing headers
+- [ ] **Content type detection**: Verify HTML vs plain text handling
+- [ ] **Error propagation**: Ensure API errors are properly returned to WordPress
 
-#### B. API Request Structure
+### 5. Review Security
 
-```json
-{
-	"Messages": [
-		{
-			"From": {
-				"Email": "sender@example.com",
-				"Name": "Sender Name"
-			},
-			"To": [
-				{
-					"Email": "recipient@example.com",
-					"Name": "Recipient Name"
-				}
-			],
-			"Subject": "Email Subject",
-			"TextPart": "Plain text content",
-			"HTMLPart": "<h1>HTML content</h1>"
-		}
-	]
-}
-```
+- [ ] **Credentials storage**: API keys stored securely (sanitized on save)
+- [ ] **No credentials in logs**: Error logs don't expose API keys
+- [ ] **Input sanitization**: All user inputs properly sanitized
+- [ ] **Output escaping**: Template outputs properly escaped
 
-### 4. Update SMTP Output Module (`modules/smtp/class-smtp-output.php`)
+### 6. Verify Backward Compatibility
 
-#### A. Modify PHPMailer Hook Behavior
+- [ ] **Default value**: `mailjet_backend` defaults to `'smtp'` if not set
+- [ ] **Existing installations**: Won't break existing Mailjet SMTP setups
+- [ ] **Graceful degradation**: Falls back to SMTP if API fails
 
-When `mailer_type` is `mailjet` AND `mailjet_backend` is `api`:
+## Expected Deliverables
 
-- **Do not configure PHPMailer** in `phpmailer_init()`.
-- Instead, hook into `wp_mail` filter or `phpmailer_init` to intercept the email.
-- Extract email data (to, subject, message, headers, attachments).
-- Call the Mailjet API sender to send the email.
-- Return success/failure appropriately.
-
-When `mailer_type` is `mailjet` AND `mailjet_backend` is `smtp`:
-
-- Keep the existing SMTP configuration (already implemented).
-
-### 5. Error Handling
-
-- Implement proper error handling for API requests.
-- Log errors appropriately.
-- Return meaningful error messages to WordPress.
+1. **Code Review Report**: Document any issues found with specific line numbers
+2. **Corrections**: Fix any incorrect implementations
+3. **Recommendations**: Suggest improvements if any
+4. **Documentation Updates**: Update implementation docs if corrections are made
 
 ## Definition of Done
 
-- User can select "Mailjet Backend" when Mailjet is chosen as mailer type.
-- Selecting "SMTP" uses the existing Mailjet SMTP implementation.
-- Selecting "API" sends emails via Mailjet's Send API.
-- Emails sent via API do not save contacts to Mailjet contact list.
-- Settings are saved correctly.
-- Error handling is implemented for API failures.
+- All verification checklist items reviewed
+- Any issues found are documented and fixed
+- Code follows Mailjet's official specifications
+- Implementation is ready for manual testing
 
 ## Resources
 
-- [Mailjet Send API Documentation](https://dev.mailjet.com/email/guides/send-api-v31/)
-- Mailjet API Endpoint: `https://api.mailjet.com/v3.1/send`
-- Authentication: Basic Auth with API Key as username and Secret Key as password
+- [Mailjet SMTP Relay Documentation](https://dev.mailjet.com/smtp-relay/overview/)
+- [Mailjet Send API v3.1 Documentation](https://dev.mailjet.com/email/guides/send-api-v31/)
+- [Mailjet API Authentication](https://dev.mailjet.com/email/guides/authentication/)
+
+## Notes
+
+- User will perform manual testing after verification is complete
+- Focus on correctness, not testing
+- Check against official Mailjet documentation
