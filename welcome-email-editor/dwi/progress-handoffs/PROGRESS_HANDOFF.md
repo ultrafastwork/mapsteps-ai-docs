@@ -1,12 +1,29 @@
 # Progress Handoff
 
 **Current Version:** `v6.2.2+8`
-**Status:** Ready for Next Task
+**Status:** Pending Task
 **Last Updated:** 2025-11-22
 
 ## 📋 Pending Tasks
 
-No pending tasks at this time. Ready for new instructions.
+### Add Mailjet API Test Email Section
+
+Add a dedicated "Send Test Email" section for Mailjet API in the settings page to allow users to test email functionality independently.
+
+**Task Checklist:**
+- [ ] Add new settings section for Mailjet API test email
+- [ ] Create field template with test buttons (regular email and with attachment)
+- [ ] Create or update AJAX handler for test email functionality
+- [ ] Update JavaScript to handle AJAX calls and display responses
+- [ ] Implement visibility control based on Mailer Type selection
+- [ ] Test both regular email and email with attachment scenarios
+
+**Rationale:** Currently, the plugin only has SMTP test email functionality. Adding a Mailjet API-specific test section will allow users to:
+- Test Mailjet API configuration independently
+- Verify regular email sending works
+- Test attachment functionality with a sample file
+
+**See:** `ai-docs/welcome-email-editor/dwi/prompts/AGENT_PROMPT.md` for detailed instructions.
 
 ## ✅ Recently Completed
 
@@ -24,8 +41,6 @@ Successfully implemented complete attachment support for Mailjet API, including 
 - ✅ Comprehensive error logging for attachment issues
 - ✅ Full compatibility with existing SMTP fallback
 
-**Impact:** Mailjet API now supports file attachments and inline images, matching WordPress `wp_mail()` functionality. Emails sent via Mailjet API can include PDFs, documents, images as attachments, and HTML emails can embed images inline.
-
 ### Remove Mailjet Sender Fields - v6.2.2+6 ✅
 
 Successfully removed redundant Mailjet Sender Name and Sender Email fields from the Mailjet API Settings section.
@@ -40,7 +55,10 @@ Successfully reorganized the settings fields to improve usability and fixed all 
 
 ## 🎯 Next Steps for Agent
 
-Awaiting new instructions.
+1. Review existing SMTP test email implementation for reference
+2. Create new Mailjet API test section following the same pattern
+3. Implement AJAX handlers for both test scenarios
+4. Test functionality with valid and invalid configurations
 
 ## 💡 Plugin Context
 
@@ -53,6 +71,10 @@ Awaiting new instructions.
 - Inline image support for HTML emails
 - Field and section visibility based on Mailer Type selection
 
+**Current Testing:**
+- ✅ SMTP test email functionality exists
+- ❌ Mailjet API test email functionality needed
+
 ## 📖 Available Documentation
 
 - **Latest Completion:** `PROGRESS_HANDOFF_v6.2.2+7_COMPLETE.md`
@@ -60,4 +82,4 @@ Awaiting new instructions.
 
 ---
 
-**Status:** ✅ All tasks complete, ready for next instructions
+**Status:** ⏳ Ready for Mailjet API test email implementation
