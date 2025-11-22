@@ -1,13 +1,26 @@
 # Progress Handoff
 
 **Current Version:** `v6.2.2+10`
-**Status:** ✅ Ready for Next Task
+**Status:** 🚧 In Progress
 **Last Updated:** 2025-11-22
 
-## 🎯 Next Objectives
+## 📋 Pending Tasks
 
-### [Pending User Instruction]
-Waiting for user input to define the next task.
+### Implement Test Email Metabox Visibility - v6.2.2+10 🔴
+
+**Priority:** Medium - UX Improvement
+
+**Objective:** Ensure that only the relevant test email metabox is displayed based on the selected "Mailer Type".
+
+**Requirements:**
+- **Mailjet API Test Metabox:** Show only when "Mailer Type" is "Mailjet API".
+- **SMTP Test Metabox:** Show only when "Mailer Type" is "SMTP (Default)".
+
+**Files to Modify:**
+- `assets-src/ts/settings.ts` (or relevant JS file)
+- `modules/settings/templates/settings-template.php`
+
+**See:** `ai-docs/welcome-email-editor/dwi/prompts/AGENT_PROMPT.md` for detailed instructions.
 
 ## ✅ Recently Completed
 
@@ -47,4 +60,4 @@ Successfully implemented a dedicated "Send Test Email" section for Mailjet API i
 
 ---
 
-**Status:** ✅ System stable and ready for new features
+**Status:** 🚧 Work in progress
