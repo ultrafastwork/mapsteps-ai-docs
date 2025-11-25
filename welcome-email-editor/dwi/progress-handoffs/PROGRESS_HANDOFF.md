@@ -1,13 +1,31 @@
 # Progress Handoff
 
-**Current Version:** `v6.2.2+10`
-**Status:** ✅ Ready for Next Task
-**Last Updated:** 2025-11-22
+**Current Version:** `v6.2.2+12`
+**Status:** 🚧 In Progress
+**Last Updated:** 2025-11-25
 
-## 🎯 Next Objectives
+## 📋 Pending Tasks
 
-### [Pending User Instruction]
-Waiting for user input to define the next task.
+### Setup Nightwatch v3 E2E Testing - v6.2.2+12 🔴
+
+**Priority:** High - Quality Assurance
+
+**Objective:** Set up Nightwatch.js v3 for end-to-end testing of the plugin, ensuring a clean directory structure.
+
+**Requirements:**
+- **Location:** Install Nightwatch inside the plugin root.
+- **Structure:** Store tests in `tests/e2e/`.
+- **Build Exclusion:** Configure `.distignore` (or equivalent) to exclude `tests/`, `nightwatch.conf.js`, and `node_modules` from production builds.
+- **Configuration:** Configure Nightwatch with a local base URL (ask user for it).
+- **First Test:** Create a basic test to verify the settings page loads.
+
+**Files to Create/Modify:**
+- `package.json`
+- `nightwatch.conf.js`
+- `tests/e2e/` (new directory)
+- `.distignore` (if exists, or create)
+
+**See:** `ai-docs/welcome-email-editor/dwi/prompts/AGENT_PROMPT.md` for detailed instructions.
 
 ## ✅ Recently Completed
 
@@ -32,7 +50,7 @@ Successfully implemented a dedicated "Send Test Email" section for Mailjet API i
 ## 💡 Plugin Context
 
 **Plugin:** Welcome Email Editor (Swift SMTP)
-**Version:** v6.2.2+10
+**Version:** v6.2.2+12
 **Main Features:**
 - Custom welcome email templates
 - SMTP configuration with visibility controls
@@ -53,4 +71,4 @@ Successfully implemented a dedicated "Send Test Email" section for Mailjet API i
 
 ---
 
-**Status:** ✅ System stable and ready for new features
+**Status:** 🚧 Work in progress
