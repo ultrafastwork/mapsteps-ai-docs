@@ -1,60 +1,80 @@
-# Agent Prompt: Setup Nightwatch v3 E2E Testing
+# Agent Prompt: [Ready for New Task]
 
-**Status:** 🎯 Active
-**Version:** v6.2.2+12
+**Status:** 🟢 Ready
+**Version:** v6.2.2+13
 **Last Updated:** 2025-11-25
 
-## Objective
+## Current State
 
-Set up end-to-end (E2E) testing for the plugin using Nightwatch.js version 3. The goal is to establish a testing framework that can verify critical plugin functionalities.
+The Welcome Email Editor plugin (Swift SMTP) is feature-complete with:
 
-## Directory Structure & Best Practices
+✅ **Core Functionality**
+- Custom welcome email templates
+- SMTP configuration with field visibility controls
+- Mailjet API integration with full attachment support (regular + inline)
+- Test email functionality for both SMTP and Mailjet API backends
 
-**Location:** Tests MUST be placed inside the plugin repository to ensure they are version-controlled with the code they test.
--   **Path:** `wp-content/plugins/welcome-email-editor/tests/e2e/`
--   **Build Exclusion:** Ensure that the `tests/` directory, `nightwatch.conf.js`, and `node_modules` are **excluded** from the final production zip/build of the plugin. (If a build script or `.distignore` exists, update it).
+✅ **Testing Infrastructure**
+- Nightwatch v3 E2E testing framework set up
+- Located at: `c:\laragon\www\mapsteps\welcome-email-editor-e2e-testing\`
+- WordPress authentication working
+- First test passing (3 assertions)
+- Ready for expanded test coverage
 
-## Requirements
+## Available for Next Task
 
-1.  **Install Nightwatch v3:**
-    -   Initialize Nightwatch in the plugin root (`wp-content/plugins/welcome-email-editor/`).
-    -   Use `npm` for dependency management.
-    -   Select "TypeScript" if the project is already using it.
-    -   Select "Chrome" as the primary browser.
+No active tasks pending. Ready to accept new instructions.
 
-2.  **Configuration:**
-    -   Configure `nightwatch.conf.js` (or `.ts`).
-    -   Set up a base URL for the local WordPress instance. **IMPORTANT:** Ask the user for their local WordPress URL (e.g., `http://mapsteps.test`) before finalizing the config.
+### Potential Next Steps
 
-3.  **Create First Test:**
-    -   Create a basic test in `tests/e2e/specs/` to verify the plugin settings page loads correctly.
-    -   Example: Navigate to the settings page and assert that the "Swift SMTP" header is visible.
+**Option 1: Expand E2E Test Coverage**
+- Add tests for SMTP settings configuration
+- Add tests for Mailjet API settings
+- Add tests for email sending functionality
+- Add tests for validation and error handling
+- Implement page object pattern for better maintainability
 
-4.  **Scripts:**
-    -   Add npm scripts to `package.json` for running tests (e.g., `npm run test:e2e`).
+**Option 2: Plugin Enhancements**
+- Additional features or improvements as needed
+- Bug fixes or optimizations
+- Code refactoring
+
+**Option 3: Documentation**
+- User documentation
+- Developer documentation
+- API documentation
 
 ## Context
 
-The user is concerned about cluttering the plugin with test files.
-**Solution:** We keep the source clean by organizing tests in `tests/e2e` and ensure they are NOT included in the distributed version of the plugin.
+**Plugin:** Welcome Email Editor (Swift SMTP)
+**Current Version:** v6.2.2+13
+**Last Completed:** Nightwatch v3 E2E Testing Setup (v6.2.2+12)
+
+### Recent Accomplishments
+
+1. **v6.2.2+12** - Nightwatch v3 E2E Testing Setup ✅
+   - Separate testing directory created
+   - WordPress authentication implemented
+   - First test passing
+   
+2. **v6.2.2+10** - Test Email Metabox Visibility ✅
+3. **v6.2.2+9** - Mailjet API Test Email 500 Error Fix ✅
+4. **v6.2.2+8** - Mailjet API Test Email Section ✅
+
+See `progress-handoffs/` directory for complete history.
 
 ## Instructions
 
-### 1. Installation
-- Run `npm init nightwatch@latest` in the plugin directory.
-- Follow the prompts (TypeScript: Yes, Browser: Chrome).
+**Awaiting user instructions for next task.**
 
-### 2. Configuration
-- Update `nightwatch.conf.js` to point `src_folders` to `tests/e2e`.
-- Configure the `baseUrl`.
+When you receive a new task:
+1. Review the objective carefully
+2. Check existing code and documentation
+3. Create implementation plan if complex
+4. Execute the task
+5. Verify and test
+6. Update documentation
 
-### 3. Implementation
-- Create `tests/e2e/specs/settings-load.spec.ts`.
-- Write a simple test to check for the plugin title.
+---
 
-### 4. Build Exclusion (Crucial)
-- Check for a `.distignore` file or build script.
-- Add `tests/`, `nightwatch.conf.js`, and `test_results/` to the exclusion list to address the user's concern.
-
-## Resources
-- [Nightwatch.js v3 Documentation](https://nightwatchjs.org/)
+**Status:** 🟢 Ready for instructions
