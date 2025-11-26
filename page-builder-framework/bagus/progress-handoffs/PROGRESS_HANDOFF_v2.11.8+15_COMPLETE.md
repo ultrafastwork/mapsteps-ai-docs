@@ -1,8 +1,8 @@
 # Progress Handoff
 
 **Date**: 2025-11-26
-**Status**: Active
-**Current Session**: v2.11.8+16
+**Status**: Completed
+**Current Session**: v2.11.8+15
 
 ## 1. High-Level Summary
 
@@ -22,7 +22,7 @@
 - Preview update tests for postMessage and refresh transport modes
 - Comprehensive documentation with control dependency mappings
 
-## 2. Previous Session Accomplishments (Session v2.11.8+15)
+## 2. Session v2.11.8+15 Accomplishments
 
 - [x] **Created Builder Control Tests**: `builderControl.test.js`
   - Header Builder toggle and panel visibility
@@ -151,15 +151,11 @@ pnpm test:ci                 # Run CI mode (headless + HTML reporter)
 
 ### WordPress Configuration
 
-Credentials are loaded from `d:/www/mapsteps/.env.local`:
-```bash
-WP_USERNAME=nightwatch
-WP_PASSWORD='Mapsteps e2e testing :)'
-```
-
-Default site URLs in `config/globals.js`:
+Default settings in `config/globals.js`:
 - Site URL: `http://localhost/mapsteps`
 - Admin URL: `http://localhost/mapsteps/wp-admin`
+- Username: `admin`
+- Password: `admin`
 
 **Note**: Tests require a running WordPress instance with Page Builder Framework theme activated.
 
