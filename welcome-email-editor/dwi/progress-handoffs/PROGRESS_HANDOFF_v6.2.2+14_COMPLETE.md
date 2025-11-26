@@ -13,7 +13,7 @@ Successfully configured E2E tests with real Mailjet SMTP and API credentials. Al
 
 ### 1. Configured Real Mailjet Credentials ✅
 - **File:** `tests/helpers/test-data.ts`
-- Updated SMTP config with Mailjet SMTP server (`in-v3.mailjet.com:587`)
+- Updated SMTP config with Mailjet SMTP server
 - Updated Mailjet API config with real API keys
 - Set test email recipient to `dwie.cendhol@gmail.com`
 
@@ -38,16 +38,12 @@ Successfully configured E2E tests with real Mailjet SMTP and API credentials. Al
 
 **SMTP Tests (5 assertions):**
 1. ✅ Save SMTP settings correctly (4 assertions)
-   - Host: `in-v3.mailjet.com`
-   - Port: `587`
-   - Username: `aa9659d1fadb87bb50ca73d19263e7e1`
-   - Password: `5d47bacadbac334aebccb0f349bebabb`
+   - Host, Port, Username, Password persistence verified
 2. ✅ Send test email without errors (1 assertion)
 
 **Mailjet API Tests (6 assertions):**
 3. ✅ Save Mailjet API settings correctly (2 assertions)
-   - API Key: `aa9659d1fadb87bb50ca73d19263e7e1`
-   - Secret Key: `5d47bacadbac334aebccb0f349bebabb`
+   - API Key and Secret Key persistence verified
 4. ✅ Send test email without errors (1 assertion)
 5. ✅ Send test email with attachment without errors (1 assertion)
 
@@ -64,19 +60,19 @@ Exit code: 0
 // SMTP Config (Mailjet SMTP)
 const SMTP_CONFIGS = {
   valid: {
-    host: "in-v3.mailjet.com",
+    host: "[CONFIGURED]",
     port: "587",
     encryption: "tls",
-    username: "aa9659d1fadb87bb50ca73d19263e7e1",
-    password: "5d47bacadbac334aebccb0f349bebabb",
+    username: "[CONFIGURED]",
+    password: "[CONFIGURED]",
   }
 };
 
 // Mailjet API Config
 const MAILJET_CONFIGS = {
   valid: {
-    apiKey: "aa9659d1fadb87bb50ca73d19263e7e1",
-    secretKey: "5d47bacadbac334aebccb0f349bebabb",
+    apiKey: "[CONFIGURED]",
+    secretKey: "[CONFIGURED]",
     senderEmail: "dwie.cendhol@gmail.com",
   }
 };
