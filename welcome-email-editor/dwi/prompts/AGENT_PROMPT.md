@@ -1,16 +1,23 @@
-# Agent Prompt: Expand E2E Test Coverage for Email Functionality
+# Agent Prompt: Verify and Expand E2E Test Script Correctness
 
 **Status:** 🎯 Active
 **Version:** v6.2.2+13
-**Last Updated:** 2025-11-25
+**Last Updated:** 2025-11-26
+
+**Rules**:
+Please strictly follow the rules defined in:
+
+1. `.antigravityrules` (Root-level operating principles)
+2. `.antigravityignore` (Forbidden files and directories that you MUST NOT access)
+3. `ai-docs/welcome-email-editor/rules.md` (Project-specific rules)
 
 ## Objective
 
-Expand the existing Nightwatch v3 E2E test suite to comprehensively test all email functionality of the Welcome Email Editor plugin. Verify that both SMTP and Mailjet API mailer types work correctly with their respective configurations.
+Verify the correctness of the existing E2E test scripts and implement new comprehensive tests for email functionality. The primary focus is to ensure that the test scripts themselves are robust, logically correct, and accurately validate the plugin's behavior (SMTP and Mailjet API configurations).
 
 ## Background
 
-The E2E testing framework is already set up and operational:
+The E2E testing framework is set up, but we need to ensure the tests are doing what they are supposed to do.
 - **Location:** `c:\laragon\www\mapsteps\welcome-email-editor-e2e-testing\`
 - **Framework:** Nightwatch v3.12.3
 - **Authentication:** WordPress login working (`nightwatch` user)
@@ -19,183 +26,77 @@ The E2E testing framework is already set up and operational:
 
 ## Requirements
 
-### 1. SMTP Mailer Type Testing
+### 1. Verify Existing Test Correctness
+- Review `tests/specs/settings-load.spec.ts` and `tests/helpers/auth.js`.
+- Ensure assertions are meaningful and not just checking for existence of generic elements.
+- Verify that the authentication helper handles edge cases (e.g., already logged in, login failure).
+- **Goal:** Confirm the foundation is solid before building on top of it.
 
-Test the complete SMTP configuration flow:
+### 2. SMTP Mailer Type Testing (Correctness Focus)
+- **Configuration:**
+  - Test that selecting "SMTP (Default)" *actually* reveals SMTP fields and *hides* Mailjet fields.
+  - Verify that saving settings *actually* persists them (reload page and check values).
+- **Functionality:**
+  - Send test email.
+  - **Crucial:** Verify the *result* of the sending operation. Don't just check if the button was clicked; check for success/error messages.
 
-**Configuration Tests:**
-- Select "SMTP (Default)" as Mailer Type
-- Verify SMTP-specific fields are visible:
-  - SMTP Host
-  - SMTP Port
-  - Encryption (None/SSL/TLS)
-  - SMTP Username
-  - SMTP Password
-- Verify Mailjet API fields are hidden when SMTP is selected
-- Save SMTP configuration and verify settings persist
+### 3. Mailjet API Mailer Type Testing (Correctness Focus)
+- **Configuration:**
+  - Test that selecting "Mailjet API" *actually* reveals Mailjet fields and *hides* SMTP fields.
+  - Verify persistence of API keys and settings.
+- **Functionality:**
+  - Send test email.
+  - **Crucial:** Verify the *result* (success/error message).
+  - Test attachment support if possible, or at least verify the UI elements for it.
 
-**Functionality Tests:**
-- Send test email using SMTP configuration
-- Verify test email form is visible for SMTP
-- Verify test email can be sent successfully
-- Check for success/error messages
-
-### 2. Mailjet API Mailer Type Testing
-
-Test the complete Mailjet API configuration flow:
-
-**Configuration Tests:**
-- Select "Mailjet API" as Mailer Type
-- Verify Mailjet API-specific fields are visible:
-  - Mailjet API Key
-  - Mailjet Secret Key
-  - Sender Name
-  - Sender Email
-- Verify SMTP fields are hidden when Mailjet API is selected
-- Save Mailjet API configuration and verify settings persist
-
-**Functionality Tests:**
-- Send test email using Mailjet API
-- Verify test email form is visible for Mailjet API
-- Verify test email can be sent successfully
-- Check for success/error messages
-- Test attachment support (if applicable)
-
-### 3. Field Visibility & Switching Tests
-
-**Dynamic Visibility:**
-- Test switching between SMTP and Mailjet API
-- Verify correct fields show/hide when switching
-- Verify correct test email metabox shows/hides
-- Ensure no JavaScript errors during switching
-
-**Form Validation:**
-- Test required field validation for both mailer types
-- Test email format validation
-- Test API key format validation (Mailjet)
-
-### 4. Settings Persistence
-
-**Save & Reload:**
-- Save SMTP settings, reload page, verify values persist
-- Save Mailjet settings, reload page, verify values persist
-- Switch mailer types, verify selection persists
+### 4. Robustness and Validation
+- **Field Visibility:** Ensure dynamic switching doesn't throw JS errors.
+- **Form Validation:** Test that invalid inputs (e.g., bad email format) are caught by the UI *before* submission if client-side validation exists, or by the server response if not.
+- **Error Handling:** Ensure the tests fail gracefully with clear messages if something goes wrong.
 
 ## Test Organization
 
-### Recommended Test Structure
-
+### Recommended Structure
 ```
 tests/specs/
-├── settings-load.spec.ts          # (Existing - authentication)
-├── smtp-configuration.spec.ts     # (NEW) SMTP setup & config
-├── smtp-email-sending.spec.ts     # (NEW) SMTP test email
-├── mailjet-configuration.spec.ts  # (NEW) Mailjet setup & config
-├── mailjet-email-sending.spec.ts  # (NEW) Mailjet test email
-└── mailer-type-switching.spec.ts  # (NEW) Field visibility & switching
+├── settings-load.spec.ts          # (Review & Refine)
+├── smtp-correctness.spec.ts       # (NEW) SMTP logic verification
+├── mailjet-correctness.spec.ts    # (NEW) Mailjet logic verification
+└── ui-logic.spec.ts               # (NEW) Visibility & switching logic
 ```
 
-### Helper Functions Needed
-
-Consider creating additional helpers in `tests/helpers/`:
-
-- `settings-helpers.js` - Functions to interact with settings fields
-- `email-helpers.js` - Functions to send test emails
-- `selectors.js` - Centralized CSS selectors for the settings page
+### Helper Functions
+- Refine `tests/helpers/auth.js` if needed.
+- Create `tests/helpers/settings.js` for robust interaction with form fields.
 
 ## Implementation Steps
 
-### Step 1: Explore the Settings Page
-- Navigate to Swift SMTP settings
-- Identify CSS selectors for all form fields
-- Identify selectors for mailer type dropdown/radio
-- Identify selectors for test email forms
-- Document the page structure
+### Step 1: Review and Refine
+- Audit existing tests.
+- Run them to confirm they pass *for the right reasons*.
 
-### Step 2: Create Helper Functions
-- `selectMailerType(browser, type)` - Switch mailer type
-- `fillSMTPSettings(browser, config)` - Fill SMTP form
-- `fillMailjetSettings(browser, config)` - Fill Mailjet form
-- `sendTestEmail(browser, emailAddress)` - Send test email
-- `assertFieldVisible(browser, selector)` - Check visibility
-- `assertFieldHidden(browser, selector)` - Check hidden
+### Step 2: Implement Logic Verification Tests
+- Create tests that specifically target the *logic* of the settings page (visibility, persistence).
+- Use `browser.expect.element(...).to.be.visible` vs `.to.be.present` carefully.
 
-### Step 3: Create Test Specifications
-- Write comprehensive tests for each scenario
-- Use descriptive test names
-- Add assertions for both positive and negative cases
-- Include wait times for AJAX operations
+### Step 3: Implement Functional Verification Tests
+- Create tests for the "Send Test Email" flow.
+- Ensure assertions cover the full lifecycle of the action (Click -> Wait -> Verify Result).
 
-### Step 4: Run and Verify
-- Run all tests in headless mode
-- Verify all tests pass
-- Fix any failures
-- Document any issues or limitations
-
-## Test Data Requirements
-
-### SMTP Configuration
-You may need test SMTP credentials. Options:
-- Use a test SMTP service (e.g., Mailtrap, MailHog)
-- Use user's existing SMTP settings (ask if needed)
-- Mock SMTP responses (if possible)
-
-### Mailjet API Configuration
-You may need test Mailjet credentials. Options:
-- Use test Mailjet sandbox credentials (ask user)
-- Use user's existing Mailjet settings
-- Mock API responses (if possible)
-
-### Test Email Address
-- Use a test email address for sending test emails
-- Could be: `test@example.com` or ask user for preference
-
-## Important Considerations
-
-### 1. Asynchronous Operations
-- Settings save operations are likely AJAX-based
-- Wait for success messages before proceeding
-- Use proper `waitForElementVisible()` for dynamic content
-
-### 2. Test Isolation
-- Each test should be independent
-- Reset state between tests if needed
-- Don't rely on test execution order
-
-### 3. Error Handling
-- Test both success and failure scenarios
-- Verify error messages are displayed correctly
-- Handle timeouts gracefully
-
-### 4. Page Object Pattern (Optional but Recommended)
-- Create a `SettingsPage` class/object
-- Encapsulate all settings page interactions
-- Makes tests more maintainable and readable
+### Step 4: Run and Validate
+- Run all tests.
+- **Self-Correction:** If a test passes but shouldn't (false positive), fix the test. If it fails, determine if it's a bug in the plugin or the test.
 
 ## Success Criteria
-
-✅ All tests pass successfully
-✅ Both SMTP and Mailjet API configurations tested
-✅ Field visibility switching works correctly
-✅ Test email sending works for both mailer types
-✅ Settings persistence verified
-✅ No regression in existing authentication test
-✅ Comprehensive test coverage documented
+✅ Existing tests verified for correctness.
+✅ New tests implemented for SMTP and Mailjet logic.
+✅ Tests accurately reflect the state of the application (no false positives).
+✅ Comprehensive coverage of email functionality.
 
 ## Resources
-
-- **Existing Tests:** `tests/specs/settings-load.spec.ts`
-- **Authentication Helper:** `tests/helpers/auth.js`
-- **Nightwatch Docs:** https://nightwatchjs.org/api/
-- **Nightwatch Assertions:** https://nightwatchjs.org/api/assertions/
-
-## Notes
-
-- The authentication test is already working, build upon that foundation
-- Reuse the `loginToWordPress()` and `goToSwiftSMTPSettings()` helpers
-- Start with simple tests and gradually increase complexity
-- Document any assumptions or limitations
+- **Nightwatch API:** https://nightwatchjs.org/api/
+- **Existing Code:** `welcome-email-editor-e2e-testing/`
 
 ---
 
-**Status:** 🎯 Ready to implement comprehensive E2E testing
+**Status:** 🎯 Ready to verify and expand test correctness
