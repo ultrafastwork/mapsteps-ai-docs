@@ -55,5 +55,6 @@ Stabilize Customizer navigation/login in Nightwatch and then expand Header Build
 - Tests are in **`page-builder-framework-e2e-testing/`**
 - Use existing custom commands in `helpers/commands/`
 - Follow existing test patterns in `tests/customizer/controls/`
+- If the test receives an HTTP 502 response, run the `wsm-restart-php` command.
 - See README.md for documented WPBF control types and dependencies
 - CI/CD workflow is in `.github/workflows/e2e-tests.yml` and is manual-only for now
