@@ -22,12 +22,13 @@ Stabilize Customizer navigation/login in Nightwatch and then expand Header Build
 2. **Verify Setup**:
    - Navigate to `page-builder-framework-e2e-testing/`
    - Run `pnpm install` to install dependencies (including dotenv)
-   - Run `pnpm test:chrome` to verify login + Customizer navigation visually
-   - Credentials are loaded from `.env.local` at project root (WP_USERNAME, WP_PASSWORD)
+   - Run `pnpm test:smoke` FIRST to verify login + Customizer navigation reliably
+   - If smoke passes, you may run `pnpm test:chrome` for visual iteration
+   - Credentials are loaded from `.env.local` at project root (WP_USERNAME, WP_PASSWORD). Surrounding quotes are OK (they are sanitized at runtime).
 
 3. **Stabilize Navigation + Login**:
    - Ensure `wpLogin` hits `http://mapsteps.local/wp-admin/` and waits for `#wpadminbar`.
-   - Ensure `openCustomizer` navigates to `http://mapsteps.local/wp-admin/customize.php`, handles redirects to login, and retries.
+   - Ensure `openCustomizer` navigates to `http://mapsteps.local/wp-admin/customize.php`, handles redirects to login, guards against `data:,` URL, preflights the site, and retries.
    - Add/keep diagnostics in tests: log current URL; list panels/sections when needed.
 
 4. **Header Builder Tests**:

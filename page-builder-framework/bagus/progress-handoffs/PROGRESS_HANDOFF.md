@@ -133,6 +133,7 @@ cd page-builder-framework-e2e-testing
 pnpm test                    # Run all tests
 pnpm test:chrome             # Run with Chrome
 pnpm test:chrome:headless    # Run headless
+pnpm test:smoke              # Run smoke (login + Customizer load) first
 pnpm test:customizer         # Run Customizer tests only
 pnpm test:controls           # Run control tests only
 pnpm test:builder            # Run Builder tests
@@ -180,6 +181,18 @@ You are starting session `v2.11.8+17`.
    - When ready, consider adding seeded data and visual regression.
 6. **Documentation**
    - Keep README and this handoff updated with Header Builder test patterns.
+
+### First do this (Smoke Test)
+
+- Run: `pnpm test:smoke`
+- Confirms basics:
+  - Login reaches `#wpadminbar`
+  - Customizer loads `#customize-controls` and preview iframe
+  - Logs available panels/sections for quick ID verification
+- If it fails, check:
+  - `http://mapsteps.local` is reachable in a normal browser and PB Framework theme is active
+  - `.env.local` credentials; surrounding quotes are fine (sanitized at runtime)
+  - Re-run smoke; only proceed to complex suites after it passes
 
 ### Important Notes
 
