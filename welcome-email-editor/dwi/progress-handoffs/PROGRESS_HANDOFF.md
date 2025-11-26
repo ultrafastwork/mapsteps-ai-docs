@@ -1,12 +1,44 @@
 # Progress Handoff
 
 **Current Version:** `v6.2.2+15`
-**Status:** 🎯 Ready for Next Task
+**Status:** 🚧 In Progress
 **Last Updated:** 2025-11-26
 
-## 📋 Current Status
+## 📋 Pending Tasks
 
-All E2E test work is complete. The test suite is fully operational with 11/11 tests passing (100% success rate) using real Mailjet credentials. Ready for new development tasks.
+### Implement WordPress Core Email Tests - v6.2.2+15 🔴
+
+**Priority:** High - Test Coverage Expansion
+
+**Objective:** Implement E2E tests for WordPress core email functionality (user registration, password reset, admin notifications) to verify the plugin correctly handles all WordPress system emails.
+
+**Requirements:**
+
+1. **User Registration Email Test**
+   - Create new WordPress user via admin interface
+   - Verify registration email sent without errors
+   - Use temporary test user with email: `dwie.cendhol@gmail.com`
+   - Do NOT delete user after test
+
+2. **Password Reset Email Test**
+   - Trigger password reset for test user
+   - Verify password reset email sent without errors
+
+3. **Admin New User Notification Test**
+   - Create new user (triggers admin notification)
+   - Verify admin notification sent without errors
+
+**Test Files to Create:**
+- `tests/specs/wordpress-emails.spec.ts` (New)
+- Helper functions for user creation and password reset
+
+**Success Criteria:**
+- ✅ New test file created
+- ✅ All WordPress email tests passing
+- ✅ No errors during email sending
+- ✅ Test users created (not deleted)
+
+**See:** `ai-docs/welcome-email-editor/dwi/prompts/AGENT_PROMPT.md` for detailed instructions.
 
 ## ✅ Recently Completed
 
@@ -28,12 +60,6 @@ Successfully verified and expanded the E2E test suite with comprehensive tests f
 
 **Documentation:** `ai-docs/welcome-email-editor/dwi/progress-handoffs/PROGRESS_HANDOFF_v6.2.2+13_COMPLETE.md`
 
-### Setup Nightwatch v3 E2E Testing - v6.2.2+12 ✅
-
-Successfully set up Nightwatch.js v3 end-to-end testing framework with WordPress authentication.
-
-**Documentation:** `ai-docs/welcome-email-editor/dwi/progress-handoffs/PROGRESS_HANDOFF_v6.2.2+12_COMPLETE.md`
-
 ## 💡 Plugin Context
 
 **Plugin:** Welcome Email Editor (Swift SMTP)
@@ -52,7 +78,7 @@ Successfully set up Nightwatch.js v3 end-to-end testing framework with WordPress
 - ✅ Mailjet API attachment support (regular & inline)
 - ✅ E2E testing framework operational
 - ✅ All E2E tests passing with real credentials (11/11 - 100%)
-- 🎯 Ready for new tasks
+- 🚧 WordPress core email tests pending
 
 ## 🧪 Testing Infrastructure
 
@@ -71,6 +97,7 @@ Successfully set up Nightwatch.js v3 end-to-end testing framework with WordPress
 - `tests/specs/ui-logic.spec.ts` - Visibility toggling (3/3 passing)
 - `tests/specs/smtp-correctness.spec.ts` - SMTP functionality (5/5 passing)
 - `tests/specs/mailjet-correctness.spec.ts` - Mailjet functionality (3/3 passing)
+- `tests/specs/wordpress-emails.spec.ts` - WordPress core emails (pending)
 
 **Helper Files:**
 - `tests/helpers/auth.js` - WordPress authentication
@@ -78,33 +105,17 @@ Successfully set up Nightwatch.js v3 end-to-end testing framework with WordPress
 - `tests/helpers/selectors.ts` - Centralized selector definitions
 - `tests/helpers/test-data.ts` - Real Mailjet credentials
 
+**Test Email:** `dwie.cendhol@gmail.com`
+
 **Quick Start:**
 ```bash
 cd c:\laragon\www\mapsteps\welcome-email-editor-e2e-testing
 npm run test:e2e
 ```
 
-## 🎯 Potential Next Tasks
-
-### Option 1: Expand E2E Test Coverage
-- Add WordPress core email tests (user registration, password reset)
-- Add form validation tests
-- Add error message display tests
-- Add settings reset functionality tests
-
-### Option 2: Plugin Feature Development
-- New feature implementation
-- Bug fixes
-- Performance optimization
-- UI/UX improvements
-
-### Option 3: Documentation
-- Update user documentation
-- Create developer guide
-- Document API endpoints
-
 ## 📖 Available Documentation
 
+- **Current Task:** `ai-docs/welcome-email-editor/dwi/prompts/AGENT_PROMPT.md`
 - **Latest Completion:** `PROGRESS_HANDOFF_v6.2.2+14_COMPLETE.md`
 - **Implementation History:** All versions in `progress-handoffs/` directory
 - **E2E Testing Guide:** `welcome-email-editor-e2e-testing/README.md`
@@ -112,4 +123,4 @@ npm run test:e2e
 
 ---
 
-**Status:** 🎯 Ready for next task assignment
+**Status:** 🚧 Work in progress - Awaiting WordPress core email test implementation
