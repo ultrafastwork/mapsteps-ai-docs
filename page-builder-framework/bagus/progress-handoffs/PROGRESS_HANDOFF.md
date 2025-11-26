@@ -71,6 +71,9 @@
 | `builderControl.test.js` | Tests Header Builder control (drag-drop, widgets, responsive) |
 | `repeaterControl.test.js` | Tests Repeater control (add/remove/reorder, field types) |
 | `enhancedSelectControl.test.js` | Tests Enhanced Select (Select2, search, multi-select) |
+| `sortableControl.test.js` | Tests Sortable controls (presence, drag-and-drop reorder) |
+| `mediaControl.test.js` | Tests Media controls (media frame presence, modal detection) |
+| `codeEditorControl.test.js` | Tests Code Editor controls (input into textarea/CodeMirror, token detection) |
 
 ## 4. CI/CD Configuration
 
@@ -105,21 +108,20 @@
 ### Additional Test Coverage
 
 1. **Sortable Controls**:
-   - Test drag-and-drop reordering
-   - Test sortable items
+   - [Done] Basic presence + drag-and-drop reorder events
+   - [Next] Strengthen with assertion on value persistence if applicable
 
 2. **Code Editor Controls**:
-   - Test code input functionality
-   - Test syntax highlighting
+   - [Done] Basic input (textarea/CodeMirror) and token detection
+   - [Next] Add preview-side verification if code affects front-end
 
 3. **Media Controls**:
-   - Test image upload
-   - Test media library integration
+   - [Done] Media modal open/close detection
+   - [Next] Add real image upload and selection from media library
 
 4. **CI/CD Enhancements**:
-   - Add WordPress theme installation in CI
-   - Configure proper WordPress setup with test data
-   - Add visual regression testing
+   - [Done] Added wp-cli setup, core install, PBF theme install/activate, permalinks in CI
+   - [Next] Seed test data; evaluate visual regression (e.g., Playwright/Chromatic/percy alternatives)
 
 ## 7. Technical Context & Notes
 
@@ -172,12 +174,25 @@ You are starting session `v2.11.8+16`.
 
 ### Task Steps
 
-1. **Verify Test Suite**: Run `pnpm test` to verify tests work with your WordPress setup
-2. **Add Footer Builder Tests** (if applicable): Similar to Header Builder
-3. **Add Sortable Control Tests**: Test drag-and-drop reordering
-4. **Add Media Control Tests**: Test image upload and media library
-5. **Enhance CI/CD**: Add WordPress theme installation and test data setup
-6. **Update Documentation**: Document new test patterns
+1. **Focus: Header Builder**
+   - Add robust tests for enabling/disabling Header Builder (`wpbf_enable_header_builder`).
+   - Interact with Header Builder rows/columns, add/move/remove widgets, and test responsive device switcher.
+   - Assert panel visibility toggles and builder state changes (e.g., presence of `.wpbf-builder-panel`, widgets in active areas).
+2. **Verify Test Suite Locally**
+   - Run targeted suites locally while iterating:
+     - `pnpm test:builder`
+     - `pnpm test:sortable`
+     - `pnpm test:media`
+     - `pnpm test:code-editor`
+3. **Media Control**
+   - Implement real upload/selection flows and assert control values.
+4. **Code Editor**
+   - Add preview assertions where feasible.
+5. **CI/CD (Manual Only for Now)**
+   - CI workflow triggers are disabled (manual `workflow_dispatch` only) to prioritize local development.
+   - When ready, consider adding seeded data and visual regression.
+6. **Documentation**
+   - Keep README and this handoff updated with Header Builder test patterns.
 
 ### Important Notes
 

@@ -13,7 +13,7 @@ Please strictly follow the rules defined in:
 1. `ai-docs/page-builder-framework/rules.md` (Project-specific rules)
 
 **Objective**:
-Continue expanding the Nightwatch v3 E2E test suite with additional control tests (Sortable, Media, Code Editor) and enhance CI/CD integration.
+Prioritize expanding Nightwatch v3 E2E tests for the Header Builder (enable/disable toggle, rows/columns, widget placement, responsive views). Keep CI manual-only while focusing on local development.
 
 **Instructions**:
 
@@ -25,25 +25,21 @@ Continue expanding the Nightwatch v3 E2E test suite with additional control test
    - Run `pnpm test` to verify the existing test suite works
    - Credentials are loaded from `d:/www/mapsteps/.env.local` (WP_USERNAME, WP_PASSWORD)
 
-3. **Add Sortable Control Tests**:
-   - Review Sortable controls in `wp-content/themes/page-builder-framework/Customizer/Controls/Sortable/`
-   - Test drag-and-drop reordering
-   - Test sortable item interactions
+3. **Header Builder Tests**:
+   - Review Builder controls in `wp-content/themes/page-builder-framework/Customizer/Controls/Builder/`
+   - Test enabling/disabling `wpbf_enable_header_builder`
+   - Interact with rows/columns and drag-and-drop widgets
+   - Test responsive device switcher (desktop/tablet/mobile)
 
-4. **Add Media Control Tests**:
-   - Review Media controls in `wp-content/themes/page-builder-framework/Customizer/Controls/Media/`
-   - Test image upload functionality
-   - Test media library integration
+4. **Optional (Later) Controls**:
+   - Sortable: drag-and-drop reordering and item interactions
+   - Media: image upload and media library selection
+   - Code Editor: code input and syntax highlighting
 
-5. **Add Code Editor Control Tests**:
-   - Review Code controls in `wp-content/themes/page-builder-framework/Customizer/Controls/Code/`
-   - Test code input functionality
-   - Test syntax highlighting if applicable
-
-6. **Enhance CI/CD Integration**:
-   - Add WordPress theme installation to CI workflow
-   - Configure proper WordPress setup with test data
-   - Consider adding visual regression testing
+5. **CI/CD (Manual Only)**:
+   - CI workflow should be manual via `workflow_dispatch` only (no push/PR triggers)
+   - Ensure theme installation/setup steps exist but do not auto-run
+   - Consider adding test data seeding and visual regression later
 
 7. **Document**:
    - Update README with new test patterns
@@ -55,4 +51,4 @@ Continue expanding the Nightwatch v3 E2E test suite with additional control test
 - Use existing custom commands in `helpers/commands/`
 - Follow existing test patterns in `tests/customizer/controls/`
 - See README.md for documented WPBF control types and dependencies
-- CI/CD workflow is in `.github/workflows/e2e-tests.yml`
+- CI/CD workflow is in `.github/workflows/e2e-tests.yml` and is manual-only for now
