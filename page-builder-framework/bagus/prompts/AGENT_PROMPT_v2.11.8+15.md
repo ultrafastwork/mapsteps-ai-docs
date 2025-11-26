@@ -13,7 +13,7 @@ Please strictly follow the rules defined in:
 1. `ai-docs/page-builder-framework/rules.md` (Project-specific rules)
 
 **Objective**:
-Continue expanding the Nightwatch v3 E2E test suite with additional control tests (Sortable, Media, Code Editor) and enhance CI/CD integration.
+Continue expanding the Nightwatch v3 E2E test suite with Builder, Repeater, and Enhanced Select control tests, plus CI/CD integration.
 
 **Instructions**:
 
@@ -21,29 +21,28 @@ Continue expanding the Nightwatch v3 E2E test suite with additional control test
 
 2. **Verify Setup**:
    - Navigate to `d:/www/mapsteps/page-builder-framework-e2e-testing/`
-   - Run `pnpm install` to install dependencies (including dotenv)
    - Run `pnpm test` to verify the existing test suite works
-   - Credentials are loaded from `d:/www/mapsteps/.env.local` (WP_USERNAME, WP_PASSWORD)
+   - Update WordPress credentials in `config/globals.js` if needed
 
-3. **Add Sortable Control Tests**:
-   - Review Sortable controls in `wp-content/themes/page-builder-framework/Customizer/Controls/Sortable/`
-   - Test drag-and-drop reordering
-   - Test sortable item interactions
+3. **Add Builder Control Tests**:
+   - Review Header Builder controls in `wp-content/themes/page-builder-framework/Customizer/Controls/Builder/`
+   - Create tests for builder-specific interactions
+   - Test row/column configurations
 
-4. **Add Media Control Tests**:
-   - Review Media controls in `wp-content/themes/page-builder-framework/Customizer/Controls/Media/`
-   - Test image upload functionality
-   - Test media library integration
+4. **Add Repeater Control Tests**:
+   - Review Repeater controls in `wp-content/themes/page-builder-framework/Customizer/Controls/Repeater/`
+   - Test add/remove/reorder functionality
+   - Test nested repeater fields
 
-5. **Add Code Editor Control Tests**:
-   - Review Code controls in `wp-content/themes/page-builder-framework/Customizer/Controls/Code/`
-   - Test code input functionality
-   - Test syntax highlighting if applicable
+5. **Add Enhanced Select Tests**:
+   - Test enhanced-select dropdowns (Select2-style)
+   - Test search functionality within selects
+   - Test multi-select capabilities
 
-6. **Enhance CI/CD Integration**:
-   - Add WordPress theme installation to CI workflow
-   - Configure proper WordPress setup with test data
-   - Consider adding visual regression testing
+6. **Set Up CI/CD Integration**:
+   - Create GitHub Actions workflow for automated testing
+   - Configure headless browser testing
+   - Add test reporting
 
 7. **Document**:
    - Update README with new test patterns
@@ -55,4 +54,3 @@ Continue expanding the Nightwatch v3 E2E test suite with additional control test
 - Use existing custom commands in `helpers/commands/`
 - Follow existing test patterns in `tests/customizer/controls/`
 - See README.md for documented WPBF control types and dependencies
-- CI/CD workflow is in `.github/workflows/e2e-tests.yml`
