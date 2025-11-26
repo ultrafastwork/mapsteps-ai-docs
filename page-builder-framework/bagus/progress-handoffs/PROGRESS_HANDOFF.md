@@ -104,23 +104,19 @@
 
 ### Additional Test Coverage
 
-1. **Footer Builder Controls** (if implemented):
-   - Similar to Header Builder tests
-   - Test footer-specific widgets
-
-2. **Sortable Controls**:
+1. **Sortable Controls**:
    - Test drag-and-drop reordering
    - Test sortable items
 
-3. **Code Editor Controls**:
+2. **Code Editor Controls**:
    - Test code input functionality
    - Test syntax highlighting
 
-4. **Media Controls**:
+3. **Media Controls**:
    - Test image upload
    - Test media library integration
 
-5. **CI/CD Enhancements**:
+4. **CI/CD Enhancements**:
    - Add WordPress theme installation in CI
    - Configure proper WordPress setup with test data
    - Add visual regression testing
@@ -158,8 +154,8 @@ WP_PASSWORD='Mapsteps e2e testing :)'
 ```
 
 Default site URLs in `config/globals.js`:
-- Site URL: `http://localhost/mapsteps`
-- Admin URL: `http://localhost/mapsteps/wp-admin`
+- Site URL: `http://mapsteps.local`
+- Admin URL: `http://mapsteps.local/wp-admin`
 
 **Note**: Tests require a running WordPress instance with Page Builder Framework theme activated.
 
