@@ -104,9 +104,9 @@ Implemented dedicated "Send Test Email" section for Mailjet API in settings page
 - ✅ First test passing: 3/3 assertions
 - 🔴 Test correctness verification needed
 
-**Credentials (in .env):**
-- Username: `nightwatch`
-- Password: `Mapsteps e2e testing :)`
+**Credentials (in .env.local):**
+- Location: `c:\laragon\www\mapsteps\.env.local`
+- Variables: `WP_USERNAME`, `WP_PASSWORD`
 - Base URL: `http://mapsteps.local`
 
 **Quick Start:**

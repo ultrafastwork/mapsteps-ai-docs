@@ -27,6 +27,7 @@ The E2E testing framework is set up, but we need to ensure the tests are doing w
 ## Requirements
 
 ### 1. Verify Existing Test Correctness
+- **Update Auth Helper:** The user has placed credentials (`WP_USERNAME`, `WP_PASSWORD`) in `.env.local` in the project root (`c:\laragon\www\mapsteps\.env.local`). Update `tests/helpers/auth.js` to load this specific file (standard `dotenv` only looks for `.env` in the current directory).
 - Review `tests/specs/settings-load.spec.ts` and `tests/helpers/auth.js`.
 - Ensure assertions are meaningful and not just checking for existence of generic elements.
 - Verify that the authentication helper handles edge cases (e.g., already logged in, login failure).
