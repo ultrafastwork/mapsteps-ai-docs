@@ -2,7 +2,7 @@
 
 **Date**: 2025-11-26
 **Status**: Active
-**Current Session**: v2.11.8+16
+**Current Session**: v2.11.8+17
 
 ## 1. High-Level Summary
 
@@ -22,7 +22,7 @@
 - Preview update tests for postMessage and refresh transport modes
 - Comprehensive documentation with control dependency mappings
 
-## 2. Previous Session Accomplishments (Session v2.11.8+15)
+## 2. Previous Session Accomplishments (Session v2.11.8+16)
 
 - [x] **Created Builder Control Tests**: `builderControl.test.js`
   - Header Builder toggle and panel visibility
@@ -107,27 +107,21 @@
 
 ### Additional Test Coverage
 
-1. **Sortable Controls**:
-   - [Done] Basic presence + drag-and-drop reorder events
-   - [Next] Strengthen with assertion on value persistence if applicable
+1. **Customizer Navigation Stability**:
+   - Fix issue where Chrome remains on `data:,` and `#customize-controls` never appears.
+   - Verify logs from `wpLogin` and `openCustomizer` (URL, redirects) and ensure post-login navigation to Customizer.
+   - Add a minimal sanity test: assert `#wpadminbar`, then `#customize-controls`.
 
-2. **Code Editor Controls**:
-   - [Done] Basic input (textarea/CodeMirror) and token detection
-   - [Next] Add preview-side verification if code affects front-end
+2. **Header Builder Coverage**:
+   - Validate `wpbf_enable_header_builder` toggles visibility of `wpbf_header_builder`.
+   - Assert builder rows/columns and widget drag/drop across desktop/mobile.
 
-3. **Media Controls**:
-   - [Done] Media modal open/close detection
-   - [Next] Add real image upload and selection from media library
-
-4. **CI/CD Enhancements**:
-   - [Done] Added wp-cli setup, core install, PBF theme install/activate, permalinks in CI
-   - [Next] Seed test data; evaluate visual regression (e.g., Playwright/Chromatic/percy alternatives)
 
 ## 7. Technical Context & Notes
 
 ### E2E Testing Setup
 
-- **Location**: `d:/www/mapsteps/page-builder-framework-e2e-testing/`
+- **Location**: `page-builder-framework-e2e-testing/`
 - **Framework**: Nightwatch v3.12.3
 - **Browsers**: Chrome, Firefox (with headless options)
 - **Configuration**: `nightwatch.conf.js`
@@ -135,7 +129,7 @@
 ### Running Tests
 
 ```bash
-cd d:/www/mapsteps/page-builder-framework-e2e-testing
+cd page-builder-framework-e2e-testing
 pnpm test                    # Run all tests
 pnpm test:chrome             # Run with Chrome
 pnpm test:chrome:headless    # Run headless
@@ -149,7 +143,7 @@ pnpm test:ci                 # Run CI mode (headless + HTML reporter)
 
 ### WordPress Configuration
 
-Credentials are loaded from `d:/www/mapsteps/.env.local`:
+Credentials are loaded from `.env.local` at project root:
 ```bash
 WP_USERNAME=nightwatch
 WP_PASSWORD='Mapsteps e2e testing :)'
@@ -170,7 +164,7 @@ Located in `wp-content/themes/page-builder-framework/Customizer/Controls/`:
 
 ## 8. Instructions for Next Agent
 
-You are starting session `v2.11.8+16`.
+You are starting session `v2.11.8+17`.
 
 ### Task Steps
 
@@ -179,16 +173,9 @@ You are starting session `v2.11.8+16`.
    - Interact with Header Builder rows/columns, add/move/remove widgets, and test responsive device switcher.
    - Assert panel visibility toggles and builder state changes (e.g., presence of `.wpbf-builder-panel`, widgets in active areas).
 2. **Verify Test Suite Locally**
-   - Run targeted suites locally while iterating:
+   - Run targeted suite while iterating:
      - `pnpm test:builder`
-     - `pnpm test:sortable`
-     - `pnpm test:media`
-     - `pnpm test:code-editor`
-3. **Media Control**
-   - Implement real upload/selection flows and assert control values.
-4. **Code Editor**
-   - Add preview assertions where feasible.
-5. **CI/CD (Manual Only for Now)**
+3. **CI/CD (Manual Only for Now)**
    - CI workflow triggers are disabled (manual `workflow_dispatch` only) to prioritize local development.
    - When ready, consider adding seeded data and visual regression.
 6. **Documentation**
