@@ -1,8 +1,8 @@
-# Agent Prompt: Implement WordPress Core Email Tests
+# Agent Prompt: Prepare Plugin for Release
 
 **Status:** 🎯 Active
-**Version:** v6.2.2+15
-**Last Updated:** 2025-11-26
+**Version:** v6.2.2+16
+**Last Updated:** 2025-11-27
 
 **Rules**:
 Please strictly follow the rules defined in:
@@ -13,131 +13,129 @@ Please strictly follow the rules defined in:
 
 ## Objective
 
-Implement E2E tests for WordPress core email functionality to verify that the Welcome Email Editor plugin correctly sends all WordPress system emails through the configured mailer (SMTP or Mailjet API).
+Prepare the Welcome Email Editor (Swift SMTP) plugin for release with the newly implemented Mailjet API feature. This will be version **6.3.0** (new feature warrants minor version bump).
 
 ## Background
 
-The E2E testing framework is fully operational with real Mailjet credentials configured. All current tests (11/11) are passing. The next step is to expand test coverage to include WordPress core emails.
+The plugin has been enhanced with a complete Mailjet API integration:
+- ✅ Mailjet API sender implementation (alternative to SMTP)
+- ✅ Full attachment support (regular + inline)
+- ✅ Complete UI with settings and test email functionality
+- ✅ All E2E tests passing (22/22 assertions)
+- ✅ WordPress core email integration verified
 
-**Current Test Status:**
-- ✅ Settings persistence tests passing
-- ✅ Test email sending tests passing
-- ✅ UI logic tests passing
-- 🎯 Need to add WordPress core email tests
-
-**Testing Infrastructure:**
-- **Location:** `c:\laragon\www\mapsteps\welcome-email-editor-e2e-testing\`
-- **Framework:** Nightwatch v3.12.3
-- **WordPress URL:** `http://mapsteps.local`
-- **Test Email:** `dwie.cendhol@gmail.com`
+**Current Version:** 6.2.2
+**Target Version:** 6.3.0
 
 ## Requirements
 
-### 1. User Registration Email Test
-Create a test that:
-- Creates a new WordPress user via admin interface
-- Verifies the registration email is sent without errors
-- Uses temporary test user (e.g., `test-user-{timestamp}@example.com`)
-- Does NOT delete the user after test (per user request)
+### 1. Update Version Numbers
+Update version in the following files:
 
-### 2. Password Reset Email Test
-Create a test that:
-- Triggers password reset for a test user
-- Verifies the password reset email is sent without errors
-- Checks that the plugin doesn't throw errors during the process
+#### Main Plugin File
+**File:** `wp-content/plugins/welcome-email-editor/sb_welcome_email_editor.php`
+- Line 5: `Version: 6.3.0`
+- Line 20: `define( 'WEED_PLUGIN_VERSION', '6.3.0' );`
 
-### 3. Admin New User Notification Test
-Create a test that:
-- Creates a new user
-- Verifies admin notification email is sent without errors
-- Admin email should be sent to the WordPress admin email address
+#### Readme File
+**File:** `wp-content/plugins/welcome-email-editor/readme.txt`
+- Line 6: `Stable tag: 6.3.0`
+- Update "Tested up to" if needed (currently 6.8)
+
+### 2. Update Changelog
+
+**File:** `wp-content/plugins/welcome-email-editor/readme.txt`
+
+Add new changelog entry after line 63:
+
+```
+= 6.3.0 | November 27, 2025 =
+* New: Mailjet API integration as alternative to SMTP
+* New: Send emails via Mailjet API (bypasses SMTP, prevents auto-adding contacts to lists)
+* New: Mailer type selector (SMTP or Mailjet API)
+* New: Mailjet API settings section with API Key and Secret Key fields
+* New: Test email functionality for Mailjet API (with and without attachments)
+* New: Full attachment support for Mailjet API (up to 14MB)
+* New: Inline attachment support for HTML emails with embedded images
+* Tweak: Improved settings page UI with dynamic field visibility
+* Tweak: Enhanced email logging for Mailjet API
+* Tested: Comprehensive E2E test coverage for all email functionality
+```
+
+### 3. Verify Files and Implementation
+
+Ensure the following are in place:
+- ✅ `modules/mailjet-api/class-mailjet-api-sender.php` - Main API sender class
+- ✅ `modules/mailjet-api/class-mailjet-api-module.php` - Module initialization
+- ✅ Mailjet API settings fields in settings module
+- ✅ Test email metabox for Mailjet API
+- ✅ Visibility logic for showing/hiding settings based on mailer type
+- ✅ JavaScript for dynamic UI updates
+
+### 4. Optional: Create Release Notes
+
+Create a release notes document summarizing:
+- What's new in 6.3.0
+- Why users should update
+- Migration notes (if any)
+- Known issues (if any)
+
+### 5. Validation Steps
+
+After updating version numbers:
+1. Verify version number displays correctly in WordPress admin (Plugins page)
+2. Check that settings page loads without errors
+3. Confirm Mailjet API functionality still works
+4. Optionally run E2E tests to ensure nothing broke
 
 ## Implementation Steps
 
-### Step 1: Create WordPress Email Test Specification
-Create `tests/specs/wordpress-emails.spec.ts` with tests for:
-- User registration email
-- Password reset email
-- Admin new user notification
+### Step 1: Update Main Plugin File
+Update version number and constant in `sb_welcome_email_editor.php`
 
-### Step 2: Create Helper Functions
-Create or update helper files to support:
-- User creation via WordPress admin
-- Password reset triggering
-- Email verification (checking for no errors)
+### Step 2: Update Readme Changelog
+Add new 6.3.0 changelog entry in `readme.txt`
 
-### Step 3: Test Configuration
-- Use test email: `dwie.cendhol@gmail.com` for all test users
-- Create temporary users with pattern: `test-user-{timestamp}`
-- Do NOT delete users after tests
+### Step 3: Update Stable Tag
+Update stable tag in `readme.txt` to 6.3.0
 
-### Step 4: Run and Validate
-- Run all WordPress email tests
-- Verify no JavaScript errors occur
-- Verify WordPress doesn't throw PHP errors
-- Document results
+### Step 4: Verify Changes
+Review all changes to ensure accuracy and completeness
 
-## Test Approach
+### Step 5: Optional Testing
+Run manual or E2E tests to ensure version update didn't break anything
 
-Per user request from previous session:
-> "just check the plugin doesn't throw the error"
+## Expected Output
 
-The tests should:
-1. Trigger the WordPress email action
-2. Wait for the action to complete
-3. Verify the page is still functional (no errors)
-4. NOT check for actual email delivery or notice visibility
-
-## Expected Test Structure
-
-```typescript
-describe("WordPress Core Emails", function () {
-  it("should send user registration email without errors", function (browser) {
-    // Create new user
-    // Verify no errors
-    // Verify page functional
-  });
-
-  it("should send password reset email without errors", function (browser) {
-    // Trigger password reset
-    // Verify no errors
-    // Verify page functional
-  });
-
-  it("should send admin notification email without errors", function (browser) {
-    // Create new user (triggers admin notification)
-    // Verify no errors
-    // Verify page functional
-  });
-});
-```
+After completion:
+- ✅ Plugin version updated to 6.3.0 in all relevant files
+- ✅ Changelog updated with comprehensive 6.3.0 entry
+- ✅ All version references consistent across codebase
+- ✅ Changes verified and ready for distribution
 
 ## Success Criteria
 
-✅ New test file created: `tests/specs/wordpress-emails.spec.ts`
-✅ All WordPress email tests passing
-✅ No errors thrown during email sending
-✅ Test users created with email: `dwie.cendhol@gmail.com`
-✅ Users NOT deleted after tests
-✅ Documentation updated with results
+✅ Version updated to 6.3.0 in main plugin file
+✅ WEED_PLUGIN_VERSION constant updated to 6.3.0
+✅ Stable tag updated in readme.txt
+✅ Comprehensive changelog entry added
+✅ No syntax errors or warnings
+✅ Plugin ready for WordPress.org submission or distribution
 
 ## Resources
 
-- **E2E Tests Location:** `c:\laragon\www\mapsteps\welcome-email-editor-e2e-testing\`
-- **WordPress Admin:** `http://mapsteps.local/wp-admin/`
-- **Test Credentials:** In `.env.local` at project root
-- **Existing Tests:** Reference `smtp-correctness.spec.ts` and `mailjet-correctness.spec.ts` for patterns
+- **Plugin Directory:** `c:\laragon\www\mapsteps\wp-content\plugins\welcome-email-editor\`
+- **Main File:** `sb_welcome_email_editor.php`
+- **Readme:** `readme.txt`
+- **Previous Changelog:** Lines 64-108 in readme.txt
 
 ## Notes
 
-- Test users should use pattern: `test-user-{timestamp}`
-- All test user emails should be: `dwie.cendhol@gmail.com`
-- Do NOT delete users after tests
-- Focus on verifying no errors, not email delivery
-- Use real Mailjet credentials already configured in `test-data.ts`
+- This is a **minor version bump (6.2.2 → 6.3.0)** due to new feature (Mailjet API)
+- The Mailjet API implementation is fully tested and production-ready
+- All E2E tests passing (22/22 assertions)
+- No breaking changes - backward compatible with existing SMTP setup
 
 ---
 
-**Status:** 🎯 Ready to implement WordPress core email tests
-
-**Start by creating the test specification file and helper functions.**
+**Ready to prepare plugin release v6.3.0**

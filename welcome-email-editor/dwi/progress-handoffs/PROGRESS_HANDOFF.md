@@ -1,126 +1,125 @@
-# Progress Handoff
+# Progress Handoff - v6.2.2+16
 
-**Current Version:** `v6.2.2+15`
-**Status:** 🚧 In Progress
-**Last Updated:** 2025-11-26
+**Version:** v6.2.2+16
+**Status:** 🎯 Ready to Start
+**Task:** Prepare Plugin for Release (v6.3.0)
+**Created:** 2025-11-27
 
-## 📋 Pending Tasks
+## 🎯 Objective
 
-### Implement WordPress Core Email Tests - v6.2.2+15 🔴
+Prepare the Welcome Email Editor (Swift SMTP) plugin for release with the newly implemented Mailjet API feature as version **6.3.0**.
 
-**Priority:** High - Test Coverage Expansion
+## 📋 Task Overview
 
-**Objective:** Implement E2E tests for WordPress core email functionality (user registration, password reset, admin notifications) to verify the plugin correctly handles all WordPress system emails.
+The next agent should prepare the plugin for release by:
+1. Updating version numbers to 6.3.0
+2. Adding changelog entry for new Mailjet API feature
+3. Verifying all changes are consistent
+4. Optional: Running validation tests
 
-**Requirements:**
+## 🔧 Current Plugin Status
 
-1. **User Registration Email Test**
-   - Create new WordPress user via admin interface
-   - Verify registration email sent without errors
-   - Use temporary test user with email: `dwie.cendhol@gmail.com`
-   - Do NOT delete user after test
+### Plugin Information
+- **Current Version:** 6.2.2 (in production files)
+- **Target Version:** 6.3.0 (new minor version for Mailjet API feature)
+- **Plugin Location:** `c:\laragon\www\mapsteps\wp-content\plugins\welcome-email-editor\`
 
-2. **Password Reset Email Test**
-   - Trigger password reset for test user
-   - Verify password reset email sent without errors
+### Mailjet API Feature Status
+✅ **Fully Implemented and Tested**
+- Complete Mailjet API integration (`modules/mailjet-api/`)
+- Attachment support (up to 14MB)
+- Inline attachment support for HTML emails
+- Settings UI with mailer type selector
+- Test email functionality (regular + with attachment)
+- All E2E tests passing (22/22 assertions)
 
-3. **Admin New User Notification Test**
-   - Create new user (triggers admin notification)
-   - Verify admin notification sent without errors
+### Recent Work Completed (v6.2.2+15)
+- ✅ WordPress core email E2E tests
+- ✅ User registration email test
+- ✅ Password reset email test
+- ✅ Admin notification email test
+- ✅ All tests passing with real Mailjet credentials
 
-**Test Files to Create:**
-- `tests/specs/wordpress-emails.spec.ts` (New)
-- Helper functions for user creation and password reset
+## 📝 Files to Update
 
-**Success Criteria:**
-- ✅ New test file created
-- ✅ All WordPress email tests passing
-- ✅ No errors during email sending
-- ✅ Test users created (not deleted)
+### 1. Main Plugin File
+**Path:** `wp-content/plugins/welcome-email-editor/sb_welcome_email_editor.php`
 
-**See:** `ai-docs/welcome-email-editor/dwi/prompts/AGENT_PROMPT.md` for detailed instructions.
+**Changes needed:**
+- Line 5: Update `Version: 6.2.2` → `Version: 6.3.0`
+- Line 20: Update `define( 'WEED_PLUGIN_VERSION', '6.2.2' );` → `define( 'WEED_PLUGIN_VERSION', '6.3.0' );`
 
-## ✅ Recently Completed
+### 2. Readme File
+**Path:** `wp-content/plugins/welcome-email-editor/readme.txt`
 
-### Configure E2E Tests with Real Mailjet Credentials - v6.2.2+14 ✅
+**Changes needed:**
+- Line 6: Update `Stable tag: 6.2.2` → `Stable tag: 6.3.0`
+- After line 63: Add new changelog entry for 6.3.0
 
-Successfully configured E2E tests with real Mailjet SMTP and API credentials. All tests passing with 100% success rate.
+**Suggested Changelog Entry:**
+```
+= 6.3.0 | November 27, 2025 =
+* New: Mailjet API integration as alternative to SMTP
+* New: Send emails via Mailjet API (bypasses SMTP, prevents auto-adding contacts to lists)
+* New: Mailer type selector (SMTP or Mailjet API)
+* New: Mailjet API settings section with API Key and Secret Key fields
+* New: Test email functionality for Mailjet API (with and without attachments)
+* New: Full attachment support for Mailjet API (up to 14MB)
+* New: Inline attachment support for HTML emails with embedded images
+* Tweak: Improved settings page UI with dynamic field visibility
+* Tweak: Enhanced email logging for Mailjet API
+* Tested: Comprehensive E2E test coverage for all email functionality
+```
 
-**Key Achievements:**
-- ✅ Configured real Mailjet SMTP and API credentials
-- ✅ All 11 assertions passing (100% success rate)
-- ✅ Verified settings persistence for both SMTP and Mailjet API
-- ✅ Verified test email sending without errors
+## ✅ Validation Checklist
 
-**Documentation:** `ai-docs/welcome-email-editor/dwi/progress-handoffs/PROGRESS_HANDOFF_v6.2.2+14_COMPLETE.md`
+After making changes:
+- [ ] Version number updated in main plugin file (header comment)
+- [ ] WEED_PLUGIN_VERSION constant updated
+- [ ] Stable tag updated in readme.txt
+- [ ] Changelog entry added to readme.txt
+- [ ] No syntax errors introduced
+- [ ] Version displayed correctly in WordPress admin (optional manual check)
+- [ ] Mailjet API functionality still works (optional test)
 
-### Verify and Expand E2E Test Script Correctness - v6.2.2+13 ✅
-
-Successfully verified and expanded the E2E test suite with comprehensive tests for UI logic, SMTP, and Mailjet API functionality.
-
-**Documentation:** `ai-docs/welcome-email-editor/dwi/progress-handoffs/PROGRESS_HANDOFF_v6.2.2+13_COMPLETE.md`
-
-## 💡 Plugin Context
-
-**Plugin:** Welcome Email Editor (Swift SMTP)
-**Version:** v6.2.2+15
-**Main Features:**
-- Custom welcome email templates
-- SMTP configuration with visibility controls
-- Mailjet API integration with full attachment support (regular + inline)
-- Field and section visibility based on Mailer Type selection
-- Test email functionality for both SMTP and Mailjet API
-
-**Current Status:**
-- ✅ Core plugin functionality complete
-- ✅ SMTP test email (working & visibility controlled)
-- ✅ Mailjet API test email (working & visibility controlled)
-- ✅ Mailjet API attachment support (regular & inline)
-- ✅ E2E testing framework operational
-- ✅ All E2E tests passing with real credentials (11/11 - 100%)
-- 🚧 WordPress core email tests pending
-
-## 🧪 Testing Infrastructure
+## 🚀 E2E Testing Infrastructure
 
 **Location:** `c:\laragon\www\mapsteps\welcome-email-editor-e2e-testing\`
 
-**Current Status:**
-- ✅ Nightwatch v3.12.3 installed
-- ✅ ChromeDriver v142.0.3 working
-- ✅ WordPress authentication functional
-- ✅ Environment variables (.env.local) configured
-- ✅ Real Mailjet credentials configured
-- ✅ 11/11 tests passing (100% success rate)
+**Current Test Coverage:**
+- SMTP/Mailjet API tests: 11/11 ✅
+- WordPress core email tests: 11/11 ✅
+- **Total:** 22/22 assertions passing
 
-**Test Files:**
-- `tests/specs/settings-load.spec.ts` - Basic page loading
-- `tests/specs/ui-logic.spec.ts` - Visibility toggling (3/3 passing)
-- `tests/specs/smtp-correctness.spec.ts` - SMTP functionality (5/5 passing)
-- `tests/specs/mailjet-correctness.spec.ts` - Mailjet functionality (3/3 passing)
-- `tests/specs/wordpress-emails.spec.ts` - WordPress core emails (pending)
-
-**Helper Files:**
-- `tests/helpers/auth.js` - WordPress authentication
-- `tests/helpers/settings.js` - Settings page selectors
-- `tests/helpers/selectors.ts` - Centralized selector definitions
-- `tests/helpers/test-data.ts` - Real Mailjet credentials
-
-**Test Email:** `dwie.cendhol@gmail.com`
-
-**Quick Start:**
+**Optional Validation:**
 ```bash
 cd c:\laragon\www\mapsteps\welcome-email-editor-e2e-testing
 npm run test:e2e
 ```
 
-## 📖 Available Documentation
+## 📚 Reference Documentation
 
-- **Current Task:** `ai-docs/welcome-email-editor/dwi/prompts/AGENT_PROMPT.md`
-- **Latest Completion:** `PROGRESS_HANDOFF_v6.2.2+14_COMPLETE.md`
-- **Implementation History:** All versions in `progress-handoffs/` directory
-- **E2E Testing Guide:** `welcome-email-editor-e2e-testing/README.md`
-- **Project Rules:** `ai-docs/welcome-email-editor/rules.md`
+- **Previous session:** `PROGRESS_HANDOFF_v6.2.2+15_COMPLETE.md`
+- **Agent prompt:** `AGENT_PROMPT.md` (contains detailed instructions)
+- **Plugin readme:** `wp-content/plugins/welcome-email-editor/readme.txt`
+
+## 🎯 Success Criteria
+
+When complete:
+- ✅ Plugin version is 6.3.0 in all files
+- ✅ Changelog documents all Mailjet API features
+- ✅ All version references are consistent
+- ✅ Plugin ready for distribution/WordPress.org submission
+
+## 📝 Notes
+
+- This is a **minor version bump** (6.2.2 → 6.3.0) due to new feature
+- No breaking changes - fully backward compatible
+- Mailjet API is production-ready and thoroughly tested
+- All implementation work is complete - this is purely version/documentation update
 
 ---
 
-**Status:** 🚧 Work in progress - Awaiting WordPress core email test implementation
+**Status:** 🎯 Ready for next agent to execute
+**Priority:** Medium
+**Estimated Time:** 15-20 minutes
