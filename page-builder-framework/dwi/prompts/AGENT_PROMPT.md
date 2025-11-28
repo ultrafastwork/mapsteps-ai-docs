@@ -5,7 +5,7 @@
 **Context**:
 You are working on the "page-builder-framework" WordPress theme.
 Your primary source of truth for the current state and tasks is the file:
-`ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
+`ai-docs/page-builder-framework/dwi/progress-handoffs/PROGRESS_HANDOFF.md`
 
 **Rules**:
 Please strictly follow the rules defined in:
@@ -22,7 +22,7 @@ Build on the stabilized E2E smoke and Header Builder tests to **fix WordPress Cu
 
 **Instructions**:
 
-1. **Read Context**: Read `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md` to understand the current state, known issues (e.g., redirects from customize.php), and required actions.
+1. **Read Context**: Read `ai-docs/page-builder-framework/dwi/progress-handoffs/PROGRESS_HANDOFF.md` to understand the current state, known issues (e.g., redirects from customize.php), and required actions.
 
 2. **E2E Context (Already Stabilized)**:
 	- The Nightwatch smoke test (`pnpm test:smoke`) is already hardened and passing reliably.
