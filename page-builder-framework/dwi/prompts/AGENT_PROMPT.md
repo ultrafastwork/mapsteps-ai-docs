@@ -10,7 +10,9 @@ Your primary source of truth for the current state and tasks is the file:
 **Rules**:
 Please strictly follow the rules defined in:
 
-1. `ai-docs/page-builder-framework/rules.md` (Project-specific rules)
+1. `.antigravityrules` (Root-level operating principles)
+2. `.antigravityignore` (Forbidden files and directories that you MUST NOT access)
+3. `ai-docs/page-builder-framework/rules.md` (Project-specific rules)
 
 **Objective**:
 Build on the stabilized E2E smoke and Header Builder tests to **fix WordPress Customizer postMessage (instant preview) issues** in the Page Builder Framework theme. Focus on the live-preview behavior for:
