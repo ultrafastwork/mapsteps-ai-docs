@@ -15,21 +15,23 @@ Please strictly follow the rules defined in:
 3. `ai-docs/page-builder-framework/rules.md` (Project-specific rules)
 
 **Objective**:
-Perform manual verification of the Customizer postMessage fixes implemented in Session v2.11.8+18.
+Fix critical display issues with Desktop Off-Canvas and Mobile Menus, and finalize the Mobile Button live preview fixes.
 
 **Instructions**:
 
-1. **Read Context**: Read `ai-docs/page-builder-framework/dwi/progress-handoffs/PROGRESS_HANDOFF.md` to understand what was implemented in the previous session.
+1. **Read Context**: Read `ai-docs/page-builder-framework/dwi/progress-handoffs/PROGRESS_HANDOFF.md` to understand the recent changes.
 
-2. **Manual Verification (High Priority)**:
-   - Open the WordPress Customizer at `http://mapsteps.local/wp-admin/customize.php`
-   - Follow the verification instructions documented in Section 10 of the handoff file
-   - Test mobile menu trigger padding in both header builder and legacy modes:
-     - With header builder enabled: custom padding should take precedence
-     - Without header builder: default 10px padding should apply
-   - Verify off-canvas push menu width and transform behavior
-   - Verify mobile header builder buttons 1 & 2 border radius, width, and style live preview
-   - Report any issues found
+2. **Fix Menu Display Issues (Critical)**:
+   - **Desktop Off-Canvas Menu**: Investigate and fix why it is not showing.
+   - **Mobile Menu**: Investigate and fix why it is not showing.
+   - Check if recent changes to `off-canvas.ts` or `mobile-navigation.ts` caused regressions.
+   - Verify HTML markup and CSS classes match the selectors in the JavaScript.
+
+3. **Fix Mobile Button Live Preview**:
+   - **Mobile Button 1 & 2**: The user reports that border radius and border width live preview is still not working correctly.
+   - Review the changes made in Session v2.11.8+18 (initial value application, listener type change, !important).
+   - Debug why the preview might still be failing (check console logs, inspect elements).
+   - Ensure the correct CSS selectors are being used and that styles are not being overridden.
 
 3. **E2E Regression Testing (Medium Priority)**:
    - Navigate to `page-builder-framework-e2e-testing` directory

@@ -256,10 +256,12 @@ You are starting session `v2.11.8+19`.
     - **Root Cause 1**: `listenToBuilderResponsiveControl` was not applying initial values on load, only on change. Fixed by adding initial value application logic.
     - **Root Cause 2**: `header-builder-buttons.ts` was using `listenToCustomizerValueChange` (simple value) for responsive controls. Reverted to `listenToBuilderResponsiveControl` (responsive object).
     - **Root Cause 3**: Live preview CSS was being overridden by compiled theme CSS. Added `!important` to all generated CSS rules in `customizer-util.ts`.
-    - **Result**: Mobile button border radius and width now update instantly and correctly.
-- **Verified Off-Canvas & Button Controls**:
-  - Confirmed `off-canvas.ts` logic is correct but identified setting ID mismatches (fixed).
-  - Confirmed `header-builder-buttons.ts` logic is correct and uses valid selectors.
+    - **Result**: Implemented fixes (initial value, listener type, !important), but user reports live preview is still not working correctly.
+    
+- **New Issues Reported**:
+  - **Desktop Off-Canvas Menu**: Not showing.
+  - **Mobile Menu**: Not showing.
+  - These may be regressions from recent changes or pre-existing issues that need investigation.
 
 - **Build & Documentation**
   - Successfully compiled all TypeScript changes (`pnpm run build-all` passed)
@@ -268,12 +270,15 @@ You are starting session `v2.11.8+19`.
 
 ## 11. Next Steps for Next Agent (Proposed Session v2.11.8+19)
 
-1. **Manual Verification (High Priority)**
-   - Follow the verification instructions in the walkthrough.md artifact
-   - Test mobile menu trigger padding in both header builder and legacy modes
-   - Verify off-canvas push menu width and transform behavior
-   - Verify mobile header builder buttons border properties
-   - Report any issues found
+1. **Fix Menu Display Issues (Critical)**
+   - **Desktop Off-Canvas Menu**: Investigate why it's not showing.
+   - **Mobile Menu**: Investigate why it's not showing.
+   - Check `off-canvas.ts` and `mobile-navigation.ts` for regressions.
+
+2. **Fix Mobile Button Live Preview (High Priority)**
+   - User reports border radius and border width preview is still not working.
+   - Re-investigate `header-builder-buttons.ts` and `customizer-util.ts`.
+   - Verify if `!important` is correctly applied and if selectors are specific enough.
 
 2. **E2E Regression Testing (Medium Priority)**
    - Run `pnpm test:smoke` to ensure Customizer still loads properly after changes
