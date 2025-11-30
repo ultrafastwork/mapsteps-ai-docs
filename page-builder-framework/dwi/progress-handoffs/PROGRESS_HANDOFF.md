@@ -1,8 +1,8 @@
 # Progress Handoff
 
-**Date**: 2025-11-28
+**Date**: 2025-11-30
 **Status**: Active
-**Current Session**: v2.11.8+18
+**Current Session**: v2.11.8+19
 
 ## 1. High-Level Summary
 
@@ -237,7 +237,7 @@ You are starting session `v2.11.8+19`.
     - `postmessage-parts/header-builder-buttons.ts` (desktop & mobile header builder buttons).
   - Identified likely causes as wiring/behavioral mismatches (see “Next Steps for Next Agent” below) rather than missing infrastructure.
 
-## 10. This Session Accomplishments (Session v2.11.8+18)
+## 10. Previous Session Accomplishments (Session v2.11.8+18)
 
 - **PostMessage Analysis Complete**
   - Reviewed all postMessage JS modules per Section 10 recommendations from previous session
@@ -252,7 +252,7 @@ You are starting session `v2.11.8+19`.
   - Corrected setting ID mismatches in `off-canvas.ts` (`off_canvas_*` → `menu_off_canvas_*`).
   - Fixed CSS selectors to match actual HTML structure (`.wpbf-menu-off-canvas-left/right`, `.wpbf-push-menu-left/right.active`).
   - **Crucial Fix**: Implemented `menu_off_canvas_push` listener in `off-canvas.ts` to dynamically toggle body classes (`wpbf-push-menu-left/right`) in Header Builder mode, as the Premium plugin's handler skips this mode.
-  - **Fixed Mobile Button Border Radius/Width Preview**:
+  - **Attempted Mobile Button Border Radius/Width Preview Fix**:
     - **Root Cause 1**: `listenToBuilderResponsiveControl` was not applying initial values on load, only on change. Fixed by adding initial value application logic.
     - **Root Cause 2**: `header-builder-buttons.ts` was using `listenToCustomizerValueChange` (simple value) for responsive controls. Reverted to `listenToBuilderResponsiveControl` (responsive object).
     - **Root Cause 3**: Live preview CSS was being overridden by compiled theme CSS. Added `!important` to all generated CSS rules in `customizer-util.ts`.
@@ -267,26 +267,51 @@ You are starting session `v2.11.8+19`.
   - Created comprehensive walkthrough with manual verification instructions
   - Documented code analysis and technical rationale
 
-## 11. Next Steps for Next Agent (Proposed Session v2.11.8+19)
+## 11. This Session Accomplishments (Session v2.11.8+19)
 
-1. **Fix Mobile Button Live Preview (Primary Task)**
-   - **Goal**: Fix border radius and border width live preview for Mobile Button 1 & 2.
-   - **Context**: User reports it's still not working. User also manually updated `mobile-header-builder.ts`.
-   - **Action**:
-     - Check `mobile-header-builder.ts` content.
-     - Verify if controls are responsive (object) or simple (string/number).
-     - Use `listenToBuilderResponsiveControl` for responsive objects.
-     - Use `listenToCustomizerValueChange` for simple values.
-     - Ensure `!important` is applied if specificity is an issue.
+- **✅ FIXED: Mobile Button Border Radius & Width Live Preview**
+  - **Root Cause Identified**: The issue was NOT in the postMessage listeners (which were working correctly), but in the **Responsive Input Slider control** itself.
+  - **Problem**: The control was hardcoded to always show the **first device (desktop)** as active, regardless of which preview device the user was viewing.
+  - **Impact**: When users changed border radius/width in tablet or mobile preview mode, the value was being saved to the **desktop** key instead of the correct device key.
+  - **Evidence**: User provided screenshots showing desktop value updated to 41px while tablet remained at 5px, even though they were editing in tablet preview mode.
 
-2. **E2E Regression Testing (Medium Priority)**
+- **Solution Implemented**:
+  - Modified `Customizer/Controls/Slider/src/ResponsiveInputSliderForm.tsx`
+  - Added React `useEffect` hook to track `wp.customize.previewedDevice`
+  - Added `activeDevice` state that syncs with current preview device
+  - Changed active tab logic from hardcoded `0 === deviceIndex` to `device === activeDevice`
+  - Control now automatically switches active tab when preview device changes
+
+- **Files Modified**:
+  - Source: `Customizer/Controls/Slider/src/ResponsiveInputSliderForm.tsx`
+  - Compiled: `Customizer/Controls/Slider/dist/responsive-input-slider-control-min.js` (auto-generated)
+
+- **Verification**:
+  - Build completed successfully (`pnpm run build-all`)
+  - User confirmed fix works: border radius and width now update correctly on tablet/mobile devices
+  - Live preview updates instantly with correct values
+
+- **Broader Impact**:
+  - This fix affects **all responsive input slider controls** throughout the Customizer, not just mobile buttons
+  - Any control using `responsive-input-slider` type now correctly syncs with preview device
+
+- **Documentation**:
+  - Created comprehensive walkthrough documenting the investigation, root cause, solution, and verification
+  - Updated progress handoff with session accomplishments
+
+## 12. Next Steps for Next Agent (Proposed Session v2.11.8+20)
+
+1. **E2E Regression Testing (Recommended)**
    - Run `pnpm test:smoke` to ensure Customizer still loads properly after changes
    - Run `pnpm test:builder` to ensure Header Builder interactions still work
-   - If tests fail, investigate whether it's related to the postMessage changes
+   - Run `pnpm test:controls` to verify responsive controls work correctly
+   - If tests fail, investigate whether it's related to the responsive control changes
 
-3. **PHP Settings Verification (Low Priority - if issues found)**
-   - If manual tests reveal problems, verify PHP Customizer settings:
-     - Confirm setting IDs match JavaScript expectations
-     - Confirm `transport => 'postMessage'` is set for all instant-preview controls
-     - Confirm HTML markup matches CSS selectors used in JS
+2. **Additional PostMessage Fixes (If Needed)**
+   - If any other responsive controls are reported as not working, they should now be fixed by this change
+   - Monitor for any edge cases or regressions
+
+3. **Code Review (Optional)**
+   - Review the `ResponsiveInputSliderForm.tsx` changes for any potential React performance issues
+   - Consider if similar fixes are needed for other responsive control types (e.g., `ResponsiveSliderForm.tsx`)
 
