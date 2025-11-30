@@ -1,8 +1,8 @@
 # Agent Prompt: Prepare Plugin for Release
 
 **Status:** 🎯 Active
-**Version:** v6.2.2+16
-**Last Updated:** 2025-11-27
+**Version:** v6.2.2+17
+**Last Updated:** 2025-12-01
 
 **Rules**:
 Please strictly follow the rules defined in:
@@ -27,6 +27,7 @@ The plugin has been enhanced with a complete Mailjet API integration:
 - ✅ Complete UI with settings and test email functionality
 - ✅ All E2E tests passing (22/22 assertions)
 - ✅ WordPress core email integration verified
+- ✅ Documentation updated with technical implementation details
 
 **Current Version:** 6.2.2
 **Target Version:** 6.3.0
@@ -53,7 +54,7 @@ Update version in the following files:
 Add new changelog entry after line 63:
 
 ```
-= 6.3.0 | November 27, 2025 =
+= 6.3.0 | December 1, 2025 =
 * New: Mailjet API integration as alternative to SMTP
 * New: Send emails via Mailjet API (bypasses SMTP, prevents auto-adding contacts to lists)
 * New: Mailer type selector (SMTP or Mailjet API)
@@ -61,6 +62,7 @@ Add new changelog entry after line 63:
 * New: Test email functionality for Mailjet API (with and without attachments)
 * New: Full attachment support for Mailjet API (up to 14MB)
 * New: Inline attachment support for HTML emails with embedded images
+* New: Uses wp_mail() pluggable function for full WordPress compatibility
 * Tweak: Improved settings page UI with dynamic field visibility
 * Tweak: Enhanced email logging for Mailjet API
 * Tested: Comprehensive E2E test coverage for all email functionality
@@ -75,6 +77,7 @@ Ensure the following are in place:
 - ✅ Test email metabox for Mailjet API
 - ✅ Visibility logic for showing/hiding settings based on mailer type
 - ✅ JavaScript for dynamic UI updates
+- ✅ `pre_wp_mail` filter integration for email routing
 
 ### 4. Optional: Create Release Notes
 
@@ -132,6 +135,7 @@ After completion:
 - **Main File:** `sb_welcome_email_editor.php`
 - **Readme:** `readme.txt`
 - **Previous Changelog:** Lines 64-108 in readme.txt
+- **Technical Documentation:** `ai-docs/welcome-email-editor/dwi/mailjet_attachment_technical_docs.md`
 
 ## Notes
 
@@ -139,6 +143,7 @@ After completion:
 - The Mailjet API implementation is fully tested and production-ready
 - All E2E tests passing (22/22 assertions)
 - No breaking changes - backward compatible with existing SMTP setup
+- **wp_mail() compatibility confirmed** - uses pluggable function approach via `pre_wp_mail` filter
 
 ---
 
