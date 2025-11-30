@@ -19,7 +19,11 @@ Prepare the Welcome Email Editor (Swift SMTP) plugin for release with the newly 
 
 The plugin has been enhanced with a complete Mailjet API integration:
 - ✅ Mailjet API sender implementation (alternative to SMTP)
-- ✅ Full attachment support (regular + inline)
+- ✅ Full attachment support using `wp_mail()` pluggable function
+  - Uses `pre_wp_mail` filter hook to intercept emails (line 80 in `class-smtp-output.php`)
+  - Accepts same parameters as `wp_mail()` including attachments array
+  - Supports regular attachments (up to 14MB total) and inline attachments for HTML emails
+  - No breaking changes - any code using `wp_mail($to, $subject, $message, $headers, $attachments)` works automatically
 - ✅ Complete UI with settings and test email functionality
 - ✅ All E2E tests passing (22/22 assertions)
 - ✅ WordPress core email integration verified

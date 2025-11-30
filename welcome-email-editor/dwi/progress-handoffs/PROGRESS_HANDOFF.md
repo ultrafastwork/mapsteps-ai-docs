@@ -27,8 +27,11 @@ The next agent should prepare the plugin for release by:
 ### Mailjet API Feature Status
 ✅ **Fully Implemented and Tested**
 - Complete Mailjet API integration (`modules/mailjet-api/`)
-- Attachment support (up to 14MB)
-- Inline attachment support for HTML emails
+- **Attachment Implementation**: Uses `wp_mail()` pluggable function via `pre_wp_mail` filter hook
+  - Automatically routes emails through Mailjet API when mailer type is set to "Mailjet API"
+  - Accepts same attachment format as `wp_mail()` (array of file paths)
+  - Supports both regular attachments (up to 14MB total) and inline attachments for HTML emails
+  - Full compatibility with WordPress core and plugin emails that use `wp_mail()`
 - Settings UI with mailer type selector
 - Test email functionality (regular + with attachment)
 - All E2E tests passing (22/22 assertions)
