@@ -15,23 +15,20 @@ Please strictly follow the rules defined in:
 3. `ai-docs/page-builder-framework/rules.md` (Project-specific rules)
 
 **Objective**:
-Fix critical display issues with Desktop Off-Canvas and Mobile Menus, and finalize the Mobile Button live preview fixes.
+Fix the Mobile Button 1 & 2 border radius and border width live preview in the Customizer.
 
 **Instructions**:
 
-1. **Read Context**: Read `ai-docs/page-builder-framework/dwi/progress-handoffs/PROGRESS_HANDOFF.md` to understand the recent changes.
+1. **Read Context**: Read `ai-docs/page-builder-framework/dwi/progress-handoffs/PROGRESS_HANDOFF.md` to understand the recent changes and attempts.
 
-2. **Fix Menu Display Issues (Critical)**:
-   - **Desktop Off-Canvas Menu**: Investigate and fix why it is not showing.
-   - **Mobile Menu**: Investigate and fix why it is not showing.
-   - Check if recent changes to `off-canvas.ts` or `mobile-navigation.ts` caused regressions.
-   - Verify HTML markup and CSS classes match the selectors in the JavaScript.
-
-3. **Fix Mobile Button Live Preview**:
+2. **Fix Mobile Button Live Preview (Primary Task)**:
    - **Mobile Button 1 & 2**: The user reports that border radius and border width live preview is still not working correctly.
-   - Review the changes made in Session v2.11.8+18 (initial value application, listener type change, !important).
-   - Debug why the preview might still be failing (check console logs, inspect elements).
-   - Ensure the correct CSS selectors are being used and that styles are not being overridden.
+   - **Investigate Current State**: The user recently modified `mobile-header-builder.ts`. Check if it uses `listenToBuilderResponsiveControl` (correct for responsive values) or `listenToCustomizerValueChange`.
+   - **Debug**:
+     - Verify if the control returns a simple value or a responsive object `{desktop, tablet, mobile}`.
+     - Ensure the correct listener type is used.
+     - Verify CSS selectors and specificity (check for `!important` needs).
+   - **Goal**: Ensure the border radius and width update instantly in the live preview for all devices.
 
 3. **E2E Regression Testing (Medium Priority)**:
    - Navigate to `page-builder-framework-e2e-testing` directory

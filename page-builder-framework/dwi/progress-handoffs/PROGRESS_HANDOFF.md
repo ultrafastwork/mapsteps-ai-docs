@@ -259,9 +259,8 @@ You are starting session `v2.11.8+19`.
     - **Result**: Implemented fixes (initial value, listener type, !important), but user reports live preview is still not working correctly.
     
 - **New Issues Reported**:
-  - **Desktop Off-Canvas Menu**: Not showing.
-  - **Mobile Menu**: Not showing.
-  - These may be regressions from recent changes or pre-existing issues that need investigation.
+  - **Mobile Button Live Preview**: Border radius and border width are still not updating correctly in the live preview.
+  - User manually modified `mobile-header-builder.ts` recently, which may have reverted some fixes or introduced new behavior.
 
 - **Build & Documentation**
   - Successfully compiled all TypeScript changes (`pnpm run build-all` passed)
@@ -270,15 +269,15 @@ You are starting session `v2.11.8+19`.
 
 ## 11. Next Steps for Next Agent (Proposed Session v2.11.8+19)
 
-1. **Fix Menu Display Issues (Critical)**
-   - **Desktop Off-Canvas Menu**: Investigate why it's not showing.
-   - **Mobile Menu**: Investigate why it's not showing.
-   - Check `off-canvas.ts` and `mobile-navigation.ts` for regressions.
-
-2. **Fix Mobile Button Live Preview (High Priority)**
-   - User reports border radius and border width preview is still not working.
-   - Re-investigate `header-builder-buttons.ts` and `customizer-util.ts`.
-   - Verify if `!important` is correctly applied and if selectors are specific enough.
+1. **Fix Mobile Button Live Preview (Primary Task)**
+   - **Goal**: Fix border radius and border width live preview for Mobile Button 1 & 2.
+   - **Context**: User reports it's still not working. User also manually updated `mobile-header-builder.ts`.
+   - **Action**:
+     - Check `mobile-header-builder.ts` content.
+     - Verify if controls are responsive (object) or simple (string/number).
+     - Use `listenToBuilderResponsiveControl` for responsive objects.
+     - Use `listenToCustomizerValueChange` for simple values.
+     - Ensure `!important` is applied if specificity is an issue.
 
 2. **E2E Regression Testing (Medium Priority)**
    - Run `pnpm test:smoke` to ensure Customizer still loads properly after changes
