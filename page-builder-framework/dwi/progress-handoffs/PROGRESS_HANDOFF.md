@@ -1,8 +1,8 @@
 # Progress Handoff
 
-**Date**: 2025-11-30
+**Date**: 2025-12-01
 **Status**: Active
-**Current Session**: v2.11.8+19
+**Current Session**: v2.11.8+20
 
 ## 1. High-Level Summary
 
@@ -301,17 +301,22 @@ You are starting session `v2.11.8+19`.
 
 ## 12. Next Steps for Next Agent (Proposed Session v2.11.8+20)
 
-1. **E2E Regression Testing (Recommended)**
-   - Run `pnpm test:smoke` to ensure Customizer still loads properly after changes
-   - Run `pnpm test:builder` to ensure Header Builder interactions still work
-   - Run `pnpm test:controls` to verify responsive controls work correctly
-   - If tests fail, investigate whether it's related to the responsive control changes
+1. **Comprehensive Header Builder Verification (Primary Task)**
+   - **Goal**: Systematically verify that ALL controls within the Header Builder (Desktop & Mobile) are functioning correctly.
+   - **Scope**:
+     - **Elements**: Logo, Navigation (Menu), Search, HTML, Social, Button 1 & 2, Off-Canvas, etc.
+     - **Settings**: Layout, Typography, Colors, Spacing, Visibility, Responsive settings.
+     - **Live Preview**: Ensure changes update instantly and correctly in the Customizer preview (postMessage).
+   - **Method**:
+     - Manual verification in the Customizer.
+     - Running existing E2E tests (`pnpm test:builder`).
+     - Creating new E2E tests if coverage is missing for specific controls.
 
-2. **Additional PostMessage Fixes (If Needed)**
-   - If any other responsive controls are reported as not working, they should now be fixed by this change
-   - Monitor for any edge cases or regressions
+2. **Fix & Refine**
+   - If any control is found to be broken or lagging (refreshing instead of instant preview), investigate and fix.
+   - Apply the same "Responsive Input Slider" fix logic if other responsive controls are misbehaving.
 
-3. **Code Review (Optional)**
-   - Review the `ResponsiveInputSliderForm.tsx` changes for any potential React performance issues
-   - Consider if similar fixes are needed for other responsive control types (e.g., `ResponsiveSliderForm.tsx`)
+3. **Documentation**
+   - Update `PROGRESS_HANDOFF.md` with a list of verified controls.
+   - Report any bugs fixed or outstanding issues.
 

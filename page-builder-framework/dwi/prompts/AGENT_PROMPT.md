@@ -15,34 +15,27 @@ Please strictly follow the rules defined in:
 3. `ai-docs/page-builder-framework/rules.md` (Project-specific rules)
 
 **Objective**:
-Fix the Mobile Button 1 & 2 border radius and border width live preview in the Customizer.
+Verify and ensure all Customizer Header Builder controls are working properly.
 
 **Instructions**:
 
-1. **Read Context**: Read `ai-docs/page-builder-framework/dwi/progress-handoffs/PROGRESS_HANDOFF.md` to understand the recent changes and attempts.
+1. **Read Context**: Read `ai-docs/page-builder-framework/dwi/progress-handoffs/PROGRESS_HANDOFF.md` to understand the recent fixes (Mobile Button Border Radius/Width) and the current state.
 
-2. **Fix Mobile Button Live Preview (Primary Task)**:
-   - **Mobile Button 1 & 2**: The user reports that border radius and border width live preview is still not working correctly.
-   - **Investigate Current State**: The user recently modified `mobile-header-builder.ts`. Check if it uses `listenToBuilderResponsiveControl` (correct for responsive values) or `listenToCustomizerValueChange`.
-   - **Debug**:
-     - Verify if the control returns a simple value or a responsive object `{desktop, tablet, mobile}`.
-     - Ensure the correct listener type is used.
-     - Verify CSS selectors and specificity (check for `!important` needs).
-   - **Goal**: Ensure the border radius and width update instantly in the live preview for all devices.
+2. **Comprehensive Header Builder Verification (Primary Task)**:
+   - **Goal**: Systematically verify that ALL controls within the Header Builder (Desktop & Mobile) are functioning correctly.
+   - **Scope**:
+     - **Elements**: Logo, Navigation (Menu), Search, HTML, Social, Button 1 & 2, Off-Canvas, etc.
+     - **Settings**: Layout, Typography, Colors, Spacing, Visibility, Responsive settings.
+     - **Live Preview**: Ensure changes update instantly and correctly in the Customizer preview (postMessage).
+   - **Method**:
+     - Manual verification in the Customizer.
+     - Running existing E2E tests (`pnpm test:builder`).
+     - Creating new E2E tests if coverage is missing for specific controls.
 
-3. **E2E Regression Testing (Medium Priority)**:
-   - Navigate to `page-builder-framework-e2e-testing` directory
-   - Run: `pnpm test:smoke` to ensure Customizer loads properly after changes
-   - Run: `pnpm test:builder` to ensure Header Builder interactions still work
-   - If tests fail, investigate whether failures are related to the postMessage changes
+3. **Fix & Refine**:
+   - If any control is found to be broken or lagging (refreshing instead of instant preview), investigate and fix.
+   - Apply the same "Responsive Input Slider" fix logic if other responsive controls are misbehaving.
 
-4. **PHP Settings Verification (Only if issues found)**:
-   - If manual tests reveal problems, inspect PHP Customizer settings registration:
-     - Verify setting IDs match JavaScript expectations
-     - Confirm `transport => 'postMessage'` is set for all instant-preview controls
-     - Confirm HTML markup matches CSS selectors used in postMessage JavaScript modules
-
-5. **Document Results**:
-   - Update `PROGRESS_HANDOFF.md` with verification results
-   - Report any bugs found or additional fixes needed
-   - If all tests pass, consider this issue resolved
+4. **Document Results**:
+   - Update `PROGRESS_HANDOFF.md` with a list of verified controls.
+   - Report any bugs fixed or outstanding issues.
