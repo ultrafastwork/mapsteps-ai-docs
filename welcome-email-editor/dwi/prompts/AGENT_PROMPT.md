@@ -1,10 +1,10 @@
-# Agent Prompt: Remove Attachment Test Button from Mailjet API Metabox
+# Agent Prompt: [Task Name Here]
 
 **Status:** 🎯 Active
-**Version:** v6.2.2+19
+**Version:** v6.2.2+[number]
 **Last Updated:** 2025-12-01
 
-**Rules**:
+**Rules:**
 Please strictly follow the rules defined in:
 
 1. `.antigravityrules` (Root-level operating principles)
@@ -13,134 +13,71 @@ Please strictly follow the rules defined in:
 
 ## Objective
 
-Remove the "Test Email with Attachment" button from the Mailjet API test email metabox while keeping the regular test email button functional.
+[Describe the main objective/goal of this task]
 
 ## Background
 
-The Mailjet API test email section currently has two buttons:
-1. **Test Regular Email** - Should be KEPT
-2. **Test Email with Attachment** - Should be REMOVED
-
-**Reason for removal:** Since Mailjet API uses the standard `wp_mail()` pluggable function approach, attachment testing is redundant. Regular emails already support attachments automatically when using `wp_mail()`.
+[Provide context about why this task is needed]
 
 **Current Version:** 6.2.2
-**Target Version:** 6.2.2 (UI cleanup, no version bump needed)
 
 ## Requirements
 
-### 1. Remove Attachment Test Button from UI
+[List the requirements and what needs to be done]
 
-**File to modify:** `wp-content/plugins/welcome-email-editor/modules/settings/templates/fields/mailjet-api/test-email.php`
+### 1. [Requirement Title]
+
+[Describe the requirement]
+
+**File to modify:** `[path/to/file.php]`
 
 **Changes needed:**
-- **Remove lines 48-51:** The second button element for testing email with attachment
-- **Keep lines 43-46:** The first button for regular email testing (this must remain)
-
-### 2. Remove Backend Handler (Optional Cleanup)
-
-**File to modify:** `wp-content/plugins/welcome-email-editor/modules/settings/ajax/class-test-emails.php`
-
-Optional cleanup tasks:
-- Remove `test_mailjet_api_with_attachment()` method (lines 270-314)
-- Remove case handler in switch statement (lines 102-104)
-- Remove nonce verification case (lines 141-143)
-
-### 3. Remove JavaScript Nonce (Optional Cleanup)
-
-**File to modify:** `wp-content/plugins/welcome-email-editor/modules/settings/class-settings-module.php`
-
-Optional cleanup:
-- Remove line 178: `'testMailjetApiEmailWithAttachment'` nonce entry
+- [List changes]
 
 ## Implementation Steps
 
-### Step 1: Remove the Attachment Button (Required)
-Modify `test-email.php` to remove the second button (lines 48-51)
+### Step 1: [Step Title]
+[Describe what to do]
 
-### Step 2: Optional Backend Cleanup
-Remove unused backend code from `class-test-emails.php`
-
-### Step 3: Optional JavaScript Cleanup
-Remove unused nonce from `class-settings-module.php`
-
-### Step 4: Verify Changes
-
-Test that:
-1. Regular test email button still works
-2. No JavaScript errors in console
-3. Settings page loads correctly
-4. Test email functionality remains intact
+### Step 2: [Step Title]
+[Describe what to do]
 
 ## Expected Output
 
 After completion:
-- ✅ Mailjet API metabox shows only ONE button: "Test Regular Email"
-- ✅ No "Test Email with Attachment" button visible
-- ✅ Regular test email still sends successfully
-- ✅ No JavaScript console errors
-- ✅ UI is cleaner and less confusing
+- ✅ [Expected outcome 1]
+- ✅ [Expected outcome 2]
 
 ## Files to Modify
 
 ### Primary (Required)
 | File | Lines | Action |
 |------|-------|--------|
-| `modules/settings/templates/fields/mailjet-api/test-email.php` | 48-51 | Delete the attachment test button |
+| `[file path]` | [lines] | [action description] |
 
-### Optional Cleanup
+### Optional
 | File | Lines | Action |
 |------|-------|--------|
-| `modules/settings/ajax/class-test-emails.php` | 102-104, 141-143, 270-314 | Remove attachment test handler |
-| `modules/settings/class-settings-module.php` | 178 | Remove attachment nonce |
+| `[file path]` | [lines] | [action description] |
 
 ## Success Criteria
 
-✅ Attachment test button removed from Mailjet API metabox
-✅ Regular test email button still functional
-✅ No JavaScript errors
-✅ Settings page loads without errors
-✅ Test email sends successfully
-✅ Optional: Backend cleanup completed
+✅ [Success criterion 1]
+✅ [Success criterion 2]
+✅ [Success criterion 3]
 
 ## Resources
 
-- **Plugin Directory:** `c:\laragon\www\mapsteps\wp-content\plugins\welcome-email-editor\`
-- **Test Email Template:** `modules/settings/templates/fields/mailjet-api/test-email.php`
-- **AJAX Handler:** `modules/settings/ajax/class-test-emails.php`
-- **Settings Module:** `modules/settings/class-settings-module.php`
-
-## Visual Reference
-
-**Before (Current State):**
-```
-[ Email Input Field ]
-[Test Regular Email (Save First!)]        ← KEEP THIS
-[Test Email with Attachment (Save First!)] ← REMOVE THIS
-```
-
-**After (Expected State):**
-```
-[ Email Input Field ]
-[Test Regular Email (Save First!)]        ← ONLY THIS BUTTON
-```
-
-## Notes
-
-- This is a **UI cleanup task** - no version bump needed
-- The regular test button is sufficient since Mailjet API uses wp_mail() which inherently supports attachments
-- Removing the attachment-specific button reduces confusion
-- This is a safe change - no breaking functionality
+- **Plugin Directory:** `c:\\laragon\\www\\mapsteps\\wp-content\\plugins\\welcome-email-editor\\`
+- **[Resource Name]:** `[path]`
 
 ## Testing Checklist
 
 After making changes:
-- [ ] Visit plugin settings page
-- [ ] Verify only one test button is visible in Mailjet API section
-- [ ] Click "Test Regular Email" button
-- [ ] Confirm test email sends successfully
-- [ ] Check browser console for JavaScript errors (should be none)
-- [ ] Verify SMTP test section (different metabox) is unaffected
+- [ ] [Test item 1]
+- [ ] [Test item 2]
+- [ ] [Test item 3]
 
 ---
 
-**Ready to simplify Mailjet API test UI**
+**Ready to [action verb] [task description]**
