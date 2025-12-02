@@ -6,13 +6,21 @@
 
 ## 1. High-Level Summary
 
-**Header Builder Verification Complete** - All 22 Header Builder elements (11 Desktop + 11 Mobile) have been verified to have proper postMessage handlers for live preview. One bug was fixed in the mobile search icon color listener.
+**Nightwatch v3 E2E testing suite has been significantly expanded** with Builder, Repeater, and Enhanced Select control tests, plus CI/CD integration. The test suite now includes:
 
-### Recent Accomplishments
-- ✅ Comprehensive code analysis of all Header Builder controls
-- ✅ Fixed duplicate/incorrect mobile search icon color listener
-- ✅ Verified all responsive controls sync with preview device
-- ✅ Build verified with `pnpm run build-all`
+- Nightwatch v3 configuration for WordPress Customizer testing
+- Custom commands for WordPress login and Customizer interactions
+- Custom assertions for control validation
+- Page objects for Customizer and login pages
+- Basic control tests (text, checkbox, select, slider, color)
+- WPBF-specific control tests (Typography, MarginPadding, Responsive)
+- **NEW: Builder Control Tests** - Header Builder drag-and-drop, widget placement, responsive views
+- **NEW: Repeater Control Tests** - Add/remove/reorder rows, field types, expand/collapse
+- **NEW: Enhanced Select Tests** - Select2 dropdowns, search, multi-select, keyboard navigation
+- **NEW: GitHub Actions CI/CD Workflow** - Automated testing with Chrome/Firefox
+- Control dependency tests with documented WPBF dependencies
+- Preview update tests for postMessage and refresh transport modes
+- Comprehensive documentation with control dependency mappings
 
 ## 2. Previous Session Accomplishments (Session v2.11.8+16)
 
