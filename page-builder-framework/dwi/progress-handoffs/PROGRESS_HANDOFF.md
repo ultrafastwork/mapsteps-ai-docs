@@ -352,18 +352,33 @@ Performed systematic code analysis of all Header Builder controls and their post
    - Mobile menu trigger padding conflict fixed with `headerBuilderEnabled()` check
 3. **No missing handlers** - All Header Builder controls are properly wired for live preview
 
-## 13. Next Steps for Next Agent (Proposed Session v2.11.8+21)
+## 13. Next Task for Session v2.11.8+21
 
-1. **Manual Verification in Customizer**
-   - Test all Header Builder controls in the actual WordPress Customizer
-   - Verify live preview updates instantly for all controls
-   - Test responsive controls on desktop, tablet, and mobile preview modes
+### Fix Header Builder Column Width (Flexible/Auto-Width)
 
-2. **E2E Testing Setup**
-   - The E2E testing directory (`page-builder-framework-e2e-testing/`) is not present in this workspace
-   - Consider setting up E2E tests if needed for automated verification
+**Problem**:
+The Header Builder has 3 rows (top, main, bottom), each with 5 columns. Currently, column widths are fixed, causing content to wrap unnecessarily.
 
-3. **Additional Improvements (Optional)**
-   - Consider consolidating duplicate button settings between `header-builder.ts` and `mobile-header-builder.ts`
-   - Review if any other legacy listeners need cleanup
+**Example Case**:
+- Top row with HTML 1 widget (text content) in left column and Button 1 in center column
+- The HTML text wraps to 2 lines when it should fit in 1 line
+- Column width is not flexible/auto-width based on content
+
+**Expected Behavior**:
+- Columns should have flexible width based on content
+- Text content should not wrap unnecessarily
+- Widgets should take only the space they need
+
+**Investigation Areas**:
+- Header Builder row/column CSS/SCSS files
+- Column width definitions (likely percentage-based currently)
+- Flexbox or grid layout implementation
+
+**Acceptance Criteria**:
+- [ ] Columns use flexible/auto width based on content
+- [ ] Text in HTML widgets doesn't wrap unnecessarily
+- [ ] Proper alignment maintained between columns
+- [ ] Works across all 3 rows (top, main, bottom)
+- [ ] Responsive behavior preserved
+- [ ] Build passes with `pnpm run build-all`
 
