@@ -6,21 +6,24 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Fix the Font Size live preview bug in Header Builder rows.
+**Objective**: Fix the Button Size default value issue.
 
 **Issue (from `ai-docs/page-builder-framework/ISSUES.md`)**:
-> The Font Size setting in the second row does not update in the live preview, though it applies after saving — and incorrectly affects the third row as well.
+> The default Button Size field appears empty instead of showing a default value.
+
+**Problem Description**:
+The Button Size customizer control in the Header Builder Button Widget shows an empty field instead of displaying a default value.
 
 **Instructions**:
 
-1. **Read Context**: Read `PROGRESS_HANDOFF.md` Section 2 for investigation steps and key files.
+1. **Read Context**: Read `PROGRESS_HANDOFF.md` Section 2 for investigation steps.
 
 2. **Investigate & Fix**:
-   - Find PHP settings in `Customizer/Controls/HeaderBuilder/settings/desktop/`
-   - Find JS handlers in `inc/customizer/js/postmessage-parts/header-builder-rows.ts`
-   - Check CSS output in `inc/customizer/styles/header-builder-styles.php`
-   - Fix setting ID mismatches or incorrect CSS selectors
+   - Find the Button Widget settings file in `inc/customizer/settings/header-builder/`
+   - Check the `button_size` or similar control definition
+   - Verify if `defaultValue()` is set correctly
+   - Check if the control type supports default value display
 
-3. **Verify**: Run `pnpm run build-all` and test in Customizer.
+3. **Verify**: Run `pnpm run build-asset -- --path=<specific-file-path>` (only build the specific file that was changed) and test in Customizer.
 
 4. **Document**: Update `PROGRESS_HANDOFF.md` and mark issue fixed in `ISSUES.md`.
