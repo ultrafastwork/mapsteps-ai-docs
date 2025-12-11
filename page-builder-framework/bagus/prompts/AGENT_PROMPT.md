@@ -6,24 +6,24 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Fix the Button Size default value issue.
+**Objective**: Fix the HTML 2 Widget WYSIWYG editor toolbar issue.
 
 **Issue (from `ai-docs/page-builder-framework/ISSUES.md`)**:
-> The default Button Size field appears empty instead of showing a default value.
+> The WYSIWYG editor in the HTML 2 Widget is too simple, make it to have same amount of toolbar items like in HTML 1 Widget.
 
 **Problem Description**:
-The Button Size customizer control in the Header Builder Button Widget shows an empty field instead of displaying a default value.
+The HTML 2 Widget's WYSIWYG editor has fewer toolbar items compared to HTML 1 Widget. Both should have the same toolbar configuration.
 
 **Instructions**:
 
-1. **Read Context**: Read `PROGRESS_HANDOFF.md` Section 2 for investigation steps.
+1. **Read Context**: Read `PROGRESS_HANDOFF.md` for current state.
 
 2. **Investigate & Fix**:
-   - Find the Button Widget settings file in `inc/customizer/settings/header-builder/`
-   - Check the `button_size` or similar control definition
-   - Verify if `defaultValue()` is set correctly
-   - Check if the control type supports default value display
+   - Find the HTML Widget settings files in `inc/customizer/settings/header-builder/`
+   - Compare HTML 1 and HTML 2 widget configurations
+   - Identify the WYSIWYG/editor control and its toolbar settings
+   - Make HTML 2 match HTML 1's toolbar configuration
 
-3. **Verify**: Run `pnpm run build-asset -- --path=<specific-file-path>` (only build the specific file that was changed) and test in Customizer.
+3. **Verify**: Test in Customizer that both HTML widgets have identical toolbar items.
 
 4. **Document**: Update `PROGRESS_HANDOFF.md` and mark issue fixed in `ISSUES.md`.

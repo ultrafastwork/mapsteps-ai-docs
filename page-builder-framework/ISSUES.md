@@ -1,6 +1,6 @@
 ### Bugfixing works:
 - [x] The Font Size setting in the second row does not update in the live preview, though it applies after saving — and incorrectly affects the third row as well. *(Fixed in v2.11.8+23)*
-- [ ] The default Button Size field appears empty instead of showing a default value.
+- [x] The default Button Size field appears empty instead of showing a default value. *(Fixed in v2.11.8+24)*
 - [ ] The WYSIWYG editor in the HTML 2 Widget is too simple, make it to have same amount of toolbar items like in HTML 1 Widget.
 - [ ] When the logo is centered, layout alignment becomes incorrect if a menu widget is placed on the left or right side.
 - [ ] The Button Widget is automatically centered across all desktop row layouts, even when it should follow row alignment.
