@@ -1,12 +1,12 @@
 ### Bugfixing works:
-- [ ] Widget positioning on desktop is currently unstable and behaves inconsistently.
-- [ ] The default layout applied when adding a widget to a row is visually poor — consider using improved presets or more suitable default values.
-- [ ] The default Button Size field appears empty instead of showing a default value.
 - [ ] The Font Size setting in the second row does not update in the live preview, though it applies after saving — and incorrectly affects the third row as well.
+- [ ] The default Button Size field appears empty instead of showing a default value.
 - [ ] The WYSIWYG editor in the HTML 2 Widget is too simple, make it to have same amount of toolbar items like in HTML 1 Widget.
 - [ ] When the logo is centered, layout alignment becomes incorrect if a menu widget is placed on the left or right side.
 - [ ] The Button Widget is automatically centered across all desktop row layouts, even when it should follow row alignment.
 - [ ] Mobile widget positioning breaks due to flex: auto applied on the selector: `.wpbf-header-column.wpbf-column-grow.`
+- [ ] Widget positioning on desktop is currently unstable and behaves inconsistently.
+- [ ] The default layout applied when adding a widget to a row is visually poor — consider using improved presets or more suitable default values.
 
 
 ### Heavy works:

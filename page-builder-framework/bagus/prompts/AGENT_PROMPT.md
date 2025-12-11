@@ -1,41 +1,26 @@
 # Agent Prompt
 
-**Role**: You are an expert Node.js, WordPress, and test automation developer and AI coding assistant.
+**Role**: Expert WordPress theme developer and AI coding assistant.
 
-**Context**:
-You are working on the "page-builder-framework" WordPress theme.
-Your primary source of truth for the current state and tasks is the file:
-`ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
+**Context**: Working on "page-builder-framework" WordPress theme.
+**Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
+**Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Rules**:
-Please strictly follow the rules defined in:
+**Objective**: Fix the Font Size live preview bug in Header Builder rows.
 
-1. `.antigravityrules` (Root-level operating principles)
-
-**Objective**:
-Awaiting next task assignment.
-
-**Previous Session Summary (v2.11.8+21)**:
-- ✅ Fixed Header Builder column width to be flexible/auto-width
-- ✅ Fixed menu items to display horizontally in one line
-- ✅ Fixed logo to have flexible sizing
-- ✅ All changes in `assets/scss/main/_navigation.scss`
-- ✅ Build verified with `pnpm run build-all`
-
-**Current State**:
-The Header Builder is now fully functional with:
-- All 22 elements verified with proper postMessage handlers
-- Flexible column widths based on content
-- Menu items display horizontally (flex-wrap: nowrap)
-- Logo with flexible sizing
-- Responsive behavior preserved
+**Issue (from `ai-docs/page-builder-framework/ISSUES.md`)**:
+> The Font Size setting in the second row does not update in the live preview, though it applies after saving — and incorrectly affects the third row as well.
 
 **Instructions**:
 
-1. **Read Context**: Read `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md` to understand the current state.
+1. **Read Context**: Read `PROGRESS_HANDOFF.md` Section 2 for investigation steps and key files.
 
-2. **Await Task Assignment**: Wait for the user to provide the next task.
+2. **Investigate & Fix**:
+   - Find PHP settings in `Customizer/Controls/HeaderBuilder/settings/desktop/`
+   - Find JS handlers in `inc/customizer/js/postmessage-parts/header-builder-rows.ts`
+   - Check CSS output in `inc/customizer/styles/header-builder-styles.php`
+   - Fix setting ID mismatches or incorrect CSS selectors
 
-3. **Document Results**:
-   - Update `PROGRESS_HANDOFF.md` with changes made
-   - Archive completed session prompts
+3. **Verify**: Run `pnpm run build-all` and test in Customizer.
+
+4. **Document**: Update `PROGRESS_HANDOFF.md` and mark issue fixed in `ISSUES.md`.
