@@ -1,41 +1,29 @@
 # Agent Prompt
 
-**Role**: You are an expert Node.js, WordPress, and test automation developer and AI coding assistant.
+**Role**: Expert WordPress theme developer and AI coding assistant.
 
-**Context**:
-You are working on the "page-builder-framework" WordPress theme.
-Your primary source of truth for the current state and tasks is the file:
-`ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
+**Context**: Working on "page-builder-framework" WordPress theme.
+**Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
+**Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Rules**:
-Please strictly follow the rules defined in:
+**Objective**: Fix the HTML 2 Widget WYSIWYG editor toolbar issue.
 
-1. `.antigravityrules` (Root-level operating principles)
+**Issue (from `ai-docs/page-builder-framework/ISSUES.md`)**:
+> The WYSIWYG editor in the HTML 2 Widget is too simple, make it to have same amount of toolbar items like in HTML 1 Widget.
 
-**Objective**:
-Awaiting next task assignment.
-
-**Previous Session Summary (v2.11.8+21)**:
-- ✅ Fixed Header Builder column width to be flexible/auto-width
-- ✅ Fixed menu items to display horizontally in one line
-- ✅ Fixed logo to have flexible sizing
-- ✅ All changes in `assets/scss/main/_navigation.scss`
-- ✅ Build verified with `pnpm run build-all`
-
-**Current State**:
-The Header Builder is now fully functional with:
-- All 22 elements verified with proper postMessage handlers
-- Flexible column widths based on content
-- Menu items display horizontally (flex-wrap: nowrap)
-- Logo with flexible sizing
-- Responsive behavior preserved
+**Problem Description**:
+The HTML 2 Widget's WYSIWYG editor has fewer toolbar items compared to HTML 1 Widget. Both should have the same toolbar configuration.
 
 **Instructions**:
 
-1. **Read Context**: Read `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md` to understand the current state.
+1. **Read Context**: Read `PROGRESS_HANDOFF.md` for current state.
 
-2. **Await Task Assignment**: Wait for the user to provide the next task.
+2. **Investigate & Fix**:
+   - Find the HTML Widget settings files in `inc/customizer/settings/header-builder/`
+   - Compare HTML 1 and HTML 2 widget configurations
+   - Identify the WYSIWYG/editor control and its toolbar settings
+   - Make HTML 2 match HTML 1's toolbar configuration
 
-3. **Document Results**:
-   - Update `PROGRESS_HANDOFF.md` with changes made
-   - Archive completed session prompts
+3. **Verify**: Test in Customizer that both HTML widgets have identical toolbar items.
+
+4. **Document**: Update `PROGRESS_HANDOFF.md` and mark issue fixed in `ISSUES.md`.
