@@ -6,29 +6,27 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Fix the Button Widget automatic centering issue.
+**Objective**: Fix the Mobile Widget Positioning issue.
 
 **Issue (from `ai-docs/page-builder-framework/ISSUES.md`)**:
-> The Button Widget is automatically centered across all desktop row layouts, even when it should follow row alignment.
+> Mobile widget positioning breaks due to flex: auto applied on the selector: `.wpbf-header-column.wpbf-column-grow`.
 
-**Problem Description**:
-The Button Widget is always centered in desktop rows regardless of the row's alignment settings. It should follow the row's alignment configuration instead.
+**Context from v2.11.8+28**:
+In the previous session, we fixed logo centering with mixed widget types by applying `wpbf-column-grow` to ALL columns with widgets (not just specific widget types). This may have affected mobile widget positioning.
 
 **Instructions**:
 
-1. **Read Context**: Read `PROGRESS_HANDOFF.md` for current state.
+1. **Read Context**: Read `PROGRESS_HANDOFF.md` for current state and recent changes.
 
 2. **Investigate & Fix**:
-   - Find the Button Widget settings files in `inc/customizer/settings/header-builder/desktop/`
-   - Check the Button Widget output/rendering in `HeaderBuilderOutput.php` or related files
-   - Investigate CSS that may be forcing center alignment on button widgets
-   - Identify why button widget ignores row alignment
-   - Apply appropriate fix to make button follow row alignment
+   - Analyze how the `wpbf-column-grow` class affects mobile header columns
+   - Check if mobile rows need different flex behavior than desktop rows
+   - Consider if mobile columns should have `flex: 0 0 auto` instead of `flex: 1 1 auto`
 
    **Files to Check**:
-   - `Customizer/HeaderBuilder/HeaderBuilderOutput.php` - Button widget rendering logic
-   - `assets/scss/main/_navigation.scss` - Navigation/header CSS that may affect button alignment
+   - `Customizer/HeaderBuilder/HeaderBuilderOutput.php` - Mobile column class logic (lines 400-404)
+   - `assets/scss/main/_navigation.scss` - Header column CSS (lines 583-611)
 
-3. **Verify**: Test in Customizer that Button Widget respects row alignment settings (left, center, right).
+3. **Verify**: Test in Customizer with various mobile widget configurations.
 
 4. **Document**: Update `PROGRESS_HANDOFF.md` and mark issue fixed in `ISSUES.md`.
