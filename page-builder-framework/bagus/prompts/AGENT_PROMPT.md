@@ -6,24 +6,29 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Fix the HTML 2 Widget WYSIWYG editor toolbar issue.
+**Objective**: Fix the Button Widget automatic centering issue.
 
 **Issue (from `ai-docs/page-builder-framework/ISSUES.md`)**:
-> The WYSIWYG editor in the HTML 2 Widget is too simple, make it to have same amount of toolbar items like in HTML 1 Widget.
+> The Button Widget is automatically centered across all desktop row layouts, even when it should follow row alignment.
 
 **Problem Description**:
-The HTML 2 Widget's WYSIWYG editor has fewer toolbar items compared to HTML 1 Widget. Both should have the same toolbar configuration.
+The Button Widget is always centered in desktop rows regardless of the row's alignment settings. It should follow the row's alignment configuration instead.
 
 **Instructions**:
 
 1. **Read Context**: Read `PROGRESS_HANDOFF.md` for current state.
 
 2. **Investigate & Fix**:
-   - Find the HTML Widget settings files in `inc/customizer/settings/header-builder/`
-   - Compare HTML 1 and HTML 2 widget configurations
-   - Identify the WYSIWYG/editor control and its toolbar settings
-   - Make HTML 2 match HTML 1's toolbar configuration
+   - Find the Button Widget settings files in `inc/customizer/settings/header-builder/desktop/`
+   - Check the Button Widget output/rendering in `HeaderBuilderOutput.php` or related files
+   - Investigate CSS that may be forcing center alignment on button widgets
+   - Identify why button widget ignores row alignment
+   - Apply appropriate fix to make button follow row alignment
 
-3. **Verify**: Test in Customizer that both HTML widgets have identical toolbar items.
+   **Files to Check**:
+   - `Customizer/HeaderBuilder/HeaderBuilderOutput.php` - Button widget rendering logic
+   - `assets/scss/main/_navigation.scss` - Navigation/header CSS that may affect button alignment
+
+3. **Verify**: Test in Customizer that Button Widget respects row alignment settings (left, center, right).
 
 4. **Document**: Update `PROGRESS_HANDOFF.md` and mark issue fixed in `ISSUES.md`.
