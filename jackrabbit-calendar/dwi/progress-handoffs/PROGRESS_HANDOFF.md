@@ -1,17 +1,17 @@
-# Progress Handoff - v1.0.0+2
+# Progress Handoff - v1.0.0+4
 
-**Version:** v1.0.0+2
+**Version:** v1.0.0+4
 **Status:** 🎯 Active
-**Task:** Test billingCycle integration
+**Task:** TBD (Ready for next task)
 **Created:** 2025-12-09
 
 ## 🎯 Objective
 
-Test and verify the updated `isClassRecurring()` method that now uses the API's `billingCycle` field. Ensure the plugin correctly identifies recurring vs one-time tuition and displays it correctly in the UI.
+Ready for the next development task. The billingCycle integration is complete and deployed.
 
 ## 📋 Task Overview
 
-The previous session replaced the hardcoded 14-week logic with the API's `billingCycle` field. Now we need to verify this integration works as expected in the live environment.
+The `isClassRecurring` logic has been successfully refactored to use the API's `BillingCycle` field. All assets have been rebuilt and the plugin version bumped to 1.6.0.
 
 ## 🔧 Current Plugin Status
 
@@ -19,28 +19,22 @@ The previous session replaced the hardcoded 14-week logic with the API's `billin
 - **Plugin Name:** Jackrabbit Calendar
 - **Plugin Location:** `wp-content/plugins/jackrabbit-calendar/`
 - **Tech Stack:** WordPress plugin with Vue.js frontend
+- **Current Version:** 1.6.0
 
-### Recent Changes (v1.0.0+1)
-- Updated `_vue/shared/mixins/JackrabbitData.js` to use `row.tuition.billingCycle`
-- Rebuilt all Vue assets (`jack-2-list-views`, `jack-monthly-calendar-2`, `jack-weekly-calendar`)
-- Updated API documentation
+### Recent Changes (v1.0.0+3)
+- Fixed `isClassRecurring` to use root-level `row.BillingCycle`.
+- Cleaned up verification logs.
+- Rebuilt all Vue apps.
 
 ## 📝 Pending Tasks
 
-- [ ] **Test API Response**: Verify `tuition.billingCycle` appears in the network response
-- [ ] **Test Logic**: Verify `isClassRecurring()` returns correct boolean for "Monthly" vs "By Session Dates"
-- [ ] **Test UI**: Check that tuition information displays correctly for different class types
-- [ ] **Console Check**: Ensure no errors or warnings (except for expected missing field warnings) in console
+- [ ] Await next feature request or bug fix.
 
-## 🚀 E2E Testing / Validation Steps
+## 🚀 Next Steps for Next Agent
 
-1. **Browser Test**:
-   - Open the calendar page
-   - Inspect Network tab for `get_classes` (or similar) request
-   - Check response JSON for `tuition.billingCycle`
-
-2. **Console Test**:
-   - You may inject a temporary log in `JackrabbitData.js` or use the Vue DevTools to inspect component data.
+1. **Review Rules**: Check `ai-docs/jackrabbit-calendar/rules.md`.
+2. **Review Handoff**: Check this file for context.
+3. **Execute Task**: Follow instructions in `ai-docs/jackrabbit-calendar/dwi/prompts/AGENT_PROMPT.md` (once updated).
 
 ## 📚 Reference Documentation
 
