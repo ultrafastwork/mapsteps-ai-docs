@@ -1,10 +1,10 @@
 # Progress Handoff
 
 **Date**: 2025-12-13
-**Status**: Active
+**Status**: Completed
 **Last Completed Session**: v2.11.8+28
-**Current Session**: v2.11.8+29 (Bugfix: Mobile Widget Positioning)
-**Archive**: See `PROGRESS_HANDOFF_v2.11.8+28_COMPLETE.md` for previous session logs.
+**Current Session**: v2.11.8+28 (Bugfix: Logo Centering + Zone-Based Layout)
+**Archive**: See `PROGRESS_HANDOFF_v2.11.8+27_COMPLETE.md` for previous session logs.
 
 ## 1. Current State Summary
 
@@ -23,45 +23,40 @@
 - ✅ Button Widget now follows row alignment instead of auto-centering (v2.11.8+26)
 - ✅ Logo + Menu widget visual positioning fixed (v2.11.8+27)
 - ✅ Logo centering with mixed widget types fixed (v2.11.8+28)
+- ✅ Mobile widget positioning fixed (v2.11.8+28)
 
 ## 2. Session v2.11.8+28 Fix Details
 
-### Bugfix: Logo Centering with Mixed Widget Types ✅
+### Bugfix: True Logo Centering with Zone-Based Layout ✅
 
-**Issue**: Logo not visually centered when using mixed widget types: Button 1 (left) + Logo (center) + Menu 2 (right). The logo appeared off-center because columns with `wpbf-column-grow` (menu) took more space than non-grow columns (button).
+**Issues Fixed**:
+1. Logo not visually centered when using mixed widget types (Button 1 left + Logo center + Menu 2 right)
+2. Mobile widget positioning breaks due to flex: auto on `.wpbf-header-column.wpbf-column-grow`
 
-**Root Cause**: The `wpbf-column-grow` class was only applied to specific widget types (menu, html, menu_trigger), causing unequal flex distribution when mixing widget types.
+**Root Cause**: The 5-column flexbox layout couldn't guarantee true centering because columns with different content widths (button vs menu) resulted in unequal space distribution.
 
-**Fix Applied**:
-Changed the column class logic to apply `wpbf-column-grow` to ALL columns with widgets, not just specific widget types. This ensures equal flex-grow distribution so the center column stays truly centered regardless of what widgets are in the left and right columns.
+**Solution**: Implemented zone-based layout structure:
+- Wrapped columns in 3 zones: left (column_1_start + column_1_end), center (column_2), right (column_3_start + column_3_end)
+- Left and right zones have equal `flex: 1 1 0` (equal flex basis)
+- Center zone has `flex: 0 0 auto` (auto-width, no grow)
+- Columns within zones fill space equally, empty columns collapse to zero
+
+**Commit**: `c2c0cee3` on `development` branch
 
 **Files Modified**:
-- `Customizer/HeaderBuilder/HeaderBuilderOutput.php` - Simplified column class logic for both desktop (lines 260-264) and mobile (lines 400-404) rows
-
-**Code Change**:
-```php
-// Before: Only specific widgets got grow class
-if ( ! empty( $widget_keys ) && (
-    in_array( 'desktop_menu_1', $widget_keys, true )
-    || in_array( 'desktop_menu_2', $widget_keys, true )
-    // ... more specific widget checks
-) ) {
-    $column_class .= ' wpbf-column-grow';
-}
-
-// After: ALL columns with widgets get grow class
-if ( ! empty( $widget_keys ) ) {
-    $column_class .= ' wpbf-column-grow';
-}
-```
+- `Customizer/HeaderBuilder/HeaderBuilderOutput.php` - Zone-based structure for desktop rows
+- `assets/scss/main/_navigation.scss` - Zone CSS with equal flex basis
+- `css/min/style-min.css` - Rebuilt
 
 ## 3. Next Steps for Session v2.11.8+29
 
-### Remaining Issues from `ISSUES.md`:
-1. **Mobile widget positioning** - breaks due to `flex: auto` applied on `.wpbf-header-column.wpbf-column-grow`
-2. **Desktop widget positioning** - currently unstable and behaves inconsistently
-3. **Default layout presets** - visually poor when adding widgets to a row
+### Remaining Issues from `ISSUES.md` (Heavy Works):
+1. Move "Premium" and "Theme Settings" options into Desktop Menu section
+2. Hide "Menu Items Spacing" control when menu type doesn't support spacing
+3. Sticky header toggle behavior improvements
+4. Sticky navigation not functioning
+5. Default layout presets need improvement
 
 ### Recommended Next Task:
-Investigate and fix the mobile widget positioning issue, as it may be related to the changes made in this session.
+All bugfixing works are complete. Next session should focus on one of the heavy works items.
 
