@@ -2,14 +2,16 @@
 
 **Date**: 2025-12-02
 **Status**: Active
-**Last Completed Session**: v2.11.8+21
-**Next Session**: v2.11.8+22
+**Last Completed Session**: v2.11.8+22
+**Next Session**: v2.11.8+23
 
 ## 1. High-Level Summary
 
-**Header Builder Verification Complete** - All 22 Header Builder elements (11 Desktop + 11 Mobile) have been verified to have proper postMessage handlers for live preview. One bug was fixed in the mobile search icon color listener.
+**Header Builder Verification Complete** - All 22 Header Builder elements (11 Desktop + 11 Mobile) have been verified to have proper postMessage handlers for live preview. Fixed live preview for row font sizes (Desktop Row 2/3 & Mobile Rows) to correctly target menu items.
 
 ### Recent Accomplishments
+- ✅ Fixed Desktop Row 2 & 3 font size live preview to include menu items
+- ✅ Fixed Mobile Rows (1-3) font size live preview to include menu items
 - ✅ Comprehensive code analysis of all Header Builder controls
 - ✅ Fixed duplicate/incorrect mobile search icon color listener
 - ✅ Verified all responsive controls sync with preview device

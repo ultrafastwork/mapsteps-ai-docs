@@ -15,12 +15,9 @@ Please strictly follow the rules defined in:
 **Objective**:
 Awaiting next task assignment.
 
-**Previous Session Summary (v2.11.8+21)**:
-- ✅ Fixed Header Builder column width to be flexible/auto-width
-- ✅ Fixed menu items to display horizontally in one line
-- ✅ Fixed logo to have flexible sizing
-- ✅ All changes in `assets/scss/main/_navigation.scss`
-- ✅ Build verified with `pnpm run build-all`
+**Previous Session Summary (v2.11.8+22)**:
+- ✅ Fixed Desktop Row 2 & 3 font size live preview to include menu items
+- ✅ Fixed Mobile Rows (1-3) font size live preview to include menu items
 
 **Current State**:
 The Header Builder is now fully functional with:
@@ -29,6 +26,7 @@ The Header Builder is now fully functional with:
 - Menu items display horizontally (flex-wrap: nowrap)
 - Logo with flexible sizing
 - Responsive behavior preserved
+- Live preview for row font sizes works for menu items
 
 **Instructions**:
 
