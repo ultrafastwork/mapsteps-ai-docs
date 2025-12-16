@@ -4,7 +4,7 @@
 **Status**: Completed
 **Last Completed Session**: v2.11.8+29
 **Current Session**: v2.11.8+29 (Customizer Controls Bundle - Asset Optimization)
-**Archive**: See `PROGRESS_HANDOFF_v2.11.8+28_COMPLETE.md` for previous session logs.
+**Archive**: See `PROGRESS_HANDOFF_v2.11.8+29_COMPLETE.md` for previous session logs.
 
 ## 1. Current State Summary
 
@@ -43,6 +43,13 @@
 - `Customizer/Controls/Bundle/ControlsBundleLoader.php` - PHP loader class
 - `build-scripts/build-controls-bundle.mjs` - Build script
 
+**Files Modified**:
+- `Customizer/Controls/Base/BaseControl.php` - Uses bundle loader
+- `Customizer/Controls/Typography/TypographyField.php` - Uses bundle loader
+- `Customizer/Customizer.php` - Uses bundle for preview and localized scripts
+- `package.json` - Added `build-controls-bundle` script
+- 24 control classes - Simplified `enqueue()` methods
+
 **Build Output**:
 - `controls-bundle-min.css` - 39.78 KB (gzip: 6.06 KB)
 - `controls-bundle-min.js` - 111.65 KB (gzip: 25.81 KB)
@@ -52,7 +59,29 @@
 
 **Build Command**: `pnpm build-controls-bundle`
 
-## 3. Next Steps for Session v2.11.8+30
+**Commits**:
+- `2de2cc0c` - feat: Bundle customizer control assets for performance
+- `1a7bd179` - chore: Remove individual control dist files (now bundled)
+- `c92aee86` - fix: Update TypographyField to use controls bundle
+- `da3636b0` - fix: Update wp_localize_script handles to use controls bundle
+
+**Special Cases (Kept Separate)**:
+- `Repeater/dist/wp-color-picker-alpha.min.js` - Used separately by RepeaterControl
+- Select2 library - Enqueued separately by EnhancedSelectControl
+- jQuery UI (draggable, droppable, sortable) - WordPress core dependencies
+
+## 3. Known Issues to Investigate
+
+### Visual Issues Reported (Not from this session):
+1. **Grey line above "Header Builder" section title** - Thin grey border appeared
+2. **Toggle position slightly off when toggled off** - Alignment issue
+
+These issues are **not caused by the bundling changes** - the bundle imports the original source SCSS files unchanged. May be pre-existing or from earlier commits.
+
+## 4. Next Steps for Session v2.11.8+30
+
+### Immediate Task:
+Investigate the grey line and toggle position CSS issues reported above.
 
 ### Remaining Issues from `ISSUES.md` (Heavy Works):
 1. Move "Premium" and "Theme Settings" options into Desktop Menu section
@@ -62,5 +91,5 @@
 5. Default layout presets need improvement
 
 ### Recommended Next Task:
-Continue with one of the heavy works items above.
+Fix the visual CSS issues first, then continue with heavy works.
 

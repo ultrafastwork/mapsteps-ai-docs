@@ -6,9 +6,17 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Work on one of the remaining heavy work items.
+**Objective**: Fix reported visual CSS issues, then continue with heavy work items.
 
-**Status**: All bugfixing works from `ISSUES.md` are complete as of v2.11.8+28. Customizer asset optimization completed in v2.11.8+29.
+**Status**: Customizer asset optimization completed in v2.11.8+29. Visual CSS issues reported.
+
+**Immediate Task - Visual CSS Issues**:
+1. **Grey line above "Header Builder" section title** - Thin grey border appeared
+2. **Toggle position slightly off when toggled off** - Alignment issue
+
+These issues are NOT from the bundling changes (bundle imports original SCSS unchanged). May be pre-existing or from earlier commits. Investigate CSS in:
+- `Customizer/Controls/Headline/src/headline-toggle-control.scss`
+- `Customizer/Controls/Checkbox/src/` (toggle styles)
 
 **Remaining Heavy Works (from `ai-docs/page-builder-framework/ISSUES.md`)**:
 1. Move "Premium" and "Theme Settings" options into Desktop Menu section
@@ -22,8 +30,8 @@
 
 1. **Read Context**: Read `PROGRESS_HANDOFF.md` for current state and recent changes.
 
-2. **Select Task**: Choose one of the heavy work items above to work on.
+2. **Fix CSS Issues**: Investigate and fix the grey line and toggle position issues first.
 
-3. **Investigate & Implement**: Research the codebase and implement the chosen feature/fix.
+3. **Select Task**: Then choose one of the heavy work items above to work on.
 
 4. **Document**: Update `PROGRESS_HANDOFF.md` and `ISSUES.md` accordingly.
