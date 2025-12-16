@@ -8,7 +8,7 @@
 
 **Objective**: Work on one of the remaining heavy work items.
 
-**Status**: All bugfixing works from `ISSUES.md` are complete as of v2.11.8+28. Customizer asset optimization completed in v2.11.8+29.
+**Status**: All bugfixing works from `ISSUES.md` are complete as of v2.11.8+28.
 
 **Remaining Heavy Works (from `ai-docs/page-builder-framework/ISSUES.md`)**:
 1. Move "Premium" and "Theme Settings" options into Desktop Menu section
