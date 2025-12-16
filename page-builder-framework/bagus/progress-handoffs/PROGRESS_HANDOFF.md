@@ -80,16 +80,6 @@ These issues are **not caused by the bundling changes** - the bundle imports the
 
 ## 4. Next Steps for Session v2.11.8+30
 
-### Immediate Task:
-Investigate the grey line and toggle position CSS issues reported above.
-
-### Remaining Issues from `ISSUES.md` (Heavy Works):
-1. Move "Premium" and "Theme Settings" options into Desktop Menu section
-2. Hide "Menu Items Spacing" control when menu type doesn't support spacing
-3. Sticky header toggle behavior improvements
-4. Sticky navigation not functioning
-5. Default layout presets need improvement
-
-### Recommended Next Task:
-Fix the visual CSS issues first, then continue with heavy works.
+### Task:
+Investigate and fix the grey line and toggle position CSS issues reported above.
 
