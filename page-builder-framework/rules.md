@@ -57,4 +57,6 @@ The `ai-docs/page-builder-framework/{developer}/` directory contains documentati
 - **Building**:
   - To build and bundle customizer controls, run `pnpm build-controls-bundle` command.
   - To build specific asset, run `pnpm build-asset` with input path and optional output path.
+  - To build customizer.ts, run `pnpm build-customizer` command.
+  - To build postmessage.ts, run `pnpm build-postmessage` command.
   - DO NOT use the `build-all`, `build-all-controls`, and `build-all-assets` It will cause a lot of un-necessary git changes.
