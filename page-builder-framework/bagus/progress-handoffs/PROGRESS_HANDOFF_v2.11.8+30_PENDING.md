@@ -1,0 +1,85 @@
+# Progress Handoff
+
+**Date**: 2025-12-17
+**Status**: Completed
+**Last Completed Session**: v2.11.8+29
+**Current Session**: v2.11.8+29 (Customizer Controls Bundle - Asset Optimization)
+**Archive**: See `PROGRESS_HANDOFF_v2.11.8+29_COMPLETE.md` for previous session logs.
+
+## 1. Current State Summary
+
+**Header Builder Status**: Fully functional with all 22 elements (11 Desktop + 11 Mobile) verified.
+
+**Customizer Asset Loading**: Optimized via bundling - reduced ~41 HTTP requests to 2.
+
+**Key Fixes Completed**:
+- ✅ Responsive Input Slider syncs with preview device
+- ✅ Mobile menu trigger padding conflict resolved
+- ✅ Mobile search icon color duplicate listener removed
+- ✅ Header Builder column widths now flexible/auto-width
+- ✅ Menu items display horizontally
+- ✅ All postMessage handlers verified
+- ✅ Font Size live preview for Main Row (desktop_row_2) now working
+- ✅ Button Size default value now displays correctly (v2.11.8+24)
+- ✅ HTML 2 Widget WYSIWYG editor toolbar now matches HTML 1 (v2.11.8+25)
+- ✅ Button Widget now follows row alignment instead of auto-centering (v2.11.8+26)
+- ✅ Logo + Menu widget visual positioning fixed (v2.11.8+27)
+- ✅ Logo centering with mixed widget types fixed (v2.11.8+28)
+- ✅ Mobile widget positioning fixed (v2.11.8+28)
+- ✅ Customizer controls bundled for performance (v2.11.8+29)
+
+## 2. Session v2.11.8+29 Details
+
+### Feature: Customizer Controls Bundle - Asset Optimization ✅
+
+**Problem**: Each customizer control enqueued its CSS/JS assets individually, resulting in ~41 HTTP requests.
+
+**Solution**: Bundled all control assets into single CSS and JS files.
+
+**Files Created**:
+- `Customizer/Controls/Bundle/src/controls-bundle.ts` - Main JS entry
+- `Customizer/Controls/Bundle/src/controls-bundle.scss` - Main CSS entry
+- `Customizer/Controls/Bundle/src/controls-preview-bundle.ts` - Preview scripts
+- `Customizer/Controls/Bundle/ControlsBundleLoader.php` - PHP loader class
+- `build-scripts/build-controls-bundle.mjs` - Build script
+
+**Files Modified**:
+- `Customizer/Controls/Base/BaseControl.php` - Uses bundle loader
+- `Customizer/Controls/Typography/TypographyField.php` - Uses bundle loader
+- `Customizer/Customizer.php` - Uses bundle for preview and localized scripts
+- `package.json` - Added `build-controls-bundle` script
+- 24 control classes - Simplified `enqueue()` methods
+
+**Build Output**:
+- `controls-bundle-min.css` - 39.78 KB (gzip: 6.06 KB)
+- `controls-bundle-min.js` - 111.65 KB (gzip: 25.81 KB)
+- `controls-preview-bundle-min.js` - 1.39 KB (gzip: 0.66 KB)
+
+**HTTP Requests**: ~41 → 2
+
+**Build Command**: `pnpm build-controls-bundle`
+
+**Commits**:
+- `2de2cc0c` - feat: Bundle customizer control assets for performance
+- `1a7bd179` - chore: Remove individual control dist files (now bundled)
+- `c92aee86` - fix: Update TypographyField to use controls bundle
+- `da3636b0` - fix: Update wp_localize_script handles to use controls bundle
+
+**Special Cases (Kept Separate)**:
+- `Repeater/dist/wp-color-picker-alpha.min.js` - Used separately by RepeaterControl
+- Select2 library - Enqueued separately by EnhancedSelectControl
+- jQuery UI (draggable, droppable, sortable) - WordPress core dependencies
+
+## 3. Known Issues to Investigate
+
+### Visual Issues Reported (Not from this session):
+1. **Grey line above "Header Builder" section title** - Thin grey border appeared
+2. **Toggle position slightly off when toggled off** - Alignment issue
+
+These issues are **not caused by the bundling changes** - the bundle imports the original source SCSS files unchanged. May be pre-existing or from earlier commits.
+
+## 4. Next Steps for Session v2.11.8+30
+
+### Task:
+Investigate and fix the grey line and toggle position CSS issues reported above.
+
