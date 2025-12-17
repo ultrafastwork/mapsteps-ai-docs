@@ -6,27 +6,32 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Test and commit the Sub Menu fix, then address deferred CSS issues.
+**Objective**: Test Desktop Off-Canvas premium restrictions and address deferred CSS issues.
 
-**Status**: Sub Menu fix has been implemented but needs testing and commit.
+**Status**: Desktop Off-Canvas premium feature restrictions have been implemented and committed.
 
-## Task 1: Test and Commit Sub Menu Fix
+## Task 1: Test Desktop Off-Canvas Premium Restrictions
 
-### What Was Fixed
+### What Was Implemented
 
-CSS in `Customizer/Controls/Builder/src/builder-control.scss` was updated to exclude Sub Menu sections from being hidden when Header Builder is enabled.
+Desktop Off-Canvas is now properly restricted as a premium feature:
+- Premium notice banner shows in the section when Premium Add-On is not active
+- Drag-and-drop is blocked on the Desktop Off-Canvas panel with a lock overlay
+- "Reveal as" field moved to Premium Add-On
 
-### What to Do
+### What to Test
 
-1. **Test in Customizer**:
-   - Go to WordPress Customizer → Header panel
-   - Enable Header Builder toggle
-   - Verify **Sub Menu** and **Mobile Sub Menu** sections are visible
-   - Test that controls work correctly
+1. **Without Premium Add-On**:
+   - Go to WordPress Customizer → Header panel → Enable Header Builder
+   - Click Desktop Off-Canvas settings icon
+   - Verify premium notice banner appears in the section
+   - Verify the Desktop Off-Canvas panel shows a lock overlay
+   - Verify drag-and-drop is blocked on the Desktop Off-Canvas panel
 
-2. **Commit Changes**:
-   - Files: `Customizer/Controls/Builder/src/builder-control.scss`, `Customizer/Controls/Bundle/dist/controls-bundle-min.css`
-   - Message: "Fix: Show Sub Menu sections when Header Builder is enabled"
+2. **With Premium Add-On**:
+   - Activate Premium Add-On plugin
+   - Verify "Reveal as" field appears in Desktop Off-Canvas section
+   - Verify drag-and-drop works normally on the Desktop Off-Canvas panel
 
 ## Task 2: Visual CSS Issues (Deferred)
 
@@ -38,6 +43,5 @@ See `PROGRESS_HANDOFF_v2.11.8+30_PENDING.md` for details:
 
 1. **Read Context**: Read `PROGRESS_HANDOFF.md` for full details.
 2. **Read Rules**: Check `ai-docs/page-builder-framework/rules.md` for project-specific guidelines.
-3. **Test**: Verify the Sub Menu fix works correctly.
-4. **Commit**: Commit the changes.
-5. **Document**: Update `PROGRESS_HANDOFF.md` with results.
+3. **Test**: Verify the Desktop Off-Canvas premium restrictions work correctly.
+4. **Document**: Update `PROGRESS_HANDOFF.md` with results.

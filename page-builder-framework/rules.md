@@ -54,4 +54,7 @@ The `ai-docs/page-builder-framework/{developer}/` directory contains documentati
 
 - **Code Style**: Follow the existing coding standards of the project.
 - **File Structure**: Maintain the existing directory structure unless explicitly instructed to refactor.
-- **Building**: DO NOT use the `build-all`, `build-all-controls`, and `build-all-assets` It will cause a lot of un-necessary git changes.
+- **Building**:
+  - To build and bundle customizer controls, run `pnpm build-controls-bundle` command.
+  - To build specific asset, run `pnpm build-asset` with input path and optional output path.
+  - DO NOT use the `build-all`, `build-all-controls`, and `build-all-assets` It will cause a lot of un-necessary git changes.
