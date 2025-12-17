@@ -46,11 +46,7 @@ Completed implementation of restrictions for the Desktop Off-Canvas feature when
 
 ## 3. Pending Tasks
 
-### Task 1: Visual CSS Issues (Deferred)
-
-See `PROGRESS_HANDOFF_v2.11.8+30_PENDING.md` for details:
-- Grey line above "Header Builder" section title
-- Toggle position slightly off when toggled off
+No pending tasks.
 
 ## 4. Next Steps
 

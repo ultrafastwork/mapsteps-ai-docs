@@ -19,14 +19,6 @@ Desktop Off-Canvas is now properly restricted as a premium feature:
 - Drag-and-drop is blocked on the Desktop Off-Canvas panel with a lock overlay
 - "Reveal as" field moved to Premium Add-On
 
-## Deferred Tasks
-
-### Visual CSS Issues
-
-See `PROGRESS_HANDOFF_v2.11.8+30_PENDING.md` for details:
-- Grey line above "Header Builder" section title
-- Toggle position slightly off when toggled off
-
 ## Instructions
 
 1. **Read Context**: Read `PROGRESS_HANDOFF.md` for full details.
