@@ -1,7 +1,7 @@
-# Progress Handoff: Postmessage.ts Splitting
+# Progress Handoff: Fix menu_overlay PostMessage in Header Builder
 
-**Current Session:** v2.11.8+2
-**Date:** December 18, 2024
+**Current Session:** v2.11.8+3
+**Date:** December 19, 2024
 **Status:** Active
 
 ---
@@ -14,72 +14,55 @@ See `ai-docs/wpbf-premium/rules.md` for project-specific guidelines and workflow
 
 ## Summary
 
-The postmessage.ts splitting has been **verified and completed**. All settings from the original file are present in the new modular structure.
+The `menu_overlay` and `menu_overlay_color` settings do not have working instant preview (postMessage) when Header Builder is enabled. They work correctly in non-header builder (legacy) mode.
 
 ---
 
-## Recent Accomplishments (v2.11.8+1)
+## Recent Accomplishments (v2.11.8+2)
 
-### Verification Completed
-- ✅ Compared all 75+ `listenToCustomizerValueChange` calls from backup against new part files
-- ✅ Verified all 11 utility functions in `utils.ts`
-- ✅ Build succeeded with `pnpm run build-postmessage` (21.17 kB output)
-- ✅ Deleted backup file `postmessage-backup.ts`
+### Desktop Off-Canvas Menu Font Colors Feature
+- ✅ Added `wpbf_header_builder_desktop_offcanvas_menu_font_colors` multicolor control
+- ✅ Added CSS output with proper selectors
+- ✅ Added postMessage handler for live preview
+- ✅ Build succeeded
 
-### Settings Coverage Verified
-| Part File | Settings Count | Status |
-|-----------|----------------|--------|
-| `theme-colors.ts` | 6 | ✅ |
-| `social.ts` | 3 | ✅ |
-| `text.ts` | 3 | ✅ |
-| `menu.ts` | 1 | ✅ |
-| `sub-menu.ts` | 1 | ✅ |
-| `headings.ts` | 23 (H1-H6) | ✅ |
-| `navigation.ts` | 12 | ✅ |
-| `transparent-header.ts` | 10 | ✅ |
-| `sticky-navigation.ts` | 15 | ✅ |
-| `mobile-navigation.ts` | 2 | ✅ |
-| `call-to-action.ts` | 14 | ✅ |
-| `footer.ts` | 6 | ✅ |
-| `woocommerce.ts` | 7 | ✅ |
-| `mobile-offcanvas-handler.ts` | 1 handler | ✅ |
-
----
-
-## Current File Structure
-
-```
-wp-content/plugins/wpbf-premium/inc/customizer/js/
-├── postmessage.ts (32 lines - main entry)
-└── postmessage-parts/
-    ├── utils.ts (197 lines)
-    ├── theme-colors.ts (77 lines)
-    ├── social.ts (41 lines)
-    ├── text.ts (57 lines)
-    ├── menu.ts (16 lines)
-    ├── sub-menu.ts (16 lines)
-    ├── headings.ts (379 lines)
-    ├── navigation.ts (320 lines)
-    ├── transparent-header.ts (142 lines)
-    ├── sticky-navigation.ts (339 lines)
-    ├── mobile-navigation.ts (59 lines)
-    ├── call-to-action.ts (188 lines)
-    ├── footer.ts (85 lines)
-    ├── woocommerce.ts (97 lines)
-    └── mobile-offcanvas-handler.ts (51 lines)
-```
+### Files Modified (v2.11.8+2)
+| File | Change |
+|------|--------|
+| `wp-content/plugins/wpbf-premium/inc/customizer/controls/settings-header-builder.php` | Added multicolor control (lines 135-150) |
+| `wp-content/plugins/wpbf-premium/inc/customizer/styles.php` | Added CSS output (lines 845-876) |
+| `wp-content/plugins/wpbf-premium/inc/customizer/js/postmessage-parts/navigation.ts` | Added postMessage handler (lines 323-350) |
 
 ---
 
 ## Pending Tasks
 
-1. **Manual Testing** - Test customizer live preview in WordPress to confirm all settings work correctly
-2. **Code Review** - Optional review of the modular structure for any improvements
+1. **Debug `menu_overlay` postMessage** - Investigate why instant preview doesn't work in Header Builder mode
+2. **Debug `menu_overlay_color` postMessage** - Same issue as above
+
+---
+
+## Known Issue Details
+
+**Problem:** The instant preview for `menu_overlay` and `menu_overlay_color` works in non-header builder mode but NOT in Header Builder mode.
+
+**Root Cause Analysis Needed:**
+- In `wp-content/plugins/wpbf-premium/inc/customizer/js/postmessage-parts/navigation.ts` (lines 285-321), the handlers for these settings explicitly skip execution when header builder is enabled:
+  ```typescript
+  if (headerBuilderEnabled(customizer)) return;
+  ```
+- There should be corresponding handlers in the theme's postmessage files for Header Builder mode, but they may be missing or not working.
+
+**Files to Investigate:**
+- `wp-content/plugins/wpbf-premium/inc/customizer/js/postmessage-parts/navigation.ts` - Legacy handlers
+- `wp-content/themes/page-builder-framework/inc/customizer/js/postmessage-parts/` - Theme postmessage files
+- Check if Header Builder mode has its own handlers for these settings
+
+**Reference:** Non-header builder version works - compare the implementation.
 
 ---
 
 ## Notes
 
 - Build command: `pnpm run build-postmessage`
-- Output: `js/postmessage.js` (21.17 kB)
-- There is an unrelated TypeScript error in `assets/ts/wpbf-utils.ts` regarding `ky` package version mismatch between plugin and theme - this is not related to the postmessage splitting
+- Output: `js/postmessage.js`
