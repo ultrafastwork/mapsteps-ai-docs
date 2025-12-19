@@ -8,16 +8,16 @@
 
 **Objective**: Awaiting user instructions for next tasks.
 
-**Status**: Previous session (v2.11.8+34) fixed mobile menu hamburger styling issues when header builder is disabled.
+**Status**: Previous session (v2.11.8+33) completed Desktop Off-Canvas premium feature restrictions.
 
 ## Completed Work
 
-### Bug Fix: Mobile Menu Hamburger Styling (v2.11.8+34)
+### Desktop Off-Canvas Premium Feature Restrictions (v2.11.8+33)
 
-Fixed issues where `mobile_menu_hamburger_bg_color` and `mobile_menu_hamburger_border_radius` controls were not working when header builder feature is disabled:
-- Fixed postmessage handlers to check `headerBuilderEnabled()` first
-- Prevented header builder styles from overriding legacy styles in PHP
-- Fixed SVG rendering issue in customize preview
+Desktop Off-Canvas is now properly restricted as a premium feature:
+- Premium notice banner shows in the section when Premium Add-On is not active
+- Drag-and-drop is blocked on the Desktop Off-Canvas panel with a lock overlay
+- "Reveal as" field moved to Premium Add-On
 
 ## Instructions
 
