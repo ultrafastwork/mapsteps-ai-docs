@@ -2,7 +2,7 @@
 
 ## Objective
 
-Test the mobile menu controls fix and perform optional cleanup tasks.
+Test the `mobile_menu_overlay` fix and perform optional cleanup tasks.
 
 ---
 
@@ -22,23 +22,19 @@ ai-docs/wpbf-premium/bagus/progress-handoffs/PROGRESS_HANDOFF.md
 
 ## Context
 
-Previous sessions fixed mobile menu controls not rendering in legacy Mobile Navigation section:
-- v2.11.8+9: Added `->tab('general')` to `mobile_menu_overlay_separator` in wpbf-premium
-- v2.11.8+10: Added header builder check to theme's conditional visibility functions
+The previous session (v2.11.8+9) fixed the `mobile_menu_overlay` control not rendering issue by adding `->tab('general')` to the `mobile_menu_overlay_separator` control.
 
-**Files modified:**
-- `wp-content/plugins/wpbf-premium/inc/customizer/controls/settings-header.php`
-- `wp-content/themes/page-builder-framework/inc/customizer/js/customizer-parts/setup-conditional-controls.ts`
+**File modified:** `wp-content/plugins/wpbf-premium/inc/customizer/controls/settings-header.php`
 
 ---
 
 ## Instructions
 
 ### Testing
-1. Open WordPress Customizer (with header builder **disabled**)
+1. Open WordPress Customizer
 2. Navigate to: Header → Mobile Navigation
-3. In General tab, select "Off Canvas" for the "Menu" field
-4. Verify "Off Canvas Settings" headline and "Menu Width" control appear in General tab
+3. Select "Off Canvas" menu type in General tab
+4. Verify the "Off Canvas Settings" headline and "Menu Width" control appear in General tab
 5. Switch to Design tab and verify "Overlay" toggle and "Background Color" controls appear
 
 ### Optional Cleanup
@@ -51,7 +47,6 @@ Previous sessions fixed mobile menu controls not rendering in legacy Mobile Navi
 
 - **Control dependencies require `wpbf-controls-bundle` script handle** (not `wpbf-base-control`)
 - Controls in tabbed sections MUST have a `->tab()` assignment to render properly
-- Theme JS conditional visibility functions must check header builder state before applying
 
 ---
 

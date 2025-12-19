@@ -1,8 +1,8 @@
 # Progress Handoff: WPBF Premium Development
 
-**Current Session:** v2.11.8+11
+**Current Session:** v2.11.8+10
 **Date:** December 19, 2024
-**Status:** Active
+**Status:** Completed
 
 ---
 
@@ -14,15 +14,24 @@ See `ai-docs/wpbf-premium/rules.md` for project-specific guidelines and workflow
 
 ## Summary
 
-Previous session fixed mobile menu controls not rendering in legacy Mobile Navigation section.
+Fixed mobile menu controls (`mobile_menu_width`, `mobile_menu_overlay`, `mobile_menu_overlay_color`) not rendering in legacy Mobile Navigation section when header builder is disabled.
 
 ---
 
 ## Recent Accomplishments (v2.11.8+10)
 
 ### Bug Fix: Mobile Menu Controls Not Rendering (Legacy Mode)
-- ✅ Added header builder check to theme's conditional visibility functions
-- ✅ Rebuilt theme's customizer JS bundle
+
+**Root Cause:** Theme's `setup-conditional-controls.ts` was unconditionally hiding controls based on `wpbf_header_builder_mobile_offcanvas_reveal_as` setting, even when header builder is disabled.
+
+**Fix:** Added header builder check to three functions in the theme:
+- `setupMobileMenuWidthVisibility()`
+- `setupMobileMenuOverlayVisibility()`
+- `setupMobileMenuOverlayColorVisibility()`
+
+**Files Modified:**
+1. `wp-content/themes/page-builder-framework/inc/customizer/js/customizer-parts/setup-conditional-controls.ts`
+2. `wp-content/themes/page-builder-framework/js/min/customizer-min.js` (rebuilt)
 
 ### Previous Fix (v2.11.8+9)
 - ✅ Added `->tab('general')` to `mobile_menu_overlay_separator` control in wpbf-premium
