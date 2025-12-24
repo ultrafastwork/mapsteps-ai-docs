@@ -2,8 +2,8 @@
 
 **Date**: 2025-12-24
 **Status**: Active
-**Last Completed Session**: v2.11.8+24
-**Next Session**: v2.11.8+26
+**Last Completed Session**: v2.11.8+26
+**Next Session**: v2.11.8+27
 
 ## 1. High-Level Summary
 
@@ -449,6 +449,19 @@ Changed the flexbox approach to auto-width based on content:
 - [x] Works across all 3 rows (top, main, bottom)
 - [x] Responsive behavior preserved
 - [x] Build passes with `pnpm run build-all`
+
+## 17. This Session Accomplishments (Session v2.11.8+26)
+
+- ✅ Fixed centered desktop menu class mismatch:
+  - Header Builder now emits `wpbf-menu-centered` (was `wpbf-menu-center`) in `Customizer/HeaderBuilder/HeaderBuilderOutput.php` when placement is `center`, aligning with existing CSS.
+- ✅ Reverted temporary Menu 2 specificity additions:
+  - `inc/customizer/styles/header-builder-menu-styles.php` restored to the original selectors for Menu 2 padding/font-size.
+- ✅ Configurations reverted:
+  - Removed temporary `wpbf_css_output` inline override and Menu 2 padding fallback in `header-styles.php` (files recreated to original content).
+- ✅ Build:
+  - `pnpm run build-all` completed successfully.
+- ✅ Side effects:
+  - None expected; only class-name alignment was changed. If any custom CSS/JS targeted `.wpbf-menu-center`, update it to `.wpbf-menu-centered`.
 
 ## 15. This Session Accomplishments (Session v2.11.8+24)
 
