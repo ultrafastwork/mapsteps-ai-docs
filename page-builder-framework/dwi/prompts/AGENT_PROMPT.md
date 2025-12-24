@@ -13,7 +13,7 @@ Please strictly follow the rules defined in:
 1. `.antigravityrules` (Root-level operating principles)
 
 **Objective**:
-Ready for next task assignment.
+Investigate and fix Customizer live preview and frontend layout issues.
 
 **Previous Session Summary (v2.11.8+24)**:
 - ✅ Fixed Header Builder Menu font size live preview for Menu 1 and Menu 2
@@ -27,12 +27,29 @@ Ready for next task assignment.
 - Build system stable and all changes compiled successfully
 - E2E test suite available for validation
 
+**Task Details**:
+
+**Issue 1 - Desktop Menu Center Position Bug**:
+- Desktop menu center position works in Customizer but breaks on frontend
+- Need to investigate CSS generation and frontend/preview differences
+
+**Issue 2 - Mobile Main Row Design Controls**:
+- Design tab changes don't show live preview (only partial refresh)
+- Need postMessage handlers for real-time updates
+
+**Issue 3 - Mobile Bottom Row Design Controls**:
+- Design tab changes don't show live preview (only partial refresh)  
+- Need postMessage handlers for real-time updates
+
 **Instructions**:
 
-1. **Read Context**: Read `ai-docs/page-builder-framework/dwi/progress-handoffs/PROGRESS_HANDOFF.md` to understand the current state.
+1. **Read Context**: Read `ai-docs/page-builder-framework/dwi/progress-handoffs/PROGRESS_HANDOFF.md` for complete task details.
 
-2. **Await Task Assignment**: Wait for the user to provide the next task.
+2. **Investigation Priority**:
+   - Start with Desktop menu center position CSS analysis
+   - Then focus on Mobile row design control postMessage handlers
+   - Verify all fixes with build and manual testing
 
 3. **Document Results**:
-   - Update `PROGRESS_HANDOFF.md` with changes made
-   - Archive completed session prompts when task is complete
+   - Update `PROGRESS_HANDOFF.md` with findings and fixes
+   - Archive session prompt when complete

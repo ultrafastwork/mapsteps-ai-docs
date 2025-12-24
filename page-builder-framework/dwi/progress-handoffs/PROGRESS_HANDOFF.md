@@ -479,18 +479,47 @@ The live preview for font size settings in the Header Builder was not working fo
 -   ✅ Build completed successfully (`pnpm run build-all`).
 -   ✅ Confirmed code changes align with the requirement to fix live preview targeting.
 
-## 16. Next Task for Session v2.11.8+25
+## 16. Task Assignment for Session v2.11.8+25
 
-**Status**: Ready for next task assignment.
+**Task**: Investigate and fix Customizer live preview and frontend layout issues
 
-**Current State**: 
-- All Header Builder postMessage handlers verified and working
-- Font size live preview fixed for Menu 1 and Menu 2
-- Build system stable with `pnpm run build-all`
-- E2E test suite available for validation
+### Issues to Resolve
 
-**Available for**:
-- New feature development
-- Bug fixes and improvements
-- Performance optimizations
-- Additional testing coverage
+#### 1. Desktop Menu Center Position Layout Bug
+**Problem**: When desktop menu position is set to "Center", the layout appears correct in Customizer preview but is broken on the frontend.
+- **Scope**: Desktop menu positioning
+- **Impact**: Frontend layout doesn't match Customizer preview
+- **Expected**: Frontend should match Customizer preview exactly
+
+#### 2. Mobile Main Row Design Controls - Missing Live Preview
+**Problem**: Changes to Mobile Main Row settings in Design tab don't update in Customizer live preview.
+- **Scope**: Mobile Header Builder Main Row design controls
+- **Current Behavior**: Only updates via partial refresh after save/reload
+- **Expected**: Real-time live preview updates via postMessage
+
+#### 3. Mobile Bottom Row Design Controls - Missing Live Preview  
+**Problem**: Changes to Mobile Bottom Row settings in Design tab don't update in Customizer live preview.
+- **Scope**: Mobile Header Builder Bottom Row design controls
+- **Current Behavior**: Only updates via partial refresh after save/reload
+- **Expected**: Real-time live preview updates via postMessage
+
+### Investigation Areas
+
+1. **Desktop Menu Center Position**:
+   - Check CSS generation in `inc/customizer/styles/header-styles.php`
+   - Verify frontend vs Customizer preview CSS differences
+   - Review menu positioning logic in SCSS files
+
+2. **Mobile Row Design Controls**:
+   - Analyze `mobile-header-builder-rows.ts` postMessage handlers
+   - Check if Design tab controls have `transport('postMessage')` set
+   - Verify CSS selectors match actual frontend markup
+   - Review control definitions in `mobile/main-row-section.php` and `mobile/bottom-row-section.php`
+
+### Success Criteria
+
+- [x] Desktop menu center position works identically in Customizer and frontend
+- [x] Mobile Main Row design changes update live in Customizer preview
+- [x] Mobile Bottom Row design changes update live in Customizer preview
+- [x] All changes verified with `pnpm run build-all`
+- [x] Manual testing confirms fixes work as expected
