@@ -8,16 +8,15 @@
 
 **Objective**: Awaiting user instructions for next tasks.
 
-**Status**: Session v2.11.8+38 ready to start. Previous session refactored `settings-general.php`.
+**Status**: Session v2.11.8+37 ready to start. Previous session refactored `settings-typography.php`.
 
 ## Completed Work
 
-### Task: Split settings-general.php (v2.11.8+37)
+### Task: Split settings-typography.php (v2.11.8+36)
 
-- Split `settings-general.php` (1119 lines) into 6 modular files in `inc/customizer/settings/general/`.
-- Main file reduced to 83 lines (panel/section definitions and includes).
-- Verified exact match with backup: 1 panel, 6 sections, 61 fields.
-- All code content verified line-by-line against original backup.
+- Split `settings-typography.php` (702 lines) into 7 modular partials in `inc/customizer/settings/typography/`.
+- Main file reduced to 31 lines (loader only).
+- Verified exact match with backup: 1 panel, 11 sections, 39 fields, 690 lines of code.
 
 ## Instructions
 
