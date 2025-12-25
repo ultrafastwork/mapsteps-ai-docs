@@ -2,8 +2,8 @@
 
 **Date**: 2025-12-24
 **Status**: Active
-**Last Completed Session**: v2.11.8+26
-**Next Session**: v2.11.8+27
+**Last Completed Session**: v2.11.8+24
+**Next Session**: v2.11.8+25
 
 ## 1. High-Level Summary
 
@@ -450,19 +450,6 @@ Changed the flexbox approach to auto-width based on content:
 - [x] Responsive behavior preserved
 - [x] Build passes with `pnpm run build-all`
 
-## 17. This Session Accomplishments (Session v2.11.8+26)
-
-- ✅ Fixed centered desktop menu class mismatch:
-  - Header Builder now emits `wpbf-menu-centered` (was `wpbf-menu-center`) in `Customizer/HeaderBuilder/HeaderBuilderOutput.php` when placement is `center`, aligning with existing CSS.
-- ✅ Reverted temporary Menu 2 specificity additions:
-  - `inc/customizer/styles/header-builder-menu-styles.php` restored to the original selectors for Menu 2 padding/font-size.
-- ✅ Configurations reverted:
-  - Removed temporary `wpbf_css_output` inline override and Menu 2 padding fallback in `header-styles.php` (files recreated to original content).
-- ✅ Build:
-  - `pnpm run build-all` completed successfully.
-- ✅ Side effects:
-  - None expected; only class-name alignment was changed. If any custom CSS/JS targeted `.wpbf-menu-center`, update it to `.wpbf-menu-centered`.
-
 ## 15. This Session Accomplishments (Session v2.11.8+24)
 
 ### ✅ FIXED: Header Builder Menu Font Size Live Preview
@@ -492,47 +479,6 @@ The live preview for font size settings in the Header Builder was not working fo
 -   ✅ Build completed successfully (`pnpm run build-all`).
 -   ✅ Confirmed code changes align with the requirement to fix live preview targeting.
 
-## 16. Task Assignment for Session v2.11.8+25
+## 16. Next Task for Session v2.11.8+25
 
-**Task**: Investigate and fix Customizer live preview and frontend layout issues
-
-### Issues to Resolve
-
-#### 1. Desktop Menu Center Position Layout Bug
-**Problem**: When desktop menu position is set to "Center", the layout appears correct in Customizer preview but is broken on the frontend.
-- **Scope**: Desktop menu positioning
-- **Impact**: Frontend layout doesn't match Customizer preview
-- **Expected**: Frontend should match Customizer preview exactly
-
-#### 2. Mobile Main Row Design Controls - Missing Live Preview
-**Problem**: Changes to Mobile Main Row settings in Design tab don't update in Customizer live preview.
-- **Scope**: Mobile Header Builder Main Row design controls
-- **Current Behavior**: Only updates via partial refresh after save/reload
-- **Expected**: Real-time live preview updates via postMessage
-
-#### 3. Mobile Bottom Row Design Controls - Missing Live Preview  
-**Problem**: Changes to Mobile Bottom Row settings in Design tab don't update in Customizer live preview.
-- **Scope**: Mobile Header Builder Bottom Row design controls
-- **Current Behavior**: Only updates via partial refresh after save/reload
-- **Expected**: Real-time live preview updates via postMessage
-
-### Investigation Areas
-
-1. **Desktop Menu Center Position**:
-   - Check CSS generation in `inc/customizer/styles/header-styles.php`
-   - Verify frontend vs Customizer preview CSS differences
-   - Review menu positioning logic in SCSS files
-
-2. **Mobile Row Design Controls**:
-   - Analyze `mobile-header-builder-rows.ts` postMessage handlers
-   - Check if Design tab controls have `transport('postMessage')` set
-   - Verify CSS selectors match actual frontend markup
-   - Review control definitions in `mobile/main-row-section.php` and `mobile/bottom-row-section.php`
-
-### Success Criteria
-
-- [x] Desktop menu center position works identically in Customizer and frontend
-- [x] Mobile Main Row design changes update live in Customizer preview
-- [x] Mobile Bottom Row design changes update live in Customizer preview
-- [x] All changes verified with `pnpm run build-all`
-- [x] Manual testing confirms fixes work as expected
+Awaiting user feedback and further instructions. The current objective of fixing the font size live preview has been addressed.

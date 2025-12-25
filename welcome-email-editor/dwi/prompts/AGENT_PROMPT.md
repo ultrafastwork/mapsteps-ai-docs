@@ -8,8 +8,6 @@
 Please strictly follow the rules defined in:
 
 1. `.antigravityrules` (Root-level operating principles)
-2. `.antigravityignore` (Forbidden files and directories that you MUST NOT access)
-3. `ai-docs/welcome-email-editor/rules.md` (Project-specific rules)
 
 ## Objective
 
