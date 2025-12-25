@@ -8,16 +8,14 @@
 
 **Objective**: Awaiting user instructions for next tasks.
 
-**Status**: Previous session (v2.11.8+34) fixed mobile menu hamburger styling issues when header builder is disabled.
+**Status**: Session v2.11.8+36 ready to start. Previous session refactored `settings-header.php`.
 
 ## Completed Work
 
-### Bug Fix: Mobile Menu Hamburger Styling (v2.11.8+34)
+### Task: Split settings-header.php (v2.11.8+35)
 
-Fixed issues where `mobile_menu_hamburger_bg_color` and `mobile_menu_hamburger_border_radius` controls were not working when header builder feature is disabled:
-- Fixed postmessage handlers to check `headerBuilderEnabled()` first
-- Prevented header builder styles from overriding legacy styles in PHP
-- Fixed SVG rendering issue in customize preview
+- Split `settings-header.php` into modular partials in `inc/customizer/settings/header/`.
+- Verified 90 Customizer IDs preserved.
 
 ## Instructions
 
