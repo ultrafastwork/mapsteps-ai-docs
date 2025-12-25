@@ -23,6 +23,7 @@ The `ai-docs/welcome-email-editor/{developer}/` directory contains documentation
 
 - **Read Context**: Always check `ai-docs/welcome-email-editor/{developer}/progress-handoffs/PROGRESS_HANDOFF.md` to understand the current status, recent changes, and immediate next steps.
 - **Check Rules**: Review this `rules.md` file for project-specific guidelines.
+- **Global Rules**: Ensure you follow the global rules defined in `.windsurfrules` in the project root.
 
 ### 2. During Work
 
