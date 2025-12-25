@@ -14,7 +14,7 @@
 
 ### Task: Split settings-blog-layouts.php (v2.11.8+16)
 
-- Split `settings-blog-layouts.php` (440 lines) into 5 modular files in `inc/customizer/controls/blog-layouts/`:
+- Split `settings-blog-layouts.php` (440 lines) into 5 modular files in `inc/customizer/settings/blog-layouts/`:
   - `archive-layouts.php` (111 lines) - Archive grid layout, masonry, infinite scroll
   - `page-typography.php` (39 lines) - Page typography settings
   - `related-posts-settings.php` (63 lines) - Related posts toggle, headline, layout

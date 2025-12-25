@@ -25,7 +25,7 @@ Current session (v2.11.8+16) split the large `settings-blog-layouts.php` (440 li
 **Objective**: Split large customizer settings file into smaller, focused modules for better maintainability.
 
 **Files Created**:
-- Created `inc/customizer/controls/blog-layouts/` directory
+- Created `inc/customizer/settings/blog-layouts/` directory
 - `archive-layouts.php` (111 lines) - Archive grid layout settings, masonry effect, infinite scroll
 - `page-typography.php` (39 lines) - Page bold color and line height settings
 - `related-posts-settings.php` (63 lines) - Related posts toggle, headline, and layout selection
@@ -33,10 +33,10 @@ Current session (v2.11.8+16) split the large `settings-blog-layouts.php` (440 li
 - `related-posts-display-conditions.php` (132 lines) - Number of posts, order by/order, author/category/post type filters
 
 **Files Modified**:
-- `inc/customizer/controls/settings-blog-layouts.php` - Reduced from 440 to 16 lines, now uses `require_once` to include split files
+- `inc/customizer/settings/settings-blog-layouts.php` - Reduced from 440 to 16 lines, now uses `require_once` to include split files
 
 **Backup Created**:
-- `inc/customizer/controls/settings-blog-layouts-backup.php` - Original file preserved
+- `inc/customizer/settings/settings-blog-layouts-backup.php` - Original file preserved
 
 **Verification**:
 - PHP syntax check: No errors
@@ -62,9 +62,9 @@ Main file now uses require_once to include all modules. Content verified against
 ## Pending Tasks
 
 - Delete backup files after confirming everything works in production:
-  - `inc/customizer/controls/settings-header-backup.php`
-  - `inc/customizer/controls/settings-typography-backup.php`
-  - `inc/customizer/controls/settings-blog-layouts-backup.php`
+  - `inc/customizer/settings/settings-header-backup.php`
+  - `inc/customizer/settings/settings-typography-backup.php`
+  - `inc/customizer/settings/settings-blog-layouts-backup.php`
 - Test customizer in WordPress admin to confirm all settings work
 - Consider similar refactoring for other large customizer files if needed
 
