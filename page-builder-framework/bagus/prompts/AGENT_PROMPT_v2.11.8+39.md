@@ -6,15 +6,15 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Verify General settings refactoring against backup file.
+**Objective**: Verify Blog settings refactoring against backup file.
 
-**Status**: Session v2.11.8+40 - Verification task.
+**Status**: Session v2.11.8+39 - Verification task.
 
 ---
 
 ## Verification Task
 
-Previous agent split `settings-general.php` into modular components. Your task is to verify:
+Previous agent split `settings-blog.php` into modular components. Your task is to verify:
 
 1. **No code loss**: All settings from backup exist in new modules
 2. **No flow change**: Settings registration order preserved
@@ -24,12 +24,12 @@ Previous agent split `settings-general.php` into modular components. Your task i
 
 **Backup file** (original):
 
-- `wp-content/themes/page-builder-framework/inc/customizer/settings/settings-general-backup.php`
+- `wp-content/themes/page-builder-framework/inc/customizer/settings/settings-blog-backup.php`
 
 **New files** (refactored):
 
-- `wp-content/themes/page-builder-framework/inc/customizer/settings/settings-general.php`
-- Files in `inc/customizer/settings/general/` directory
+- `wp-content/themes/page-builder-framework/inc/customizer/settings/settings-blog.php`
+- Files in `inc/customizer/settings/blog/` directory
 
 ### Verification Steps
 
