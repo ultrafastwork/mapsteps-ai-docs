@@ -6,52 +6,61 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Verify Typography settings refactoring against backup file.
+**Objective**: Refactor customizer control CSS class naming to reduce markup size.
 
-**Status**: Session v2.11.8+42 - Verification task.
+**Status**: Session v2.11.8+43 - Refactoring task.
 
 ---
 
-## Verification Task
+## Refactoring Task
 
-Previous agent split `settings-typography.php` into modular components. Your task is to verify:
+Simplify CSS class naming for customizer controls.
 
-1. **No code loss**: All settings from backup exist in new modules
-2. **No flow change**: Settings registration order preserved
-3. **No logic change**: Setting implementations are identical
+### Current State (Too Verbose)
 
-### Files to Verify
+```html
+<li
+	class="customize-control wpbf-customize-control wpbf-customize-control-generic"
+></li>
+```
 
-**Backup file** (original):
+### Target State (Simplified)
 
-- `wp-content/themes/page-builder-framework/inc/customizer/settings/settings-typography-backup.php`
+```html
+<li class="customize-control wpbf-customize-control generic-control"></li>
+```
 
-**New files** (refactored):
+Pattern: `wpbf-customize-control {controlType}-control`
 
-- `wp-content/themes/page-builder-framework/inc/customizer/settings/settings-typography.php`
-- Files in `inc/customizer/settings/typography/` directory
+---
 
-### Verification Steps
+## Scope
 
-1. **Read backup file** to get complete settings list
-2. **List all files** in refactored structure
-3. **Map each setting** to its new location in refactored files
-4. **Compare implementations** line-by-line for any changes
-5. **Verify loop structures** - ensure loop variables are in scope
+All files in `wp-content/themes/page-builder-framework/Customizer/`:
 
-### Expected Deliverable
+### PHP Files
 
-A verification report with:
+- Start with `Controls/Base/BaseControl.php` - Main class generation logic
+- Search for `wpbf-customize-control-` pattern
 
-- ✅/❌ status for each setting
-- Any discrepancies found
-- Confirmation that refactoring is complete and correct
+### TS/TSX Files
+
+- Class references often in string concatenations
+- Search for both literal and concatenated patterns
+
+### CSS/SCSS Files
+
+- Selector updates needed
+- Search for `.wpbf-customize-control-` pattern
 
 ---
 
 ## Instructions
 
-1. **Read** backup file to get complete settings list
-2. **Compare** each setting against its new location
-3. **Report** findings to user
-4. **Delete** backup file if verification passes
+1. **Analyze** `BaseControl.php` to understand class generation
+2. **Search** all files for `wpbf-customize-control` patterns
+3. **Plan** changes (create implementation plan)
+4. **Implement** PHP changes first
+5. **Update** CSS/SCSS selectors
+6. **Update** TS/TSX references
+7. **Test** customizer to verify no regressions
