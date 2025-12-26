@@ -6,21 +6,61 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Continue refactoring large customizer settings files to improve maintainability.
+**Objective**: Refactor customizer control CSS class naming to reduce markup size.
 
-**Status**: Session v2.11.8+39 ready to start. Previous session refactored `settings-blog.php`.
+**Status**: Session v2.11.8+43 - Refactoring task.
 
-## Completed Work
+---
 
-### Task: Split settings-blog.php (v2.11.8+38)
+## Refactoring Task
 
-- Split `settings-blog.php` (919 lines) into 5 modular files in `inc/customizer/settings/blog/`.
-- Main file reduced to 25 lines (includes only).
-- Verified exact match with backup: 1 panel, 4 sections, 56 fields.
-- All code content verified line-by-line against original backup.
+Simplify CSS class naming for customizer controls.
+
+### Current State (Too Verbose)
+
+```html
+<li
+	class="customize-control wpbf-customize-control wpbf-customize-control-generic"
+></li>
+```
+
+### Target State (Simplified)
+
+```html
+<li class="customize-control wpbf-customize-control generic-control"></li>
+```
+
+Pattern: `wpbf-customize-control {controlType}-control`
+
+---
+
+## Scope
+
+All files in `wp-content/themes/page-builder-framework/Customizer/`:
+
+### PHP Files
+
+- Start with `Controls/Base/BaseControl.php` - Main class generation logic
+- Search for `wpbf-customize-control-` pattern
+
+### TS/TSX Files
+
+- Class references often in string concatenations
+- Search for both literal and concatenated patterns
+
+### CSS/SCSS Files
+
+- Selector updates needed
+- Search for `.wpbf-customize-control-` pattern
+
+---
 
 ## Instructions
 
-1. **Read Context**: Read `PROGRESS_HANDOFF.md` for full details.
-2. **Read Rules**: Check `ai-docs/page-builder-framework/rules.md` for project-specific guidelines.
-3. **Await Instructions**: Wait for user to provide next task for customizer settings refactoring.
+1. **Analyze** `BaseControl.php` to understand class generation
+2. **Search** all files for `wpbf-customize-control` patterns
+3. **Plan** changes (create implementation plan)
+4. **Implement** PHP changes first
+5. **Update** CSS/SCSS selectors
+6. **Update** TS/TSX references
+7. **Test** customizer to verify no regressions
