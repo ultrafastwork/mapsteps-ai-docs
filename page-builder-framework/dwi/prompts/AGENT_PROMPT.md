@@ -4,34 +4,32 @@
 
 **Context**:
 You are working on the "page-builder-framework" WordPress theme.
-Your primary source of truth for the current state and tasks is the file:
+Your primary source of truth for the current state and tasks is:
 `ai-docs/page-builder-framework/dwi/progress-handoffs/PROGRESS_HANDOFF.md`
 
 **Rules**:
-Please strictly follow the rules defined in:
-
+Strictly follow:
 1. `.antigravityrules` (Root-level operating principles)
 
+**Session Info**:
+- Last Completed Session: **v2.11.8+26**
+- Current Session: **v2.11.8+27**
+
 **Objective**:
-Follow the latest instructions in `ai-docs/page-builder-framework/dwi/progress-handoffs/PROGRESS_HANDOFF.md` to continue Customizer/frontend tasks.
+Investigate and fix header/header-builder/customizer live-preview issues (desktop & mobile) so settings update instantly in Customizer and persist correctly on the frontend.
 
-**Previous Session Summary (v2.11.8+26)**:
-- ✅ Centered desktop menu now emits `wpbf-menu-centered` (was `wpbf-menu-center`) in `Customizer/HeaderBuilder/HeaderBuilderOutput.php`
-- ✅ Reverted temporary Menu 2 selector tweaks; `header-builder-menu-styles.php` back to original selectors
-- ✅ Removed temporary inline CSS override and Menu 2 padding fallback (restored original files)
-- ✅ Build successful (`pnpm run build-all`)
-- ✅ No expected side effects; only class-name alignment (update any custom CSS/JS targeting `.wpbf-menu-center` to `.wpbf-menu-centered`)
-
-**Current State**:
-- Centered menu class output fixed; Menu 2 padding/font-size selectors unchanged from originals
-- All 22 Header Builder elements have verified postMessage handlers
-- Build system stable (`pnpm run build-all` passed)
-- E2E suite available for validation
-
-**Task Details**:
-- Follow `PROGRESS_HANDOFF.md` for current priorities and next steps
+**Scope (Must address all)**:
+1. Header Builder – Search Widget (Desktop): icon color/size not updating live or after save.
+2. Header – Navigation Hover Effects: hover color & border radius not applying (Customizer + frontend).
+3. Header – CTA Button (Non-Header Builder): border radius not live-updating (works after save).
+4. Header – Mobile Navigation Icon Color (Non-Header Builder): Design tab color not applying.
+5. Header Builder – Search Widget Positioning: left-aligned search input expands off-screen; keep fully visible.
 
 **Instructions**:
+1. Read `PROGRESS_HANDOFF.md` for full context and expected behaviors.
+2. Debug and implement fixes for all five issues; ensure live preview + saved frontend outputs match.
+3. Sanitize/escape as needed; use WordPress APIs/hooks consistently.
+4. Test in Customizer live preview and frontend; run relevant builds with **pnpm** (avoid npm).
+5. Update `PROGRESS_HANDOFF.md` with findings, fixes, tests; archive this prompt when the session is complete.
 
-1. **Read Context**: Read `ai-docs/page-builder-framework/dwi/progress-handoffs/PROGRESS_HANDOFF.md` for complete task details.
-2. **Document Results**: Update `PROGRESS_HANDOFF.md` with findings/fixes; archive session prompt when complete.
+**Reminder**: When handing off, archive `AGENT_PROMPT.md` with the session version and refresh the new prompt per `PROGRESS_HANDOFF.md`.
