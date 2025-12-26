@@ -5,22 +5,53 @@
 **Context**: Working on "wpbf-premium" WordPress plugin.
 **Source of Truth**: `ai-docs/wpbf-premium/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/wpbf-premium/rules.md`
+**Global Rules**: `.windsurfrules`
 
-**Objective**: Awaiting user instructions for next tasks.
+**Objective**: Verify Blog Layouts settings refactoring against backup file.
 
-**Status**: Session v2.11.8+19 ready to start.
+**Status**: Session v2.11.8+20 - Verification task.
 
-## Completed Work (v2.11.8+17-18)
+---
 
-- Refactored `class-custom-sections.php` (2,377 lines) into 4 modular components
-- Updated namespaces:
-  - Main class: `WPBF` → `Wpbf\Premium`
-  - Modules: `WPBF\CustomSections` → `Wpbf\Premium\CustomSections`
-- Added backwards compatibility via `class_alias` for `WPBF\Custom_Sections`
-- Backup file preserved: `inc/class-custom-sections-backup.php`
+## Verification Task
+
+Previous agent split `settings-blog-layouts.php` into modular components. Your task is to verify:
+
+1. **No code loss**: All settings from backup exist in new modules
+2. **No flow change**: Settings registration order preserved
+3. **No logic change**: Setting implementations are identical
+
+### Files to Verify
+
+**Backup file** (original):
+
+- `wp-content/plugins/wpbf-premium/inc/customizer/settings/settings-blog-layouts-backup.php`
+
+**New files** (refactored):
+
+- Files in `inc/customizer/settings/blog-layouts/` directory
+
+### Verification Steps
+
+1. **Read backup file** to get complete settings list
+2. **List all files** in `blog-layouts/` directory
+3. **Map each setting** to its new location in refactored files
+4. **Compare implementations** for any changes
+5. **Verify hooks** and registration order
+
+### Expected Deliverable
+
+A verification report with:
+
+- ✅/❌ status for each setting
+- Any discrepancies found
+- Confirmation that refactoring is complete and correct
+
+---
 
 ## Instructions
 
-1. **Read Context**: Read `PROGRESS_HANDOFF.md` for full details.
-2. **Read Rules**: Check `ai-docs/wpbf-premium/rules.md`.
-3. **Await Instructions**: Wait for user to provide next task.
+1. **Read** backup file to get complete settings list
+2. **Compare** each setting against its new location
+3. **Report** findings to user
+4. **Delete** backup file if verification passes
