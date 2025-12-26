@@ -2,12 +2,82 @@
 
 **Date**: 2025-12-26
 **Status**: Active
-**Last Completed Session**: v2.11.8+26
-**Next Session**: v2.11.8+27
+**Last Completed Session**: v2.11.8+27
+**Next Session**: v2.11.8+28
 
 ## 1. High-Level Summary
 
-New focus for Session v2.11.8+27: investigate and fix header / Header Builder / Customizer live-preview issues so settings apply instantly in Customizer and persist on the frontend. Scope covers search widget (desktop HB), nav hover styles, CTA button (non-HB) border radius live preview, mobile nav icon color (non-HB), and search widget positioning when left-aligned.
+Session v2.11.8+27 completed fixes for 3 of 5 header/Header Builder/Customizer live-preview issues. Issues 4 & 5 require manual testing verification.
+
+## 2. Session v2.11.8+27 Accomplishments
+
+### ✅ FIXED: Issue 1 - Header Builder Desktop Search Widget
+
+**Problem**: Icon color and size do not update in live preview.
+
+**Root Cause**: Setting ID mismatch. Controls defined `wpbf_header_builder_desktop_search_icon_*` but postMessage handlers listened to `wpbf_header_builder_search_*` (missing "desktop" prefix). Additionally, handler used wrong control type (`WpbfColorControlValue` instead of `WpbfMulticolorControlValue`).
+
+**Solution**: Updated `header-builder.ts`:
+- Changed setting IDs to include `desktop_` prefix
+- Changed control type to `WpbfMulticolorControlValue` for color handler
+- Updated CSS selectors to `.wpbf-menu-item-search svg, .wpbf-menu-item-search .wpbff`
+- Added proper hover state handling
+
+**Files Modified**:
+- `inc/customizer/js/postmessage-parts/header-builder.ts` (theme)
+
+---
+
+### ✅ FIXED: Issue 2 - Navigation Hover Effects (Non-Header Builder)
+
+**Problem**: Hover color and border radius not applying in Customizer + frontend.
+
+**Root Cause**: Settings lacked `transport('postMessage')` directive and had no postMessage handlers.
+
+**Solution**:
+1. Added `transport('postMessage')` to PHP controls:
+   - `menu_effect_color`
+   - `menu_effect_boxed_radius`
+   - `menu_effect_underlined_size`
+2. Added postMessage handlers in `navigation.ts` for all three settings
+
+**Files Modified**:
+- `inc/customizer/settings/header/navigation-hover-effects.php` (premium)
+- `inc/customizer/js/postmessage-parts/navigation.ts` (premium)
+
+---
+
+### ✅ FIXED: Issue 3 - CTA Button Border Radius (Non-Header Builder)
+
+**Problem**: Border radius not live-updating (only reflects after save).
+
+**Root Cause**: CSS property name used camelCase `borderRadius` instead of kebab-case `border-radius`.
+
+**Solution**: Changed property name in `call-to-action.ts` to match `writeCSS` convention.
+
+**Files Modified**:
+- `inc/customizer/js/postmessage-parts/call-to-action.ts` (premium)
+
+---
+
+### ⏳ Issue 4 - Mobile Navigation Icon Color (Non-Header Builder)
+
+**Status**: Handler exists in theme (`mobile-navigation.ts`). Requires manual testing to verify selectors match actual markup.
+
+**Selector used**: `.wpbf-mobile-nav-item, .wpbf-mobile-nav-item a, .wpbf-mobile-menu-toggle svg, .wpbf-mobile-menu-toggle svg path`
+
+---
+
+### ⏳ Issue 5 - Header Builder Search Widget Positioning
+
+**Status**: Requires CSS investigation. When left-aligned, search input expands off-screen.
+
+---
+
+### Build Verification
+
+- ✅ Theme `pnpm run build-all` completed successfully
+- ✅ Premium plugin `postmessage.ts` compiled successfully
 
 ## 2. Previous Session Accomplishments (Session v2.11.8+16)
 
