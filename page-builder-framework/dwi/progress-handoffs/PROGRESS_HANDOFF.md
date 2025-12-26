@@ -1,13 +1,13 @@
 # Progress Handoff
 
 **Date**: 2025-12-26
-**Status**: Active
+**Status**: Complete
 **Last Completed Session**: v2.11.8+27
 **Next Session**: v2.11.8+28
 
 ## 1. High-Level Summary
 
-Session v2.11.8+27 completed fixes for 3 of 5 header/Header Builder/Customizer live-preview issues. Issues 4 & 5 require manual testing verification.
+Session v2.11.8+27 completed all 5 header/Header Builder/Customizer live-preview issues.
 
 ## 2. Session v2.11.8+27 Accomplishments
 
@@ -30,20 +30,25 @@ Session v2.11.8+27 completed fixes for 3 of 5 header/Header Builder/Customizer l
 
 ### ✅ FIXED: Issue 2 - Navigation Hover Effects (Non-Header Builder)
 
-**Problem**: Hover color and border radius not applying in Customizer + frontend.
+**Problem**: 
+- Hover color, size, and border radius not applying in Customizer live preview
+- Settings not persisting to frontend after save (showed defaults instead)
 
-**Root Cause**: Settings lacked `transport('postMessage')` directive and had no postMessage handlers.
+**Root Causes**:
+1. Settings lacked `transport('postMessage')` directive and had no postMessage handlers
+2. **Frontend Persistence**: `esc_html()` in `wpbf_write_css()` was encoding `>` to `&gt;`, breaking CSS child selectors inside `<style>` tags
 
 **Solution**:
-1. Added `transport('postMessage')` to PHP controls:
-   - `menu_effect_color`
-   - `menu_effect_boxed_radius`
-   - `menu_effect_underlined_size`
-2. Added postMessage handlers in `navigation.ts` for all three settings
+1. Added `transport('postMessage')` to PHP controls
+2. Added postMessage handlers in `navigation.ts` for color, radius, and size
+3. **Bypassed `wpbf_write_css()`** in `menu-effects-styles.php` and used direct `echo` to avoid HTML encoding issue
 
 **Files Modified**:
 - `inc/customizer/settings/header/navigation-hover-effects.php` (premium)
 - `inc/customizer/js/postmessage-parts/navigation.ts` (premium)
+- `inc/customizer/styles/menu-effects-styles.php` (premium) - Direct echo for CSS output
+- `inc/helpers.php` (theme) - Changed `esc_html` to `wp_strip_all_tags` for CSS selectors
+- `inc/customizer/customizer-functions.php` (theme) - Changed priority from 11 to 12 for correct CSS loading order
 
 ---
 
@@ -60,17 +65,29 @@ Session v2.11.8+27 completed fixes for 3 of 5 header/Header Builder/Customizer l
 
 ---
 
-### ⏳ Issue 4 - Mobile Navigation Icon Color (Non-Header Builder)
+### ✅ FIXED: Issue 4 - Mobile Navigation Icon Color (Non-Header Builder)
 
-**Status**: Handler exists in theme (`mobile-navigation.ts`). Requires manual testing to verify selectors match actual markup.
+**Problem**: Mobile navigation icon color under Design tab does not apply.
 
-**Selector used**: `.wpbf-mobile-nav-item, .wpbf-mobile-nav-item a, .wpbf-mobile-menu-toggle svg, .wpbf-mobile-menu-toggle svg path`
+**Root Cause**: Handler only set `color` but SVG icons need `fill` and `stroke` too.
+
+**Solution**: Added `fill` and `stroke` properties to the handler in mobile-navigation.ts.
+
+**Files Modified**:
+- `inc/customizer/js/postmessage-parts/mobile-navigation.ts` (theme)
 
 ---
 
-### ⏳ Issue 5 - Header Builder Search Widget Positioning
+### ✅ FIXED: Issue 5 - Header Builder Search Widget Positioning
 
-**Status**: Requires CSS investigation. When left-aligned, search input expands off-screen.
+**Problem**: When left-aligned, search input expands leftward and is partially hidden.
+
+**Root Cause**: CSS expansion direction not considering left-aligned zones.
+
+**Solution**: Added CSS rule to force `left: 0` expansion for `.wpbf-header-zone-left` and `.wpbf-content-start` zones.
+
+**Files Modified**:
+- `assets/scss/main/_navigation.scss` (theme)
 
 ---
 
