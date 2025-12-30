@@ -7,22 +7,52 @@
 
 ## 1. High-Level Summary
 
-Session v2.11.8+28 fixed the Header Builder push menu bug on desktop.
+Session v2.11.8+28 fixed multiple Header Builder desktop off-canvas menu bugs including push menu positioning and font colors not persisting on reload.
 
 ## 2. Session v2.11.8+28 Accomplishments
 
-### ✅ FIXED: Header Builder Push Menu Not Working on Desktop
+### ✅ FIXED: Push Menu White Space on Wrong Side (Off-Canvas Left)
 
-**Problem**: Push menu effect did not work on frontend when Header Builder was enabled.
+**Problem**: When "Off-Canvas Left" is configured, the push menu white space appeared on the RIGHT side instead of LEFT.
 
-**Root Cause**: In `wpbf-premium/inc/body-classes.php`, line 25 used `get_theme_mod('wpbf_header_builder_toggle')` which is a **non-existent setting**. The correct check is `wpbf_enable_header_builder` via `wpbf_header_builder_enabled()`.
+**Root Cause**: In `off-canvas.ts`, the `menu_off_canvas_push` handler checked `menu_position` (legacy setting) instead of the Header Builder's `wpbf_header_builder_desktop_offcanvas_reveal_as`. Since `menu_position` is not `"menu-off-canvas-left"` in Header Builder mode, it always added `wpbf-push-menu-right`.
 
-**Solution**: Replaced `get_theme_mod( 'wpbf_header_builder_toggle' )` with `wpbf_header_builder_enabled()`.
+**Solution**: Updated handler to use `revealAs` from `wpbf_header_builder_desktop_offcanvas_reveal_as`.
 
 **Files Modified**:
-- `wp-content/plugins/wpbf-premium/inc/body-classes.php`
+- `wp-content/themes/page-builder-framework/inc/customizer/js/postmessage-parts/off-canvas.ts`
 
 ---
+
+### ✅ FIXED: Off-Canvas Menu Font Colors Not Applied on Reload
+
+**Problem**: Font colors set to white, but shows black after Customizer reload.
+
+**Root Cause**: Both `menu_font_colors` and `wpbf_header_builder_desktop_offcanvas_menu_font_colors` write CSS with identical specificity. During initialization, both handlers apply their values, and the general menu colors were overriding off-canvas specific colors.
+
+**Conflicting Selectors** (same specificity = 21 points):
+- General: `.wpbf-navigation .wpbf-menu a, .wpbf-mobile-menu a, .wpbf-close`
+- Off-canvas: `.wpbf-menu-off-canvas .wpbf-menu a, .wpbf-menu-off-canvas .wpbf-close`
+
+**Solution**: Added `!important` to all off-canvas font color rules to ensure they override general menu colors.
+
+**Files Modified**:
+- `wp-content/plugins/wpbf-premium/inc/customizer/js/postmessage-parts/navigation.ts` (lines 355, 362)
+- `wp-content/plugins/wpbf-premium/inc/customizer/styles/off-canvas-menu-styles.php` (lines 212, 221)
+
+---
+
+### ✅ FIXED: Missing Default Value for reveal_as Setting
+
+**Problem**: `get_theme_mod('wpbf_header_builder_desktop_offcanvas_reveal_as')` returned empty when the setting hadn't been explicitly saved, causing no body class to be applied.
+
+**Solution**: Added default value `'off-canvas'` to `get_theme_mod` call.
+
+**Files Modified**:
+- `wp-content/plugins/wpbf-premium/inc/body-classes.php` (line 29)
+
+---
+
 
 ## 3. Session v2.11.8+27 Accomplishments
 

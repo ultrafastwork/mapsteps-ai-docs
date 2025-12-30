@@ -19,9 +19,10 @@ Strictly follow:
 Continue development on the Page Builder Framework theme. Check PROGRESS_HANDOFF.md for any pending tasks or new objectives.
 
 **Previous Session Summary (v2.11.8+28)**:
-✅ Fixed Header Builder push menu not working on desktop after save:
-- Root Cause: `body-classes.php` used non-existent `get_theme_mod('wpbf_header_builder_toggle')`
-- Fix: Replaced with `wpbf_header_builder_enabled()` function
+✅ Fixed Header Builder desktop off-canvas menu bugs:
+1. Push menu white space appearing on wrong side (Off-Canvas Left)
+2. Font colors not applied on Customizer reload
+3. Missing default value for reveal_as setting
 
 **Instructions**:
 1. Read `PROGRESS_HANDOFF.md` for full context and next tasks.
