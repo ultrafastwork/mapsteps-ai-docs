@@ -9,7 +9,22 @@
 
 All header/Header Builder/Customizer live-preview issues from sessions v2.11.8+16 through v2.11.8+27 have been completed. Awaiting new task assignment.
 
-## 2. Session v2.11.8+27 Accomplishments
+## 2. Session v2.11.8+28 Accomplishments
+
+### ✅ FIXED: Header Builder Push Menu Not Working on Desktop
+
+**Problem**: Push menu effect did not work on frontend when Header Builder was enabled.
+
+**Root Cause**: In `wpbf-premium/inc/body-classes.php`, line 25 used `get_theme_mod('wpbf_header_builder_toggle')` which is a **non-existent setting**. The correct check is `wpbf_enable_header_builder` via `wpbf_header_builder_enabled()`.
+
+**Solution**: Replaced `get_theme_mod( 'wpbf_header_builder_toggle' )` with `wpbf_header_builder_enabled()`.
+
+**Files Modified**:
+- `wp-content/plugins/wpbf-premium/inc/body-classes.php`
+
+---
+
+## 3. Session v2.11.8+27 Accomplishments
 
 ### ✅ FIXED: Issue 1 - Header Builder Desktop Search Widget
 
@@ -191,7 +206,21 @@ All header/Header Builder/Customizer live-preview issues from sessions v2.11.8+1
 
 ### New Task Objectives
 
-_No new tasks assigned yet. Update this section with objectives for session v2.11.8+28._
+#### Issue: Header Builder Push Menu Does Not Work on Desktop After Save
+
+**Problem**: When using Header Builder mode with the push menu enabled, the off-canvas menu slides in but the page content does not push to the side on the frontend.
+
+**Root Cause**: 
+In `wpbf-premium/inc/body-classes.php`, line 25 uses:
+```php
+$header_builder_enabled = get_theme_mod( 'wpbf_header_builder_toggle' );
+```
+This setting **does not exist**. The correct approach is to use `wpbf_header_builder_enabled()`.
+
+**Fix**: Replace with `$header_builder_enabled = wpbf_header_builder_enabled();`
+
+**Files to Modify**:
+- `wp-content/plugins/wpbf-premium/inc/body-classes.php`
 
 
 ## 7. Technical Context & Notes
