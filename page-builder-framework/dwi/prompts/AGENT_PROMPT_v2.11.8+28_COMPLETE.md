@@ -12,16 +12,19 @@ Strictly follow:
 1. `.antigravityrules` (Root-level operating principles)
 
 **Session Info**:
-- Last Completed Session: **v2.11.8+28**
-- Current Session: **v2.11.8+29**
+- Last Completed Session: **v2.11.8+27**
+- Current Session: **v2.11.8+28**
 
 **Objective**:
 Continue development on the Page Builder Framework theme. Check PROGRESS_HANDOFF.md for any pending tasks or new objectives.
 
-**Previous Session Summary (v2.11.8+28)**:
-✅ Fixed Header Builder push menu not working on desktop after save:
-- Root Cause: `body-classes.php` used non-existent `get_theme_mod('wpbf_header_builder_toggle')`
-- Fix: Replaced with `wpbf_header_builder_enabled()` function
+**Previous Session Summary (v2.11.8+27)**:
+All 5 header/Header Builder/Customizer live-preview issues were fixed:
+1. ✅ Header Builder Desktop Search Widget - icon color/size live preview
+2. ✅ Navigation Hover Effects - live preview + frontend persistence (esc_html issue fixed)
+3. ✅ CTA Button Border Radius - live preview
+4. ✅ Mobile Navigation Icon Color - SVG fill/stroke added
+5. ✅ Search Widget Positioning - left-aligned expansion fixed
 
 **Instructions**:
 1. Read `PROGRESS_HANDOFF.md` for full context and next tasks.

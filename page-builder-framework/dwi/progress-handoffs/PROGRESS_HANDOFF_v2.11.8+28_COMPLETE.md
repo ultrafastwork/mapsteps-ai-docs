@@ -1,13 +1,13 @@
 # Progress Handoff
 
 **Date**: 2025-12-30
-**Status**: Complete
-**Last Completed Session**: v2.11.8+28
-**Next Session**: v2.11.8+29
+**Status**: Ready for New Task
+**Last Completed Session**: v2.11.8+27
+**Next Session**: v2.11.8+28
 
 ## 1. High-Level Summary
 
-Session v2.11.8+28 fixed the Header Builder push menu bug on desktop.
+All header/Header Builder/Customizer live-preview issues from sessions v2.11.8+16 through v2.11.8+27 have been completed. Awaiting new task assignment.
 
 ## 2. Session v2.11.8+28 Accomplishments
 
@@ -196,21 +196,31 @@ Session v2.11.8+28 fixed the Header Builder push menu bug on desktop.
 
 > **All previous tasks completed.** Awaiting new task assignment.
 
-### ✅ Completed Issues (v2.11.8+28)
-
-1. ✅ **Header Builder Push Menu** - Fixed incorrect setting check in `body-classes.php`
-
 ### ✅ Completed Issues (v2.11.8+27)
 
-1. ✅ **Header Builder Desktop Search Widget** - Icon color/size live preview fixed
-2. ✅ **Navigation Hover Effects** - Hover color & radius fixed (esc_html issue resolved)
-3. ✅ **CTA Button Border Radius** - Live preview fixed
-4. ✅ **Mobile Navigation Icon Color** - SVG fill/stroke added
-5. ✅ **Search Widget Positioning** - Left-aligned expansion fixed
+1. ✅ **Header Builder – Search Widget (Desktop)** - Icon color/size live preview fixed
+2. ✅ **Header – Navigation Hover Effects** - Hover color & radius fixed (esc_html issue resolved)
+3. ✅ **Header – CTA Button** - Border radius live preview fixed
+4. ✅ **Header – Mobile Navigation Icon Color** - SVG fill/stroke added
+5. ✅ **Header Builder – Search Widget Positioning** - Left-aligned expansion fixed
 
 ### New Task Objectives
 
-_No new tasks assigned yet. Update this section with objectives for session v2.11.8+29._
+#### Issue: Header Builder Push Menu Does Not Work on Desktop After Save
+
+**Problem**: When using Header Builder mode with the push menu enabled, the off-canvas menu slides in but the page content does not push to the side on the frontend.
+
+**Root Cause**: 
+In `wpbf-premium/inc/body-classes.php`, line 25 uses:
+```php
+$header_builder_enabled = get_theme_mod( 'wpbf_header_builder_toggle' );
+```
+This setting **does not exist**. The correct approach is to use `wpbf_header_builder_enabled()`.
+
+**Fix**: Replace with `$header_builder_enabled = wpbf_header_builder_enabled();`
+
+**Files to Modify**:
+- `wp-content/plugins/wpbf-premium/inc/body-classes.php`
 
 
 ## 7. Technical Context & Notes
