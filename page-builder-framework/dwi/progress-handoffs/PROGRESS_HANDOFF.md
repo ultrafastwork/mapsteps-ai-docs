@@ -224,7 +224,55 @@ Session v2.11.8+28 fixed multiple Header Builder desktop off-canvas menu bugs in
 
 ## 6. Pending Tasks / Next Steps
 
-> **All previous tasks completed.** Awaiting new task assignment.
+### 🔧 Current Task: Enhanced-Select Memory Optimization (v2.11.8+29)
+
+**Priority**: High  
+**Status**: Assigned
+
+#### Problem Description
+
+The enhanced-select control uses Select2 library to display Google fonts. When multiple font fields are present (e.g., in Header Builder), memory consumption spikes significantly due to Select2's internal data management.
+
+**Root Cause**:
+- The Google font list definition already uses a single global object ✅
+- However, Select2 internally copies/clones the font list for each select2 instance
+- This causes memory duplication proportional to the number of font select fields
+
+**Observed Behavior**:
+- Memory consumption visible by hovering browser tab (Chrome/Brave)
+- Memory increases when navigating through font fields across sections
+- Can reach gigabytes when DevTools is open (avoid during testing)
+
+#### Testing Instructions
+
+1. Open Customizer → Header Builder
+2. Hover browser tab to observe initial memory
+3. Navigate through multiple font-related fields across different sections
+4. Hover tab again to check memory changes
+5. **Important**: Do NOT open DevTools inspect panel (inflates memory)
+
+#### Investigation Areas
+
+1. **Enhanced Select Control**: `Customizer/Controls/Select/` - How Select2 is initialized
+2. **Google Fonts Data**: Where the font list is defined and how it's passed to Select2
+3. **Select2 Options**: Data adapter, ajax mode, lazy loading potential
+
+#### Potential Solutions to Research
+
+1. **Lazy Loading**: Load fonts on-demand via AJAX instead of embedding full list
+2. **Shared Data Adapter**: Custom Select2 DataAdapter that references shared data
+3. **Virtual Scrolling**: Only render visible options (minimumResultsForSearch)
+4. **Data Normalization**: Pass data by reference instead of value to Select2
+5. **Single Dropdown**: Share one Select2 dropdown across multiple controls
+
+#### Success Criteria
+
+- [ ] Memory usage remains stable regardless of number of font fields
+- [ ] Font selection functionality unchanged (search, selection, preview)
+- [ ] No regression in Customizer responsiveness
+- [ ] Build passes with `pnpm run build-all`
+
+---
 
 ### ✅ Completed Issues (v2.11.8+28)
 
@@ -237,10 +285,6 @@ Session v2.11.8+28 fixed multiple Header Builder desktop off-canvas menu bugs in
 3. ✅ **CTA Button Border Radius** - Live preview fixed
 4. ✅ **Mobile Navigation Icon Color** - SVG fill/stroke added
 5. ✅ **Search Widget Positioning** - Left-aligned expansion fixed
-
-### New Task Objectives
-
-_No new tasks assigned yet. Update this section with objectives for session v2.11.8+29._
 
 
 ## 7. Technical Context & Notes
