@@ -55,18 +55,26 @@ Confirmed `FooterBuilderConfig::availableSlots()` does **NOT** include `offcanva
 
 ## 3. Next Steps (v2.11.8+47)
 
-### Task 1: Test Footer Builder Controls Movement
+### Task: Add Postmessage Support for Footer Builder
 
-- [ ] Open WordPress Customizer
-- [ ] Toggle footer builder OFF → verify controls are in `wpbf_footer_options`
-- [ ] Toggle footer builder ON → verify controls move to `wpbf_footer_builder_desktop_row_2_section`
-- [ ] Verify control labels change correctly (Container Width, Vertical Padding)
+The header builder has postmessage scripts for live preview. Footer builder should have similar support.
 
-### Task 2: Review Footer Builder Frontend Output
+**Important**: Existing footer controls already have postmessage in `postmessage-parts/footer.ts`:
+- `footer_width`, `footer_height`, `footer_bg_color`, `footer_font_color`
+- `footer_accent_color`, `footer_accent_color_alt`, `footer_font_size`
 
-- [ ] Test footer builder rendering on frontend
-- [ ] Verify widgets display correctly in assigned slots
-- [ ] Check responsive behavior (desktop vs mobile)
+These controls are **moved** to footer builder sections but keep the same setting IDs, so existing postmessage should work.
+
+**Reference**: Study `postmessage-parts/header-builder-rows.ts` (lines 49-76) for the pattern of handling existing vs new controls.
+
+**Steps**:
+- [ ] Analyze which footer builder controls are NEW (need postmessage) vs moved (already have postmessage)
+- [ ] Create `footer-builder-rows.ts` for NEW row controls (Row 1, Row 3)
+- [ ] Create `footer-builder.ts` for general footer builder controls if needed
+- [ ] Update `postmessage.ts` to import new modules
+- [ ] Build with `pnpm build-postmessage`
+
+**Entry point**: `inc/customizer/js/postmessage.ts`
 
 ## 4. Notes
 

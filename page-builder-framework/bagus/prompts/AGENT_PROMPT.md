@@ -6,9 +6,9 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Test Footer Builder controls movement and review frontend output.
+**Objective**: Add postmessage support for Footer Builder.
 
-**Status**: Session v2.11.8+47 - Footer Builder testing.
+**Status**: Session v2.11.8+47 - Footer Builder postmessage.
 
 ---
 
@@ -25,68 +25,102 @@ The **Footer Builder** feature was implemented in session v2.11.8+45, and contro
 
 ---
 
-## Task 1: Test Footer Builder Controls Movement
+## Task: Add Postmessage Support for Footer Builder
 
-The controls movement was added in v2.11.8+46. Verify it works correctly:
+The header builder has postmessage scripts for live preview. Footer builder should have similar support.
 
-### Testing Steps
+### Important: Existing Footer Postmessage Scripts
 
-1. Open WordPress Customizer
-2. Navigate to Footer panel
-3. Toggle footer builder OFF → verify controls are in `wpbf_footer_options` section
-4. Toggle footer builder ON → verify controls move to `wpbf_footer_builder_desktop_row_2_section`
-5. Verify control labels change correctly:
-   - `footer_width` → "Container Width"
-   - `footer_height` → "Vertical Padding"
+**The existing footer controls already have postmessage scripts** in `inc/customizer/js/postmessage-parts/footer.ts`:
 
-### Controls Moved
+```typescript
+// Existing postmessage handlers in footer.ts:
+- footer_width
+- footer_height
+- footer_bg_color
+- footer_font_color
+- footer_accent_color
+- footer_accent_color_alt
+- footer_font_size
+```
 
-| Control ID | New Label | Priority |
-|------------|-----------|----------|
-| `footer_width` | Container Width | 10 |
-| `footer_height` | Vertical Padding | 15 |
-| `footer_bg_color` | (keep label) | 200 |
-| `footer_font_color` | (keep label) | 205 |
-| `footer_accent_color` | (keep label) | 210 |
-| `footer_accent_color_alt` | (keep label) | 215 |
-| `footer_font_size` | (keep label) | 220 |
+These controls are **moved** to footer builder row sections when footer builder is enabled, but they still use the same setting IDs. So the existing postmessage scripts should continue to work.
+
+### Reference: Header Builder Postmessage Pattern
+
+Study `inc/customizer/js/postmessage-parts/header-builder-rows.ts` (lines 49-76) for the pattern:
+
+```typescript
+/**
+ * These fields are handled here for desktop_row_3 only
+ * because desktop_row_3 didn't exist before the new header builder added.
+ *
+ * Max width:
+ * - In desktop_row_1, the value is using the existing `pre_header_width` setting.
+ * - In desktop_row_2, the value is using the existing `menu_width` setting.
+ * ...
+ */
+if (rowKey === "desktop_row_3") {
+    // Only add postmessage for NEW controls that don't have existing handlers
+}
+```
+
+**Key insight**: Header builder reuses existing settings (and their postmessage handlers) for row 1 and row 2. Only row 3 (which is new) needs new postmessage handlers.
+
+### Implementation Steps
+
+1. **Analyze footer builder controls**:
+   - Which controls are moved from existing footer settings? (already have postmessage)
+   - Which controls are NEW to footer builder? (need new postmessage)
+
+2. **Create `footer-builder-rows.ts`** (if needed):
+   - Add postmessage handlers for NEW footer builder row controls only
+   - Follow the pattern from `header-builder-rows.ts`
+
+3. **Create other footer builder postmessage files** (if needed):
+   - `footer-builder.ts` - for general footer builder controls
+   - Consider widget-specific postmessage if needed
+
+4. **Update `postmessage.ts`**:
+   - Import and call new footer builder postmessage setup functions
+
+5. **Build postmessage assets**: `pnpm build-postmessage`
+
+### Footer Builder Row Sections
+
+| Row | Section ID | Notes |
+|-----|------------|-------|
+| Row 1 (Top) | `wpbf_footer_builder_desktop_row_1_section` | NEW - may need postmessage |
+| Row 2 (Main) | `wpbf_footer_builder_desktop_row_2_section` | Receives moved controls |
+| Row 3 (Bottom) | `wpbf_footer_builder_desktop_row_3_section` | NEW - may need postmessage |
+
+### Controls Analysis
+
+**Moved controls** (already have postmessage in `footer.ts`):
+- `footer_width`, `footer_height`, `footer_bg_color`, `footer_font_color`
+- `footer_accent_color`, `footer_accent_color_alt`, `footer_font_size`
+
+**Potentially NEW controls** (may need postmessage):
+- Row 1 and Row 3 specific controls (max_width, vertical_padding, bg_color, text_color, accent_colors)
+- Row visibility controls
+- Widget-specific controls
 
 ---
 
-## Task 2: Review Footer Builder Frontend Output
+## Postmessage Files Reference
 
-Test the footer builder rendering on the frontend:
-
-### Testing Steps
-
-1. Enable footer builder in Customizer
-2. Add widgets to different slots (Logo, Menu, HTML, Social Icons, Copyright)
-3. Preview the frontend
-4. Verify:
-   - Widgets display correctly in assigned slots
-   - Row styling applies correctly
-   - Responsive behavior works (desktop vs mobile)
-
----
-
-## Footer Builder Files Reference
-
-| Component | Location |
-|-----------|----------|
-| Config Class | `Customizer/FooterBuilder/FooterBuilderConfig.php` |
-| Output Class | `Customizer/FooterBuilder/FooterBuilderOutput.php` |
-| Settings | `inc/customizer/settings/settings-footer-builder.php` |
-| Desktop Sections | `inc/customizer/settings/footer-builder/desktop/` |
-| Mobile Sections | `inc/customizer/settings/footer-builder/mobile/` |
-| Controls Movement | `inc/customizer/js/customizer-parts/setup-controls-movement.ts` |
-| Toggle Control | `wpbf_enable_footer_builder` (headline-toggle type) |
-| Builder Control | `wpbf_footer_builder` (responsive-builder type) |
+| File | Purpose |
+|------|---------|
+| `postmessage.ts` | Main entry point, imports all postmessage modules |
+| `postmessage-parts/footer.ts` | Existing footer postmessage (7 controls) |
+| `postmessage-parts/header-builder.ts` | Header builder general controls |
+| `postmessage-parts/header-builder-rows.ts` | Header builder row controls (pattern to follow) |
 
 ---
 
 ## Notes
 
-- Footer builder uses same `ResponsiveBuilderControl` as header builder
-- `setup-builder-control.ts` automatically handles footer builder toggle via `wpbf-builder-toggle` class
-- Footer builder adds to existing `footer_panel` with priority 0 (appears first)
-- **No offcanvas needed for footer** (unlike header) - footers are static content areas
+- **Do NOT duplicate postmessage handlers** - if a control already has a handler in `footer.ts`, don't add another
+- Footer builder rows may need visibility toggle postmessage (like header builder)
+- Check if CSS selectors need updating for footer builder context
+- Build with `pnpm build-postmessage` after changes
