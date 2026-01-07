@@ -7,9 +7,9 @@
 **Project Rules**: `ai-docs/wpbf-premium/rules.md`
 **Global Rules**: `.windsurfrules`
 
-**Objective**: Add postmessage support for Footer Builder premium controls.
+**Objective**: Implement Footer Builder output integration for custom content.
 
-**Status**: Session v2.11.8+25 - Footer Builder postmessage.
+**Status**: Session v2.11.8+26 - Footer Builder output integration.
 
 ---
 
@@ -22,76 +22,45 @@ Created `settings-footer-builder.php` with premium controls for footer builder r
 - Added "Custom Content" controls to all 6 footer builder row sections (desktop and mobile)
 - Control IDs: `wpbf_footer_builder_{row_key}_custom` (code field for shortcodes)
 
-### Theme's Footer Builder Postmessage (v2.11.8+47)
+### Footer Builder Postmessage Analysis (v2.11.8+25)
 
-The theme already has postmessage support for footer builder rows in:
-- `inc/customizer/js/postmessage-parts/footer-builder-rows.ts`
+Analyzed postmessage requirements and determined:
 
-This handles controls for rows 1 and 3 (desktop and mobile) - the NEW rows.
-Row 2 (Main Row) uses moved controls that already have postmessage in `footer.ts`.
+- **No postmessage implementation needed** for premium footer builder controls
+- Code fields with `partialRefresh` handle live preview via AJAX (server-side rendering)
+- Theme's `footer-builder-rows.ts` handles styling controls (bg_color, text_color, etc.)
 
 ---
 
-## Task: Add Postmessage Support for Footer Builder Premium Controls
+## Task: Footer Builder Output Integration
 
-### Important: Check Existing Postmessage First
-
-The wpbf-premium plugin has existing postmessage scripts in `inc/customizer/js/postmessage-parts/`.
-
-**Existing footer postmessage** in `postmessage-parts/footer.ts`:
-- `footer_widgets_width`, `footer_widgets_bg_color`, `footer_widgets_headline_color`
-- `footer_widgets_font_color`, `footer_widgets_accent_color`, `footer_widgets_font_size`
-
-These are for the **Widget Footer** section, NOT the footer builder rows.
-
-### Reference: Header Builder Postmessage Pattern
-
-Study the theme's `header-builder-rows.ts` (lines 49-76) for how to handle existing vs new controls:
-
-```typescript
-/**
- * These fields are handled here for desktop_row_3 only
- * because desktop_row_3 didn't exist before the new header builder added.
- *
- * Max width:
- * - In desktop_row_1, the value is using the existing `pre_header_width` setting.
- * - In desktop_row_2, the value is using the existing `menu_width` setting.
- * ...
- */
-if (rowKey === "desktop_row_3") {
-    // Only add postmessage for NEW controls that don't have existing handlers
-}
-```
-
-**Key insight**: Don't duplicate postmessage handlers for controls that already have them.
+Implement output logic in theme's `FooterBuilderOutput.php` to render custom content when set.
 
 ### Implementation Steps
 
-1. **Analyze premium footer builder controls**:
-   - The "Custom Content" controls (`wpbf_footer_builder_{row_key}_custom`) are code fields
-   - Code fields typically use `partialRefresh` (server-side refresh), not postmessage
-   - Check if any other premium controls need postmessage
+1. **Study theme's FooterBuilderOutput.php**:
+   - Locate in `themes/page-builder-framework/inc/output/`
+   - Understand how row content is rendered
 
-2. **Check if postmessage is needed**:
-   - Code fields with `partialRefresh` don't need postmessage (they refresh via AJAX)
-   - Only controls with `transport: 'postMessage'` need postmessage handlers
+2. **Add custom content rendering**:
+   - Check if `wpbf_footer_builder_{row_key}_custom` has a value
+   - If set, render the shortcode content instead of default row content
+   - Use `do_shortcode()` to process shortcodes
 
-3. **If postmessage is needed, create `footer-builder.ts`**:
-   - Follow the pattern from theme's `footer-builder-rows.ts`
-   - Import and call from `postmessage.ts`
-
-4. **Build postmessage assets**: `pnpm build-postmessage`
+3. **Test in customizer**:
+   - Add an Elementor or Beaver Builder template shortcode
+   - Verify it replaces the row content correctly
 
 ### Premium Footer Builder Controls
 
-| Control ID | Type | Transport | Needs Postmessage? |
-|------------|------|-----------|--------------------|
-| `wpbf_footer_builder_desktop_row_1_custom` | code | postMessage + partialRefresh | Likely NO (partialRefresh handles it) |
-| `wpbf_footer_builder_desktop_row_2_custom` | code | postMessage + partialRefresh | Likely NO |
-| `wpbf_footer_builder_desktop_row_3_custom` | code | postMessage + partialRefresh | Likely NO |
-| `wpbf_footer_builder_mobile_row_1_custom` | code | postMessage + partialRefresh | Likely NO |
-| `wpbf_footer_builder_mobile_row_2_custom` | code | postMessage + partialRefresh | Likely NO |
-| `wpbf_footer_builder_mobile_row_3_custom` | code | postMessage + partialRefresh | Likely NO |
+| Control ID | Purpose |
+|------------|---------|
+| `wpbf_footer_builder_desktop_row_1_custom` | Custom content for desktop top row |
+| `wpbf_footer_builder_desktop_row_2_custom` | Custom content for desktop main row |
+| `wpbf_footer_builder_desktop_row_3_custom` | Custom content for desktop bottom row |
+| `wpbf_footer_builder_mobile_row_1_custom` | Custom content for mobile top row |
+| `wpbf_footer_builder_mobile_row_2_custom` | Custom content for mobile main row |
+| `wpbf_footer_builder_mobile_row_3_custom` | Custom content for mobile bottom row |
 
 ---
 
@@ -99,22 +68,14 @@ if (rowKey === "desktop_row_3") {
 
 | File | Purpose |
 |------|---------|
-| `inc/customizer/js/postmessage.ts` | Main entry point for premium postmessage |
-| `inc/customizer/js/postmessage-parts/footer.ts` | Existing footer WIDGETS postmessage |
 | `inc/customizer/settings/settings-footer-builder.php` | Premium footer builder controls |
-
-### Theme Reference Files
-
-| File | Purpose |
-|------|---------|
-| `themes/.../postmessage-parts/footer-builder-rows.ts` | Theme's footer builder rows postmessage |
-| `themes/.../postmessage-parts/header-builder-rows.ts` | Pattern for handling existing vs new controls |
+| Theme's `inc/output/FooterBuilderOutput.php` | Footer builder output rendering |
 
 ---
 
-## Notes
+## Alternative Tasks
 
-- **Do NOT duplicate postmessage handlers** - check if controls already have handlers
-- Code fields with `partialRefresh` typically don't need postmessage (AJAX refresh handles them)
-- If no postmessage is needed, document this finding and move to next task
-- Build with `pnpm build-postmessage` after any changes
+If output integration is complex or requires theme changes, consider:
+
+1. **Controls Movement**: Move existing footer premium controls (sticky footer, theme author, etc.) to footer builder sections when enabled
+2. **Additional Premium Controls**: Add more premium controls to footer builder widget sections (logo, menu, html, social, copyright)

@@ -2,8 +2,8 @@
 
 **Date**: 2026-01-07
 **Status**: Completed
-**Last Completed Session**: v2.11.8+47
-**Current Session**: v2.11.8+48
+**Last Completed Session**: v2.11.8+48
+**Current Session**: v2.11.8+49
 **Archive**: See `archives/PROGRESS_HANDOFF_v2.11.8+43_COMPLETE.md` for CSS Class Refactoring.
 
 ## 1. Current State Summary
@@ -19,78 +19,56 @@
 - ✅ Footer Builder implementation (v2.11.8+45)
 - ✅ Footer Builder controls movement (v2.11.8+46)
 - ✅ Footer Builder postmessage support (v2.11.8+47)
+- ✅ Footer Builder CSS output (v2.11.8+48)
 
-**Codebase Health**: All settings files use modular structure. Footer Builder now has full postmessage support for live preview.
+**Codebase Health**: All settings files use modular structure. Footer Builder now has full CSS output for row controls.
 
-## 2. Session v2.11.8+47 Accomplishments
+## 2. Session v2.11.8+48 Accomplishments
 
-Added **Footer Builder postmessage support** for live preview in the Customizer.
-
-### Analysis
-
-- **Row 2 (Main Row)**: Uses moved controls from existing footer settings (`footer_width`, `footer_height`, etc.) - already have postmessage handlers in `footer.ts`
-- **Row 1 (Top) and Row 3 (Bottom)**: Were empty sections without controls - needed NEW controls and postmessage handlers
-
-### Files Created
-
-| File | Purpose |
-|------|---------|
-| `inc/customizer/js/postmessage-parts/footer-builder-rows.ts` | Postmessage handlers for footer builder row controls |
+Added **CSS output for Footer Builder row controls** to persist styles on page load.
 
 ### Files Updated
 
 | File | Changes |
 |------|---------|
-| `inc/customizer/settings/footer-builder/desktop/top-row-section.php` | Added controls: max_width, vertical_padding, bg_color, text_color, accent_colors, font_size |
-| `inc/customizer/settings/footer-builder/desktop/bottom-row-section.php` | Added controls: max_width, vertical_padding, bg_color, text_color, accent_colors, font_size |
-| `inc/customizer/settings/footer-builder/mobile/top-row-section.php` | Added controls: vertical_padding, bg_color, text_color, accent_colors, font_size |
-| `inc/customizer/settings/footer-builder/mobile/bottom-row-section.php` | Added controls: vertical_padding, bg_color, text_color, accent_colors, font_size |
-| `inc/customizer/js/postmessage.ts` | Imported and called `footerBuilderRowsSetup()` |
+| `inc/customizer/styles/footer-builder-styles.php` | Added CSS generation for footer builder rows 1 and 3 (desktop and mobile) |
+| `inc/customizer/styles.php` | Added include for `footer-builder-styles.php` |
 
-### New Controls Added
+### CSS Output Implementation
 
 **Desktop Row 1 & Row 3**:
-- `wpbf_footer_builder_desktop_row_1_max_width` / `wpbf_footer_builder_desktop_row_3_max_width`
-- `wpbf_footer_builder_desktop_row_1_vertical_padding` / `wpbf_footer_builder_desktop_row_3_vertical_padding`
-- `wpbf_footer_builder_desktop_row_1_bg_color` / `wpbf_footer_builder_desktop_row_3_bg_color`
-- `wpbf_footer_builder_desktop_row_1_text_color` / `wpbf_footer_builder_desktop_row_3_text_color`
-- `wpbf_footer_builder_desktop_row_1_accent_colors` / `wpbf_footer_builder_desktop_row_3_accent_colors`
-- `wpbf_footer_builder_desktop_row_1_font_size` / `wpbf_footer_builder_desktop_row_3_font_size`
+- `max_width` → `.wpbf-footer-row-{row_key} .wpbf-container { max-width }`
+- `vertical_padding` → `.wpbf-footer-row-{row_key} .wpbf-row-content { padding-top, padding-bottom }`
+- `bg_color` → `.wpbf-footer-row-{row_key} { background-color }`
+- `text_color` → `.wpbf-footer-row-{row_key} { color }`
+- `accent_colors` → `.wpbf-footer-row-{row_key} a { color }` and hover/focus states
+- `font_size` → `.wpbf-footer-row-{row_key} { font-size }`
 
-**Mobile Row 1 & Row 3** (no max_width, following header builder pattern):
-- `wpbf_footer_builder_mobile_row_1_vertical_padding` / `wpbf_footer_builder_mobile_row_3_vertical_padding`
-- `wpbf_footer_builder_mobile_row_1_bg_color` / `wpbf_footer_builder_mobile_row_3_bg_color`
-- `wpbf_footer_builder_mobile_row_1_text_color` / `wpbf_footer_builder_mobile_row_3_text_color`
-- `wpbf_footer_builder_mobile_row_1_accent_colors` / `wpbf_footer_builder_mobile_row_3_accent_colors`
-- `wpbf_footer_builder_mobile_row_1_font_size` / `wpbf_footer_builder_mobile_row_3_font_size`
+**Mobile Row 1 & Row 3** (no max_width):
+- Same properties as desktop except `max_width`
 
-### Assets Built
+### Pattern Followed
 
-- `js/min/postmessage-min.js` rebuilt with footer builder rows postmessage handlers
+- Used `header-builder-rows-styles.php` as reference
+- CSS selectors match postmessage handlers in `footer-builder-rows.ts`
+- Row 2 (Main Row) uses existing footer CSS output (moved controls)
 
-## 3. Next Steps (v2.11.8+48)
+## 3. Pending Tasks (v2.11.8+49)
 
-### Task: Add CSS Output for Footer Builder Row Controls
+### Task: Test Footer Builder in Customizer
 
-The new controls need CSS output to persist styles on page load.
+1. **Verify CSS output persists after page refresh**
+   - Test desktop row 1 and row 3 styling
+   - Test mobile row 1 and row 3 styling
+   - Verify all control types work (max_width, padding, colors, font_size)
 
-**Key files**:
-- `inc/customizer/styles.php` - Main entry point for all style files
-- `inc/customizer/styles/footer-builder-styles.php` - **TARGET FILE** (currently empty)
-- `inc/customizer/styles/header-builder-rows-styles.php` - **PATTERN TO FOLLOW**
-
-**Implementation**:
-1. Add CSS generation logic to `footer-builder-styles.php`
-2. Follow the pattern from `header-builder-rows-styles.php`
-3. Use selectors matching the postmessage handlers in `footer-builder-rows.ts`
+2. **Verify live preview still works**
+   - Test postmessage handlers work correctly
+   - Ensure no conflicts between CSS output and live preview
 
 ### Future Enhancements
 
-1. **Test footer builder in Customizer**
-   - Verify live preview works for all new row controls
-   - Test desktop and mobile row styling
-
-2. **Consider adding visibility controls** (optional)
+1. **Consider adding visibility controls** (optional)
    - Header builder has visibility controls (commented out) for responsive display
    - Footer builder could have similar controls if needed
 
@@ -98,4 +76,5 @@ The new controls need CSS output to persist styles on page load.
 
 - Footer builder uses CSS class `.wpbf-footer-row-{row_key}` for row styling
 - Mobile rows don't have `max_width` control (following header builder pattern)
-- Existing footer controls in Row 2 continue to use their original postmessage handlers in `footer.ts`
+- Existing footer controls in Row 2 continue to use their original CSS output in `footer-styles.php`
+- CSS output file is now included in `styles.php`
