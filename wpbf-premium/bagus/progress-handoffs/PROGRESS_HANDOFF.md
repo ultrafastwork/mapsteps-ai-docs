@@ -46,9 +46,20 @@ All customizer settings files have been successfully refactored and verified:
 
 ## Pending Tasks (v2.11.8+26)
 
-### Footer Builder Output Integration
+### Task 1: Footer Builder Custom Content Output
 
-Implement output logic in theme's `FooterBuilderOutput.php` to render custom content when set.
+Hook into theme's filter to render custom content (page builder templates) when set.
+
+**Dependency**: Requires theme work first - the theme needs to add `wpbf_footer_builder_row_content` filter in `FooterBuilderOutput.php`. This is being handled by another AI agent working on the theme.
+
+Once the theme filter is available, implement the plugin hook to return custom content.
+
+### Task 2: Footer Builder Styles Output
+
+Analyze if CSS styles output is needed:
+- Current "Custom Content" controls render shortcodes (page builder templates have their own styles)
+- **Likely NO CSS styles needed** for current controls
+- Only needed if future controls add custom colors/fonts/spacing
 
 ### Future Enhancements
 
@@ -59,4 +70,4 @@ Implement output logic in theme's `FooterBuilderOutput.php` to render custom con
 
 ## Next Steps
 
-Execute Footer Builder output integration task as defined in `AGENT_PROMPT.md`.
+Execute Footer Builder output & styles integration tasks as defined in `AGENT_PROMPT.md`.

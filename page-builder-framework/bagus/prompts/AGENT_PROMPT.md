@@ -6,9 +6,9 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Test Footer Builder in Customizer.
+**Objective**: Add filter hook in FooterBuilderOutput for premium plugin integration.
 
-**Status**: Session v2.11.8+49 - Footer Builder testing.
+**Status**: Session v2.11.8+49 - Footer Builder row content filter.
 
 ---
 
@@ -21,55 +21,69 @@ The **Footer Builder** feature is now complete with:
 - Postmessage support for live preview (v2.11.8+47)
 - CSS output for row controls (v2.11.8+48)
 
----
-
-## Task: Test Footer Builder in Customizer
-
-### Test 1: Verify CSS Output Persists After Page Refresh
-
-1. Open WordPress Customizer
-2. Navigate to Footer Builder section
-3. Configure row controls for desktop_row_1 and desktop_row_3:
-   - Set `max_width` to a custom value (e.g., 1000px)
-   - Set `vertical_padding` to a custom value (e.g., 30px)
-   - Set `bg_color` to a visible color
-   - Set `text_color` to a visible color
-   - Set `accent_colors` (default and hover)
-   - Set `font_size` to a custom value
-4. Save and publish
-5. Refresh the page
-6. Verify styles persist
-
-### Test 2: Verify Live Preview Works
-
-1. Open WordPress Customizer
-2. Change row control values
-3. Verify changes appear immediately in preview (without refresh)
-4. Verify no conflicts between CSS output and live preview
-
-### Test 3: Mobile Rows
-
-1. Test mobile_row_1 and mobile_row_3 controls
-2. Verify mobile rows don't have max_width control
-3. Verify other controls work correctly
+**Premium plugin integration needed**: The wpbf-premium plugin has "Custom Content" controls that allow users to replace entire row content with page builder templates (Elementor/Beaver Builder shortcodes). The theme needs to provide a filter hook so the premium plugin can override row content.
 
 ---
 
-## Files Reference
+## Task: Add Filter Hook in FooterBuilderOutput
 
-| File | Purpose |
+Add a filter in `FooterBuilderOutput.php` to allow premium plugin to override row content rendering.
+
+### Implementation
+
+In `render_row()` method, add a filter before rendering the row content:
+
+```php
+private function render_row( $row_key, $columns ) {
+    // Allow premium plugin to override entire row content
+    $custom_content = apply_filters( 'wpbf_footer_builder_row_content', '', $row_key );
+    
+    if ( ! empty( $custom_content ) ) {
+        // Render row wrapper with custom content
+        $row_class = 'wpbf-footer-row wpbf-footer-row-' . esc_attr( $row_key );
+        echo '<div class="' . esc_attr( $row_class ) . '">';
+        echo '<div class="wpbf-container wpbf-container-center">';
+        echo do_shortcode( $custom_content );
+        echo '</div>';
+        echo '</div>';
+        return;
+    }
+    
+    // ... existing row rendering code ...
+}
+```
+
+### Reference: Header Builder Pattern
+
+Check if `HeaderBuilderOutput.php` has similar filter for consistency. If so, follow the same pattern.
+
+### Files to Modify
+
+| File | Changes |
 |------|---------|
-| `inc/customizer/styles/footer-builder-styles.php` | CSS output for footer builder rows |
-| `inc/customizer/js/postmessage-parts/footer-builder-rows.ts` | Postmessage handlers for live preview |
-| `inc/customizer/settings/footer-builder/desktop/top-row-section.php` | Desktop row 1 controls |
-| `inc/customizer/settings/footer-builder/desktop/bottom-row-section.php` | Desktop row 3 controls |
-| `inc/customizer/settings/footer-builder/mobile/top-row-section.php` | Mobile row 1 controls |
-| `inc/customizer/settings/footer-builder/mobile/bottom-row-section.php` | Mobile row 3 controls |
+| `Customizer/FooterBuilder/FooterBuilderOutput.php` | Add `wpbf_footer_builder_row_content` filter in `render_row()` |
+
+---
+
+## Testing
+
+After adding the filter:
+
+1. Verify footer builder still renders correctly (filter returns empty by default)
+2. Test that the filter can be hooked into:
+   ```php
+   add_filter( 'wpbf_footer_builder_row_content', function( $content, $row_key ) {
+       if ( 'desktop_row_1' === $row_key ) {
+           return '<p>Test custom content</p>';
+       }
+       return $content;
+   }, 10, 2 );
+   ```
 
 ---
 
 ## Notes
 
-- Footer builder uses CSS class `.wpbf-footer-row-{row_key}` for row styling
-- Mobile rows don't have `max_width` control (following header builder pattern)
-- Row 2 (Main Row) uses existing footer controls with their own CSS output
+- The premium plugin (wpbf-premium) will hook into this filter to render custom content
+- Premium plugin controls: `wpbf_footer_builder_{row_key}_custom` (code fields for shortcodes)
+- Use `do_shortcode()` to process page builder template shortcodes

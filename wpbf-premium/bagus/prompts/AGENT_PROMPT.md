@@ -7,9 +7,9 @@
 **Project Rules**: `ai-docs/wpbf-premium/rules.md`
 **Global Rules**: `.windsurfrules`
 
-**Objective**: Implement Footer Builder output integration for custom content.
+**Objective**: Implement Footer Builder output rendering and styles output for premium controls.
 
-**Status**: Session v2.11.8+26 - Footer Builder output integration.
+**Status**: Session v2.11.8+26 - Footer Builder output & styles integration.
 
 ---
 
@@ -32,26 +32,80 @@ Analyzed postmessage requirements and determined:
 
 ---
 
-## Task: Footer Builder Output Integration
+## Task 1: Footer Builder Custom Content Output
 
-Implement output logic in theme's `FooterBuilderOutput.php` to render custom content when set.
+Hook into theme's filter to render custom content (page builder templates) when set.
+
+### Dependency
+
+**Requires theme work first**: The theme (page-builder-framework) needs to add a filter hook `wpbf_footer_builder_row_content` in `FooterBuilderOutput.php`. This is being handled by another AI agent working on the theme.
+
+Once the theme filter is available, implement the plugin hook.
+
+### Implementation
+
+Hook into the theme's filter to check for custom content and return it:
+
+```php
+add_filter( 'wpbf_footer_builder_row_content', function( $content, $row_key ) {
+    $custom_content = get_theme_mod( "wpbf_footer_builder_{$row_key}_custom", '' );
+    
+    if ( ! empty( $custom_content ) ) {
+        return $custom_content; // Theme will do_shortcode() this
+    }
+    
+    return $content;
+}, 10, 2 );
+```
+
+### Key Files
+
+| File | Location | Purpose |
+|------|----------|---------|
+| `FooterBuilderOutput.php` | Theme: `Customizer/FooterBuilder/` | Will have `wpbf_footer_builder_row_content` filter |
+| `settings-footer-builder.php` | Plugin: `inc/customizer/settings/` | Premium "Custom Content" controls |
 
 ### Implementation Steps
 
-1. **Study theme's FooterBuilderOutput.php**:
-   - Locate in `themes/page-builder-framework/inc/output/`
-   - Understand how row content is rendered
+1. **Wait for theme filter**: Verify `wpbf_footer_builder_row_content` filter exists in theme
+2. **Create output hook**: Add filter callback in plugin to return custom content
+3. **Test**: Add Elementor/Beaver Builder template shortcode, verify it replaces row content
 
-2. **Add custom content rendering**:
-   - Check if `wpbf_footer_builder_{row_key}_custom` has a value
-   - If set, render the shortcode content instead of default row content
-   - Use `do_shortcode()` to process shortcodes
+---
 
-3. **Test in customizer**:
-   - Add an Elementor or Beaver Builder template shortcode
-   - Verify it replaces the row content correctly
+## Task 2: Footer Builder Styles Output
 
-### Premium Footer Builder Controls
+Analyze if CSS styles output is needed for footer builder premium controls.
+
+### Current Premium Controls
+
+The current premium footer builder controls are **"Custom Content" code fields**:
+- These render shortcodes (Elementor/Beaver Builder templates)
+- Page builder templates have their own styles
+- **Likely NO CSS styles needed** for these controls
+
+### When Styles Would Be Needed
+
+Styles output would be needed if premium plugin adds controls like:
+- Custom colors, fonts, spacing for footer builder rows
+- Widget-specific styling options
+
+### Reference Files
+
+| File | Purpose |
+|------|---------|
+| `inc/customizer/styles.php` | Main styles entry - uses `$header_builder_enabled` check |
+| `inc/customizer/styles/footer-styles.php` | Existing footer WIDGETS styles (not footer builder) |
+
+### Action Items
+
+1. **Verify if styles are needed**: Current "Custom Content" controls likely don't need CSS
+2. **If no styles needed**: Document this and skip creating styles file
+3. **If future controls need styles**: Create `footer-builder-styles.php` following existing patterns
+
+---
+
+## Premium Footer Builder Controls
 
 | Control ID | Purpose |
 |------------|---------|
@@ -69,13 +123,15 @@ Implement output logic in theme's `FooterBuilderOutput.php` to render custom con
 | File | Purpose |
 |------|---------|
 | `inc/customizer/settings/settings-footer-builder.php` | Premium footer builder controls |
+| `inc/customizer/styles.php` | Main styles entry - study header builder pattern |
+| `inc/customizer/styles/footer-styles.php` | Existing footer WIDGETS styles |
 | Theme's `inc/output/FooterBuilderOutput.php` | Footer builder output rendering |
 
 ---
 
 ## Alternative Tasks
 
-If output integration is complex or requires theme changes, consider:
+If output/styles integration is complex or requires theme changes, consider:
 
 1. **Controls Movement**: Move existing footer premium controls (sticky footer, theme author, etc.) to footer builder sections when enabled
 2. **Additional Premium Controls**: Add more premium controls to footer builder widget sections (logo, menu, html, social, copyright)

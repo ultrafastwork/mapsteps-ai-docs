@@ -55,16 +55,15 @@ Added **CSS output for Footer Builder row controls** to persist styles on page l
 
 ## 3. Pending Tasks (v2.11.8+49)
 
-### Task: Test Footer Builder in Customizer
+### Task: Add Filter Hook in FooterBuilderOutput
 
-1. **Verify CSS output persists after page refresh**
-   - Test desktop row 1 and row 3 styling
-   - Test mobile row 1 and row 3 styling
-   - Verify all control types work (max_width, padding, colors, font_size)
+Add a filter in `FooterBuilderOutput.php` to allow premium plugin to override row content rendering.
 
-2. **Verify live preview still works**
-   - Test postmessage handlers work correctly
-   - Ensure no conflicts between CSS output and live preview
+**Why needed**: The wpbf-premium plugin has "Custom Content" controls (`wpbf_footer_builder_{row_key}_custom`) that allow users to replace entire row content with page builder templates (Elementor/Beaver Builder shortcodes). The theme needs to provide a filter hook.
+
+**Implementation**: Add `wpbf_footer_builder_row_content` filter in `render_row()` method before rendering columns.
+
+See `AGENT_PROMPT.md` for detailed implementation.
 
 ### Future Enhancements
 
