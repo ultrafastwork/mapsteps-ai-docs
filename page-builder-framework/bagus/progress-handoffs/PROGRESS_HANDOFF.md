@@ -70,17 +70,27 @@ Added **Footer Builder postmessage support** for live preview in the Customizer.
 
 ## 3. Next Steps (v2.11.8+48)
 
-### Suggested Tasks
+### Task: Add CSS Output for Footer Builder Row Controls
 
-1. **Add CSS output for new footer builder row controls**
-   - The new controls need corresponding CSS output in `FooterBuilderOutput.php` or a dedicated CSS output class
-   - Follow the pattern from header builder CSS output
+The new controls need CSS output to persist styles on page load.
 
-2. **Test footer builder in Customizer**
+**Key files**:
+- `inc/customizer/styles.php` - Main entry point for all style files
+- `inc/customizer/styles/footer-builder-styles.php` - **TARGET FILE** (currently empty)
+- `inc/customizer/styles/header-builder-rows-styles.php` - **PATTERN TO FOLLOW**
+
+**Implementation**:
+1. Add CSS generation logic to `footer-builder-styles.php`
+2. Follow the pattern from `header-builder-rows-styles.php`
+3. Use selectors matching the postmessage handlers in `footer-builder-rows.ts`
+
+### Future Enhancements
+
+1. **Test footer builder in Customizer**
    - Verify live preview works for all new row controls
    - Test desktop and mobile row styling
 
-3. **Consider adding visibility controls** (optional)
+2. **Consider adding visibility controls** (optional)
    - Header builder has visibility controls (commented out) for responsive display
    - Footer builder could have similar controls if needed
 

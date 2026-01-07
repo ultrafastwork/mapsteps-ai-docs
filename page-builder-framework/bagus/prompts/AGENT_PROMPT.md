@@ -69,6 +69,16 @@ Study how header builder generates CSS for row controls. Look for:
 
 ## Files Reference
 
+### CSS Output Files (Key Files)
+
+| File | Purpose |
+|------|---------|
+| `inc/customizer/styles.php` | Main entry point - includes all style files |
+| `inc/customizer/styles/footer-builder-styles.php` | **TARGET FILE** - Currently empty, add CSS output here |
+| `inc/customizer/styles/header-builder-rows-styles.php` | **PATTERN TO FOLLOW** - Header builder rows CSS output |
+
+### Other Reference Files
+
 | File | Purpose |
 |------|---------|
 | `Customizer/FooterBuilder/FooterBuilderOutput.php` | Footer builder frontend rendering |
@@ -80,6 +90,8 @@ Study how header builder generates CSS for row controls. Look for:
 
 ## Notes
 
+- **`footer-builder-styles.php` exists but is empty** - this is where CSS output should be added
+- Follow the pattern in `header-builder-rows-styles.php` for CSS generation
 - CSS output should match the selectors used in `footer-builder-rows.ts`
 - Row 2 (Main Row) uses moved controls that already have CSS output in existing footer CSS
 - Mobile rows don't have `max_width` control
