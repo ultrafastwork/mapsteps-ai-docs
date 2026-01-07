@@ -6,105 +6,66 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Add controls movement for Footer Builder and confirm off-canvas is not needed.
+**Objective**: Test Footer Builder controls movement and review frontend output.
 
-**Status**: Session v2.11.8+46 - Footer Builder controls movement.
+**Status**: Session v2.11.8+47 - Footer Builder testing.
 
 ---
 
 ## Background
 
-The **Footer Builder** feature was implemented in session v2.11.8+45, following the Header Builder pattern. The implementation includes:
+The **Footer Builder** feature was implemented in session v2.11.8+45, and controls movement was added in session v2.11.8+46. The implementation includes:
 
 - `Customizer/FooterBuilder/FooterBuilderConfig.php` - Widget and slot definitions
 - `Customizer/FooterBuilder/FooterBuilderOutput.php` - Frontend rendering
 - `inc/customizer/settings/settings-footer-builder.php` - Main settings
 - `inc/customizer/settings/footer-builder/desktop/*.php` - 10 desktop section files
 - `inc/customizer/settings/footer-builder/mobile/*.php` - 10 mobile section files
+- `inc/customizer/js/customizer-parts/setup-controls-movement.ts` - Controls movement (header + footer)
 
 ---
 
-## Task 1: Add Controls Movement for Footer Builder
+## Task 1: Test Footer Builder Controls Movement
 
-The header builder moves existing controls from old sections into header builder sections when the toggle is enabled. This allows reusing existing styling controls within the builder context.
+The controls movement was added in v2.11.8+46. Verify it works correctly:
 
-### Reference Implementation
+### Testing Steps
 
-Study `inc/customizer/js/customizer-parts/setup-controls-movement.ts` to understand the pattern:
+1. Open WordPress Customizer
+2. Navigate to Footer panel
+3. Toggle footer builder OFF → verify controls are in `wpbf_footer_options` section
+4. Toggle footer builder ON → verify controls move to `wpbf_footer_builder_desktop_row_2_section`
+5. Verify control labels change correctly:
+   - `footer_width` → "Container Width"
+   - `footer_height` → "Vertical Padding"
 
-```typescript
-moveCustomizerControls({
-    dependency: {
-        settingId: "wpbf_enable_header_builder",
-        moveForwardWhenValueIs: true,
-    },
-    sections: [
-        {
-            from: "wpbf_pre_header_options",
-            to: "wpbf_header_builder_desktop_row_1_section",
-            controlsToMove: [
-                { id: "pre_header_width", label: { to: "Container Width" }, prio: { to: 10 } },
-                // ...
-            ],
-        },
-        // ...
-    ],
-});
-```
+### Controls Moved
 
-### Controls to Move for Footer Builder
-
-The existing footer settings (`inc/customizer/settings/settings-footer.php`) have these controls that should be moved to footer builder row sections:
-
-| Control ID | Current Section | Target Section | New Label |
-|------------|-----------------|----------------|-----------|
-| `footer_width` | `wpbf_footer_options` | `wpbf_footer_builder_desktop_row_2_section` | Container Width |
-| `footer_height` | `wpbf_footer_options` | `wpbf_footer_builder_desktop_row_2_section` | Vertical Padding |
-| `footer_bg_color` | `wpbf_footer_options` | `wpbf_footer_builder_desktop_row_2_section` | (keep label) |
-| `footer_font_color` | `wpbf_footer_options` | `wpbf_footer_builder_desktop_row_2_section` | (keep label) |
-| `footer_accent_color` | `wpbf_footer_options` | `wpbf_footer_builder_desktop_row_2_section` | (keep label) |
-| `footer_accent_color_alt` | `wpbf_footer_options` | `wpbf_footer_builder_desktop_row_2_section` | (keep label) |
-| `footer_font_size` | `wpbf_footer_options` | `wpbf_footer_builder_desktop_row_2_section` | (keep label) |
-
-### Implementation Steps
-
-1. Update `inc/customizer/js/customizer-parts/setup-controls-movement.ts`:
-   - Add footer builder controls movement configuration
-   - Use `wpbf_enable_footer_builder` as the dependency setting
-
-2. Rebuild customizer assets: `pnpm run build-customizer`
-
-3. Test in customizer:
-   - Toggle footer builder OFF → controls should be in `wpbf_footer_options`
-   - Toggle footer builder ON → controls should move to footer builder row sections
+| Control ID | New Label | Priority |
+|------------|-----------|----------|
+| `footer_width` | Container Width | 10 |
+| `footer_height` | Vertical Padding | 15 |
+| `footer_bg_color` | (keep label) | 200 |
+| `footer_font_color` | (keep label) | 205 |
+| `footer_accent_color` | (keep label) | 210 |
+| `footer_accent_color_alt` | (keep label) | 215 |
+| `footer_font_size` | (keep label) | 220 |
 
 ---
 
-## Task 2: Confirm Off-Canvas Not Needed
+## Task 2: Review Footer Builder Frontend Output
 
-The footer builder was intentionally implemented **without off-canvas panels** (unlike header builder).
+Test the footer builder rendering on the frontend:
 
-### Reasoning
+### Testing Steps
 
-- Header builder needs off-canvas for: full-screen menu, slide-out mobile menu
-- Footer builder doesn't have these interaction patterns - footers are static content areas
-
-### Verification
-
-Confirm that `FooterBuilderConfig::availableSlots()` does NOT include `offcanvas` key:
-
-```php
-// Correct - no offcanvas
-'desktop' => array(
-    'rows' => array( /* 3 rows */ ),
-),
-
-// Header builder has offcanvas - footer should NOT
-'desktop' => array(
-    'offcanvas' => array( /* ... */ ), // NOT needed for footer
-    'rows' => array( /* 3 rows */ ),
-),
-```
+1. Enable footer builder in Customizer
+2. Add widgets to different slots (Logo, Menu, HTML, Social Icons, Copyright)
+3. Preview the frontend
+4. Verify:
+   - Widgets display correctly in assigned slots
+   - Row styling applies correctly
+   - Responsive behavior works (desktop vs mobile)
 
 ---
 
@@ -128,4 +89,4 @@ Confirm that `FooterBuilderConfig::availableSlots()` does NOT include `offcanvas
 - Footer builder uses same `ResponsiveBuilderControl` as header builder
 - `setup-builder-control.ts` automatically handles footer builder toggle via `wpbf-builder-toggle` class
 - Footer builder adds to existing `footer_panel` with priority 0 (appears first)
-- **No offcanvas needed for footer** (unlike header) - this is intentional
+- **No offcanvas needed for footer** (unlike header) - footers are static content areas
