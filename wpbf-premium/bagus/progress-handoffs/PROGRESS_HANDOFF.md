@@ -18,6 +18,7 @@ See `ai-docs/wpbf-premium/rules.md` for project-specific guidelines and workflow
 
 - Session v2.11.8+45: Created Footer Builder core files
 - Session v2.11.8+46: Added controls movement for footer builder
+- Session v2.11.8+47: Added postmessage support for footer builder rows
 
 ---
 
@@ -62,7 +63,19 @@ Added "Custom Content" controls to all 6 footer builder row sections:
 
 ## Pending Tasks (v2.11.8+25)
 
-### Potential Enhancements
+### Footer Builder Postmessage
+
+Check if premium footer builder controls need postmessage support.
+
+**Important considerations**:
+- The "Custom Content" controls use `partialRefresh` which handles live preview via AJAX
+- Existing footer widgets postmessage is in `postmessage-parts/footer.ts` (for `footer_widgets_*` controls)
+- Theme's footer builder rows postmessage is in `postmessage-parts/footer-builder-rows.ts`
+- **Do NOT duplicate postmessage handlers** for controls that already have them
+
+**Reference**: Study theme's `header-builder-rows.ts` (lines 49-76) for pattern on handling existing vs new controls.
+
+### Future Enhancements
 
 1. **Output Integration**: Implement output logic in theme's `FooterBuilderOutput.php` to render custom content when set
 2. **Controls Movement**: Consider moving existing footer premium controls (sticky footer, theme author, etc.) to footer builder sections when enabled
@@ -72,4 +85,4 @@ Added "Custom Content" controls to all 6 footer builder row sections:
 
 ## Next Steps
 
-Continue with footer builder enhancements or other tasks as directed.
+Execute Footer Builder postmessage task as defined in `AGENT_PROMPT.md`.
