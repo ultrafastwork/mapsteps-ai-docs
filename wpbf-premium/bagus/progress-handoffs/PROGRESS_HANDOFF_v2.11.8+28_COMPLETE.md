@@ -1,8 +1,8 @@
 # Progress Handoff: WPBF Premium Development
 
-**Current Session:** v2.11.8+29
+**Current Session:** v2.11.8+28
 **Date:** January 7, 2026
-**Status:** Active
+**Status:** Completed
 
 ---
 
@@ -32,15 +32,31 @@ All customizer settings files have been successfully refactored and verified:
 - Footer Builder postmessage analysis (v2.11.8+25) - **No implementation needed**
 - Footer Builder output & styles integration (v2.11.8+26) - **Removed** (unwanted `_custom` feature)
 - Footer Builder controls movement (v2.11.8+27) - **Completed**
-- Footer Builder theme author controls movement (v2.11.8+28) - **Completed**
 
 ---
 
-## Pending Tasks
+## Recent Accomplishments (v2.11.8+28)
 
-Footer Builder premium integration is complete. Suggested next tasks:
+### Added Theme Author Controls Movement to Copyright Section
+
+Moved `footer_theme_author_name` and `footer_theme_author_url` controls to footer builder copyright widget section when footer builder is enabled.
+
+**Controls Moved**:
+- `footer_theme_author_separator` → `wpbf_footer_builder_desktop_copyright_section` (priority 10)
+- `footer_theme_author_name` → `wpbf_footer_builder_desktop_copyright_section` (priority 11)
+- `footer_theme_author_url` → `wpbf_footer_builder_desktop_copyright_section` (priority 12)
+- `footer_theme_author_url_separator` → `wpbf_footer_builder_desktop_copyright_section` (priority 13)
+
+### Files Modified
+
+- `inc/customizer/js/customizer.ts` - Added theme author controls to `setupFooterBuilderControlsMovement()`
+- `js/customizer.js` - Rebuilt
+
+---
+
+## Next Steps
+
+### Future Enhancements
 
 1. **Additional Premium Controls**: Add more premium controls to footer builder widget sections (logo, menu, html, social, copyright) - only if needed
 2. **Footer Builder Styles**: Create `footer-builder-styles.php` when premium controls with styling options are added
-3. **Manual Testing**: Test Footer Builder premium controls in WordPress Customizer
-4. **New Feature Development**: Proceed with next feature request
