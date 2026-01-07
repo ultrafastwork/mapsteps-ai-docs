@@ -6,121 +6,80 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Add postmessage support for Footer Builder.
+**Objective**: Add CSS output for Footer Builder row controls.
 
-**Status**: Session v2.11.8+47 - Footer Builder postmessage.
+**Status**: Session v2.11.8+48 - Footer Builder CSS output.
 
 ---
 
 ## Background
 
-The **Footer Builder** feature was implemented in session v2.11.8+45, and controls movement was added in session v2.11.8+46. The implementation includes:
+The **Footer Builder** feature now has:
+- Widget and slot definitions (`FooterBuilderConfig.php`)
+- Frontend rendering (`FooterBuilderOutput.php`)
+- Controls movement (v2.11.8+46)
+- Postmessage support for live preview (v2.11.8+47)
 
-- `Customizer/FooterBuilder/FooterBuilderConfig.php` - Widget and slot definitions
-- `Customizer/FooterBuilder/FooterBuilderOutput.php` - Frontend rendering
-- `inc/customizer/settings/settings-footer-builder.php` - Main settings
-- `inc/customizer/settings/footer-builder/desktop/*.php` - 10 desktop section files
-- `inc/customizer/settings/footer-builder/mobile/*.php` - 10 mobile section files
-- `inc/customizer/js/customizer-parts/setup-controls-movement.ts` - Controls movement (header + footer)
+In session v2.11.8+47, new controls were added to footer builder rows 1 and 3:
+- Desktop: `max_width`, `vertical_padding`, `bg_color`, `text_color`, `accent_colors`, `font_size`
+- Mobile: `vertical_padding`, `bg_color`, `text_color`, `accent_colors`, `font_size`
+
+These controls have postmessage handlers for live preview, but they need **CSS output** to persist the styles on page load.
 
 ---
 
-## Task: Add Postmessage Support for Footer Builder
+## Task: Add CSS Output for Footer Builder Row Controls
 
-The header builder has postmessage scripts for live preview. Footer builder should have similar support.
+### Reference: Header Builder CSS Output
 
-### Important: Existing Footer Postmessage Scripts
-
-**The existing footer controls already have postmessage scripts** in `inc/customizer/js/postmessage-parts/footer.ts`:
-
-```typescript
-// Existing postmessage handlers in footer.ts:
-- footer_width
-- footer_height
-- footer_bg_color
-- footer_font_color
-- footer_accent_color
-- footer_accent_color_alt
-- footer_font_size
-```
-
-These controls are **moved** to footer builder row sections when footer builder is enabled, but they still use the same setting IDs. So the existing postmessage scripts should continue to work.
-
-### Reference: Header Builder Postmessage Pattern
-
-Study `inc/customizer/js/postmessage-parts/header-builder-rows.ts` (lines 49-76) for the pattern:
-
-```typescript
-/**
- * These fields are handled here for desktop_row_3 only
- * because desktop_row_3 didn't exist before the new header builder added.
- *
- * Max width:
- * - In desktop_row_1, the value is using the existing `pre_header_width` setting.
- * - In desktop_row_2, the value is using the existing `menu_width` setting.
- * ...
- */
-if (rowKey === "desktop_row_3") {
-    // Only add postmessage for NEW controls that don't have existing handlers
-}
-```
-
-**Key insight**: Header builder reuses existing settings (and their postmessage handlers) for row 1 and row 2. Only row 3 (which is new) needs new postmessage handlers.
+Study how header builder generates CSS for row controls. Look for:
+- `Customizer/HeaderBuilder/` - Header builder classes
+- CSS generation patterns for row styling
 
 ### Implementation Steps
 
-1. **Analyze footer builder controls**:
-   - Which controls are moved from existing footer settings? (already have postmessage)
-   - Which controls are NEW to footer builder? (need new postmessage)
+1. **Analyze header builder CSS output pattern**
+   - Find where header builder row CSS is generated
+   - Understand the CSS output structure
 
-2. **Create `footer-builder-rows.ts`** (if needed):
-   - Add postmessage handlers for NEW footer builder row controls only
-   - Follow the pattern from `header-builder-rows.ts`
+2. **Create CSS output for footer builder rows**
+   - Add CSS generation for new row controls (rows 1 and 3)
+   - Use selectors matching the postmessage handlers:
+     - `.wpbf-footer-row-desktop_row_1`, `.wpbf-footer-row-desktop_row_3`
+     - `.wpbf-footer-row-mobile_row_1`, `.wpbf-footer-row-mobile_row_3`
 
-3. **Create other footer builder postmessage files** (if needed):
-   - `footer-builder.ts` - for general footer builder controls
-   - Consider widget-specific postmessage if needed
+3. **Test in Customizer**
+   - Verify styles persist after page refresh
+   - Verify live preview still works
 
-4. **Update `postmessage.ts`**:
-   - Import and call new footer builder postmessage setup functions
+### New Controls Needing CSS Output
 
-5. **Build postmessage assets**: `pnpm build-postmessage`
+| Control ID | CSS Property | Selector |
+|------------|--------------|----------|
+| `wpbf_footer_builder_desktop_row_1_max_width` | `max-width` | `.wpbf-footer-row-desktop_row_1 .wpbf-container` |
+| `wpbf_footer_builder_desktop_row_1_vertical_padding` | `padding-top/bottom` | `.wpbf-footer-row-desktop_row_1 .wpbf-row-content` |
+| `wpbf_footer_builder_desktop_row_1_bg_color` | `background-color` | `.wpbf-footer-row-desktop_row_1` |
+| `wpbf_footer_builder_desktop_row_1_text_color` | `color` | `.wpbf-footer-row-desktop_row_1` |
+| `wpbf_footer_builder_desktop_row_1_accent_colors` | `color` (links) | `.wpbf-footer-row-desktop_row_1 a` |
+| `wpbf_footer_builder_desktop_row_1_font_size` | `font-size` | `.wpbf-footer-row-desktop_row_1` |
 
-### Footer Builder Row Sections
-
-| Row | Section ID | Notes |
-|-----|------------|-------|
-| Row 1 (Top) | `wpbf_footer_builder_desktop_row_1_section` | NEW - may need postmessage |
-| Row 2 (Main) | `wpbf_footer_builder_desktop_row_2_section` | Receives moved controls |
-| Row 3 (Bottom) | `wpbf_footer_builder_desktop_row_3_section` | NEW - may need postmessage |
-
-### Controls Analysis
-
-**Moved controls** (already have postmessage in `footer.ts`):
-- `footer_width`, `footer_height`, `footer_bg_color`, `footer_font_color`
-- `footer_accent_color`, `footer_accent_color_alt`, `footer_font_size`
-
-**Potentially NEW controls** (may need postmessage):
-- Row 1 and Row 3 specific controls (max_width, vertical_padding, bg_color, text_color, accent_colors)
-- Row visibility controls
-- Widget-specific controls
+(Same pattern for `desktop_row_3`, `mobile_row_1`, `mobile_row_3`)
 
 ---
 
-## Postmessage Files Reference
+## Files Reference
 
 | File | Purpose |
 |------|---------|
-| `postmessage.ts` | Main entry point, imports all postmessage modules |
-| `postmessage-parts/footer.ts` | Existing footer postmessage (7 controls) |
-| `postmessage-parts/header-builder.ts` | Header builder general controls |
-| `postmessage-parts/header-builder-rows.ts` | Header builder row controls (pattern to follow) |
+| `Customizer/FooterBuilder/FooterBuilderOutput.php` | Footer builder frontend rendering |
+| `inc/customizer/js/postmessage-parts/footer-builder-rows.ts` | Postmessage handlers (CSS selectors reference) |
+| `inc/customizer/settings/footer-builder/desktop/top-row-section.php` | Row 1 controls |
+| `inc/customizer/settings/footer-builder/desktop/bottom-row-section.php` | Row 3 controls |
 
 ---
 
 ## Notes
 
-- **Do NOT duplicate postmessage handlers** - if a control already has a handler in `footer.ts`, don't add another
-- Footer builder rows may need visibility toggle postmessage (like header builder)
-- Check if CSS selectors need updating for footer builder context
-- Build with `pnpm build-postmessage` after changes
+- CSS output should match the selectors used in `footer-builder-rows.ts`
+- Row 2 (Main Row) uses moved controls that already have CSS output in existing footer CSS
+- Mobile rows don't have `max_width` control
