@@ -6,52 +6,55 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Awaiting next task assignment.
+**Objective**: Test and verify Header Builder regression fix.
 
-**Status**: Session v2.11.8+51 - Footer Builder implementation complete.
-
----
-
-## Previous Session Summary (v2.11.8+50)
-
-Footer Builder vs Header Builder verification completed successfully. All 6 verification aspects passed:
-
-1. ✅ Existing Controls Handling - Premium controls movement matches
-2. ✅ New Controls - Row and widget controls implemented
-3. ✅ Fields Output - Output classes follow same patterns
-4. ✅ Styles Output - CSS generation matches header builder
-5. ✅ Postmessage Scripts - Live preview handlers implemented
-6. ✅ Premium Plugin Integration - Controls movement configured
-
-**Result**: No code changes required. Footer Builder implementation already matches Header Builder pattern.
+**Status**: Session v2.11.8+52 - Header Builder regression fix applied, awaiting verification.
 
 ---
 
-## Suggested Next Tasks
+## Previous Session Summary (v2.11.8+51)
 
-The Footer Builder feature is complete. Suggested next steps:
+Fixed **Header Builder regression** caused by Footer Builder introduction:
 
-1. **Manual Testing** - Test Footer Builder in WordPress Customizer to ensure all controls work correctly
-2. **Documentation** - Update user documentation for the new Footer Builder feature
-3. **Bug Fixes** - Address any bugs reported from testing
-4. **New Feature** - Proceed with next feature request from the team
+1. **Hardcoded Section Prefix** - Changed `wpbf_header_builder_` to dynamic `${this.params.id}_` in `handleRowSettingClick()` and `bindCustomizeSection()`
+
+2. **Global Sortable Selectors** - Scoped `initSortable()` to specific builder panel using `$builderPanel.find()` instead of global `jQuery(".active-widgets")`
+
+### Files Modified
+
+| File | Changes |
+|------|---------|
+| `Customizer/Controls/Builder/src/responsive-builder-control.ts` | Fixed section prefix and sortable scoping |
+| `Customizer/Controls/Builder/src/builder-control.ts` | Fixed section prefix and sortable scoping |
 
 ---
 
-## Footer Builder Reference
+## Pending Tasks
+
+1. **Manual Testing** - Verify Header Builder widget movement works in Customizer:
+   - Add widgets to rows
+   - Move widgets between columns (e.g., menu1 from column 1 to column 3)
+   - Verify instant preview updates
+   - Save and verify frontend renders correctly
+
+2. **Footer Builder Testing** - Verify Footer Builder still works correctly after fix
+
+3. **Regression Testing** - Ensure no other builder functionality was affected
+
+---
+
+## Builder Control Reference
 
 ### Key Files
 
 | Category | File |
 |----------|------|
-| Config | `Customizer/FooterBuilder/FooterBuilderConfig.php` |
-| Output | `Customizer/FooterBuilder/FooterBuilderOutput.php` |
-| Settings | `inc/customizer/settings/settings-footer-builder.php` |
-| Postmessage | `inc/customizer/js/postmessage-parts/footer-builder-rows.ts` |
-| Styles | `inc/customizer/styles/footer-builder-styles.php` |
-| Premium | `wpbf-premium/inc/customizer/js/customizer.ts` |
+| Responsive Builder | `Customizer/Controls/Builder/src/responsive-builder-control.ts` |
+| Builder Control | `Customizer/Controls/Builder/src/builder-control.ts` |
+| Bundle Output | `Customizer/Controls/Bundle/dist/controls-bundle-min.js` |
 
-### CSS Class Pattern
+### Build Command
 
-- Desktop rows: `.wpbf-footer-row-desktop_row_1`, `.wpbf-footer-row-desktop_row_2`, `.wpbf-footer-row-desktop_row_3`
-- Mobile rows: `.wpbf-footer-row-mobile_row_1`, `.wpbf-footer-row-mobile_row_2`, `.wpbf-footer-row-mobile_row_3`
+```bash
+pnpm run build-controls-bundle
+```

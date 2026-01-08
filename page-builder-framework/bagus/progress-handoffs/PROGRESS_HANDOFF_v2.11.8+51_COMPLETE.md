@@ -1,10 +1,10 @@
 # Progress Handoff
 
 **Date**: 2026-01-08
-**Status**: Active
+**Status**: Completed
 **Last Completed Session**: v2.11.8+51
 **Current Session**: v2.11.8+52
-**Archive**: See `PROGRESS_HANDOFF_v2.11.8+51_COMPLETE.md` for Header Builder regression fix.
+**Archive**: See `PROGRESS_HANDOFF_v2.11.8+49_COMPLETE.md` for Footer Builder row content filter.
 
 ## 1. Current State Summary
 
@@ -28,7 +28,7 @@
 
 ## 2. Session v2.11.8+51 Accomplishments
 
-Fixed **Header Builder regression** caused by Footer Builder introduction.
+Fixed **Header Builder regression** caused by Footer Builder introduction. The builder controls were using global selectors that caused cross-contamination between header and footer builders.
 
 ### Root Cause
 
@@ -36,12 +36,46 @@ Two issues in `Customizer/Controls/Builder/src/responsive-builder-control.ts` an
 
 1. **Hardcoded Section Prefix**: `handleRowSettingClick()` and `bindCustomizeSection()` used hardcoded `wpbf_header_builder_` prefix instead of dynamic `this.params.id`.
 
-2. **Global Sortable Selectors**: `initSortable()` used global jQuery selectors like `jQuery(".active-widgets")` which selected elements from ALL builder panels, causing cross-contamination between header and footer builders.
+2. **Global Sortable Selectors**: `initSortable()` used global jQuery selectors like `jQuery(".active-widgets")` which selected elements from ALL builder panels, causing:
+   - Widgets could be sorted across different builders
+   - The `update` callback fired on wrong control instance
+   - Values weren't saved correctly
 
 ### Fix Applied
 
-- Changed section prefix from hardcoded `wpbf_header_builder_` to dynamic `${this.params.id}_`
-- Scoped sortable initialization to specific builder panel using `$builderPanel.find()`
+#### 1. Dynamic Section Prefix
+
+**Before:**
+```typescript
+handleRowSettingClick: function (rowKey) {
+    customizer?.section(`wpbf_header_builder_${rowKey}_section`, ...);
+}
+```
+
+**After:**
+```typescript
+handleRowSettingClick: function (rowKey) {
+    const controlId = this.params?.id;
+    if (!controlId) return;
+    customizer?.section(`${controlId}_${rowKey}_section`, ...);
+}
+```
+
+#### 2. Scoped Sortable Initialization
+
+**Before:**
+```typescript
+jQuery(".active-widgets:not(.wpbf-premium-locked-dropzone)").sortable({
+    connectWith: ".active-widgets:not(.wpbf-premium-locked-dropzone)",
+```
+
+**After:**
+```typescript
+const $builderPanel = jQuery(this.builderPanel);
+const $activeWidgets = $builderPanel.find(".active-widgets:not(.wpbf-premium-locked-dropzone)");
+$activeWidgets.sortable({
+    connectWith: $activeWidgets,
+```
 
 ### Files Modified
 
@@ -49,11 +83,18 @@ Two issues in `Customizer/Controls/Builder/src/responsive-builder-control.ts` an
 |------|---------|
 | `Customizer/Controls/Builder/src/responsive-builder-control.ts` | Fixed `handleRowSettingClick`, `bindCustomizeSection`, `initSortable` |
 | `Customizer/Controls/Builder/src/builder-control.ts` | Fixed `handleRowSettingClick`, `bindCustomizeSection`, `initSortable` |
+| `Customizer/Controls/Bundle/dist/controls-bundle-min.js` | Rebuilt |
 
 ## 3. Pending Tasks (v2.11.8+52)
 
-1. **Manual Testing** - Verify Header Builder widget movement works in Customizer
+1. **Manual Testing** - Verify Header Builder widget movement works in Customizer:
+   - Add widgets to rows
+   - Move widgets between columns
+   - Verify instant preview updates
+   - Save and verify frontend renders correctly
+
 2. **Footer Builder Testing** - Verify Footer Builder still works correctly after fix
+
 3. **Regression Testing** - Ensure no other builder functionality was affected
 
 ## 4. Notes
