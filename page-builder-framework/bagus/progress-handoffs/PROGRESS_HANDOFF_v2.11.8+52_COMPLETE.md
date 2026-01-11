@@ -1,10 +1,10 @@
 # Progress Handoff
 
-**Date**: 2026-01-08
-**Status**: Active
+**Date**: 2026-01-11
+**Status**: Completed
 **Last Completed Session**: v2.11.8+52
 **Current Session**: v2.11.8+53
-**Archive**: See `PROGRESS_HANDOFF_v2.11.8+52_COMPLETE.md` for Footer Builder issues verification.
+**Archive**: See `PROGRESS_HANDOFF_v2.11.8+51_COMPLETE.md` for Header Builder regression fix details.
 
 ## 1. Current State Summary
 
@@ -32,15 +32,16 @@
 Verified the fix for the Header Builder regression and ensured cross-compatibility with the Footer Builder.
 
 ### Tasks Completed
-- **Manual Testing**: Verified Header Builder widget movement works in Customizer.
-- **Footer Builder Testing**: Verified Footer Builder still works correctly after shared `ResponsiveBuilderControl` fix.
+- **Manual Testing**: Verified Header Builder widget movement works in Customizer (adding widgets, moving between columns, instant preview).
+- **Footer Builder Testing**: Verified Footer Builder still works correctly after the shared `ResponsiveBuilderControl` fix.
 - **Codebase Documentation**: Formatted `ai-docs/page-builder-framework/issues.md` for AI readability and aligned it with actual codebase setting IDs.
 
 ## 3. Pending Tasks (v2.11.8+53)
 
-1. **Issue #1: Footer Builder Preview & Settings** - Investigate why widget preview and row settings are non-functional when Footer Builder is enabled.
+1. **Issue #1: Footer Builder Preview & Settings** - Investigate why widget preview and row settings are non-functional when Footer Builder is enabled (`wpbf_enable_footer_builder`).
 2. **Issue #2: Sticky Footer Toggle Visibility** - Fix visibility logic for `footer_sticky` toggle.
 
 ## 4. Notes
 
-- The issues identified in `issues.md` are **new issues** since Footer Builder is a new feature. They are not regressions from previous tasks.
+- The issues identified in `issues.md` are **new issues** related to the Footer Builder being a new feature, not regressions from the class string rename or previous refactoring.
+- Issue #1 is the primary focus for the next session.
