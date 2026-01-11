@@ -3,9 +3,10 @@
 ## Footer Issues
 
 ### 1. Footer Builder Preview & Settings
-- **Status**: 🔴 Pending
+- **Status**: ✅ Resolved
 - **Condition**: Footer Builder Enabled (`wpbf_enable_footer_builder` is true)
 - **Problem**: Widget preview and row settings (e.g., `wpbf_footer_builder_desktop_row_1_section`) are currently non-functional in the Customizer.
+- **Fix**: Restructured Footer Builder to use a template file (`inc/template-parts/footer-builder.php`) with the `<footer id="footer">` wrapper always rendered, and content hooked via `wpbf_footer_builder_content` action. Updated partialRefresh callbacks to use the new template.
 
 ### 2. Sticky Footer Toggle Visibility
 - **Status**: 🔴 Pending
