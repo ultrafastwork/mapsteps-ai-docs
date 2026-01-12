@@ -38,12 +38,12 @@ The `ai-docs/wpbf-premium/{developer}/` directory contains documentation to faci
   - **Accomplishments**: List what YOU did.
   - **Next Steps**: List what the NEXT agent should do.
 - **2. Archive Handoff**:
-  - Read the `Current Session` version from the file (e.g., `v2.11.8+1`).
+  - Read the `Current Session` version from the file (e.g., `v2.10.3+1`).
   - Save a copy as `progress-handoffs/PROGRESS_HANDOFF_{version}_COMPLETE.md`.
 - **3. Renew Handoff**:
   - Update `PROGRESS_HANDOFF.md` to prepare for the _next_ session.
   - **Status**: Set to `Active`.
-  - **Current Session**: Increment the version (e.g., `v2.11.8+1` -> `v2.11.8+2`).
+  - **Current Session**: Increment the version (e.g., `v2.10.3+1` -> `v2.10.3+2`).
   - **Content**: Clear "Recent Accomplishments" and move "Next Steps" to "Pending Tasks".
 - **4. Archive Prompt**:
   - Archive the current `prompts/AGENT_PROMPT.md` to `prompts/AGENT_PROMPT_{version}.md`.the _next_ session (based on your "Next Steps").

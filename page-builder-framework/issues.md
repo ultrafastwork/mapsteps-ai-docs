@@ -16,9 +16,12 @@
 
 ## Header Issues
 
-### 3. Hamburger Icon Customization (Full Screen)
+### 3. Hamburger Icon Customization of "Full Screen" Menu in NON Header Builder
 - **Status**: 🔴 Pending
-- **Condition**: Menu set to "Full Screen"
+- **Condition**:
+  - Use non-header builder (header builder disabled)
+  - In customizer, navigate to "Header" -> "Navigation"
+  - Set "Menu" field to "Full Screen" (a wpbf-premium feature).
 - **Problem**: "Icon Color" (`mobile_menu_hamburger_color`) and "Icon Size" (`mobile_menu_hamburger_size`) settings under the Design Tab for mobile navigation do not have any visual effect when the menu is in Full Screen mode.
 
 ### 4. Mobile Navigation Padding
