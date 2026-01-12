@@ -1,74 +1,61 @@
 # Progress Handoff
 
 **Date**: 2026-01-12
-**Status**: Active
-**Last Completed Session**: v2.11.8+53
-**Current Session**: v2.11.8+54
-**Archive**: See `PROGRESS_HANDOFF_v2.11.8+53_COMPLETE.md` for Issue #1 fix.
+**Status**: Completed
+**Last Completed Session**: v2.11.8+55
+**Current Session**: v2.11.8+56
+**Archive**: See `PROGRESS_HANDOFF_v2.11.8+55_COMPLETE.md` for Issue #5 fix.
 
 ## 1. Current State Summary
 
-**Completed Tasks**:
+**Recent Completed Tasks**:
 
-- ✅ Header settings refactoring verified
-- ✅ Typography settings refactoring verified
-- ✅ General settings refactoring verified
-- ✅ Blog settings refactoring verified
-- ✅ CSS class naming refactored (v2.11.8+43)
-- ✅ CSS class refactoring testing (v2.11.8+44)
-- ✅ Footer Builder implementation (v2.11.8+45)
-- ✅ Footer Builder controls movement (v2.11.8+46)
-- ✅ Footer Builder postmessage support (v2.11.8+47)
-- ✅ Footer Builder CSS output (v2.11.8+48)
-- ✅ Footer Builder row content filter (v2.11.8+49)
-- ✅ Footer Builder vs Header Builder verification (v2.11.8+50)
-- ✅ Header Builder regression fix (v2.11.8+51)
-- ✅ Verification of Builder fixes and Manual Testing (v2.11.8+52)
 - ✅ Issue #1: Footer Builder Preview & Settings fix (v2.11.8+53)
+- ✅ Issue #2: Sticky Footer Field Placement fix (v2.11.8+54)
+- ⚠️ Issue #5: Menu Font Size Implementation partial fix (v2.11.8+55) - still has frontend issue
 
-**Codebase Health**: All settings files use modular structure. Footer Builder implementation is complete and fully functional. Issue #1 resolved.
+**Earlier Milestones**: Footer Builder implementation (v2.11.8+45-52), CSS class refactoring (v2.11.8+43-44), Settings refactoring (verified)
 
-## 2. Session v2.11.8+53 Accomplishments
+**Codebase Health**: All settings files use modular structure. Footer Builder implementation is complete and fully functional. Issues #1 and #2 resolved. Issue #5 partially fixed but still has frontend CSS issue.
 
-Fixed Issue #1: Footer Builder Preview & Settings - widget preview and row settings now functional on clean slate.
+## 2. Session v2.11.8+55 Accomplishments
+
+Fixed Issue #5: Menu Font Size Implementation (Header Builder) - Removed conflicting row font size setting for desktop_row_2.
 
 ### Root Cause Analysis
-The Footer Builder was replacing the entire `wpbf_footer` action, and the partialRefresh wasn't working correctly on clean slate because:
-1. The `<footer id="footer">` wrapper wasn't consistently rendered
-2. The hooks weren't set up during partialRefresh AJAX calls
+The `desktop_row_2` (Main Row) had its own font size setting (`wpbf_header_builder_desktop_row_2_font_size`) that was conflicting with the existing `menu_font_size` setting. According to the design comments, desktop_row_2 should use the existing `menu_font_size` setting (which is moved to Menu 1 section when Header Builder is enabled), but the code was outputting a separate row-level font size that could override the menu font size on the front end.
 
 ### Solution
-Restructured Footer Builder to work like Header Builder - template file contains the wrapper, content is hooked inside via action.
+Removed the separate font size setting for `desktop_row_2`:
+1. Removed the font size field from `main-row-section.php`
+2. Updated `header-builder-rows-styles.php` to only output row font size for `desktop_row_3` (not `desktop_row_2`)
+3. Updated `header-builder-rows.ts` postMessage handler to match
+
+Now `desktop_row_2` correctly uses the existing `menu_font_size` setting (handled in `header-styles.php`), consistent with the original design intent documented in the code comments.
 
 ### Files Modified
-1. **`inc/template-parts/footer-builder.php`** (NEW)
-   - Template with `<footer id="footer">` wrapper always rendered
-   - Ensures hooks are set up for partialRefresh AJAX calls
-   - Uses `wpbf_footer_builder_content` action for content
+1. **`page-builder-framework/inc/customizer/settings/header-builder/desktop/main-row-section.php`**
+   - Removed the `wpbf_header_builder_desktop_row_2_font_size` field
 
-2. **`Customizer/FooterBuilder/FooterBuilderOutput.php`**
-   - Split `do_footer_output()` into `do_footer_template()` and `do_footer_content()`
-   - `do_footer_template()` loads the new template file
-   - `do_footer_content()` hooked to `wpbf_footer_builder_content` action
+2. **`page-builder-framework/inc/customizer/styles/header-builder-rows-styles.php`**
+   - Changed condition from `desktop_row_2 || desktop_row_3` to only `desktop_row_3`
 
-3. **`inc/customizer/settings/settings-footer-builder.php`**
-   - Updated partialRefresh callbacks to use new `footer-builder` template
-   - Toggle's partialRefresh conditionally renders appropriate template
-
-4. **`Customizer/Controls/Builder/src/builder-interface.ts`**
-   - Made `offcanvas` property optional in `WpbfResponsiveBuilderControlParams` interface
+3. **`page-builder-framework/inc/customizer/js/postmessage-parts/header-builder-rows.ts`**
+   - Changed condition from `desktop_row_2 || desktop_row_3` to only `desktop_row_3`
 
 ### Build Commands Executed
-- `pnpm run build-controls-bundle` - Compiled TypeScript changes successfully
+- `pnpm build-postmessage` (in page-builder-framework directory) - Compiled TypeScript changes successfully
 
-### Git Commit
-- Commit: `Fix Footer Builder preview in Customizer`
+## 3. Pending Tasks (v2.11.8+56)
 
-## 3. Pending Tasks (v2.11.8+54)
+1. **Issue #5: Menu Font Size Implementation (Header Builder)** - Frontend CSS not applying menu font size correctly. Works in Customizer preview but not on frontend. Menu widget inherits row's font size instead of using its own value. Check CSS specificity/priority in `header-styles.php` and `header-builder-rows-styles.php`.
 
-1. **Issue #2: Sticky Footer Toggle Visibility** - Fix visibility logic for `footer_sticky` toggle.
+### Other Pending Issues
+- Issue #3: Hamburger Icon Customization (Full Screen)
+- Issue #4: Mobile Navigation Padding
 
 ## 4. Notes
 
-- The `offcanvas` being optional for Footer Builder is intentional - footers don't need off-canvas functionality.
-- The fix aligns Footer Builder architecture with Header Builder's template-based approach.
+- Menu 1 uses the existing `menu_font_size` setting (moved to Menu 1 section when Header Builder is enabled)
+- Menu 2 has its own dedicated `wpbf_header_builder_desktop_menu_2_menu_font_size` setting
+- Row font size settings: Row 1 uses `pre_header_font_size`, Row 2 uses `menu_font_size`, Row 3 has its own `wpbf_header_builder_desktop_row_3_font_size`
