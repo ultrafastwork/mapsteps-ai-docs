@@ -36,3 +36,4 @@
 - **Expected Behavior**: The HTML widget will inherit main row's font size settings which is 14px, while Menu widget will use its own font size setting which is 16px.
 - **Problem**:
   - The expected behavior works in customize preview, but not in frontend (sure, I already saved/pusblished the customizer). In frontend, the Menu widget is using 14px, inheriting row's value (which is fine), but doesn't use its own value.
+- **Fix**: When header builder is enabled, always output menu font size (defaulting to 16px) to prevent inheriting row's font size. Added block comments explaining the architectural issue.
