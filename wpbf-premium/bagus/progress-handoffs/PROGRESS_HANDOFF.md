@@ -20,10 +20,6 @@ See `ai-docs/wpbf-premium/rules.md` for project-specific guidelines and workflow
 **Issues List** (see `ai-docs/page-builder-framework/issues.md`):
 - Issue #3: Hamburger Icon Customization on "Full Screen" Menu in Non-Header Builder.
 
-**Footer Builder in page-builder-framework theme** (see `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`):
-
-- Session v2.11.8+45 until v2.11.8+55
-
 ---
 
 ## Summary
