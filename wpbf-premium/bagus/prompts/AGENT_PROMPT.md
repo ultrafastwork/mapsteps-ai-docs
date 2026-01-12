@@ -8,15 +8,15 @@
 **Known Issues**: `ai-docs/page-builder-framework/issues.md`
 **Global Rules**: `.windsurfrules`
 
-**Objective**: Fix issue number 3 from `ai-docs/page-builder-framework/issues.md`.
+**Objective**: Fix issue number 4 from `ai-docs/page-builder-framework/issues.md`.
 
-**Status**: Session v2.10.3+29 - Ready to start.
+**Status**: Session v2.10.3+30 - Ready to start.
 
 ---
 
 ## Pending Issues
 
-- **Issue #3**: Hamburger Icon Customization on "Full Screen" Menu in Non-Header Builder.
+- **Issue #4**: Mobile Navigation Padding - Adjusting the "Padding" setting (`mobile_menu_padding`) does not affect the actual mobile menu items as expected.
 
 ---
 
