@@ -27,7 +27,7 @@
 - **Problem**: Adjusting the "Padding" setting (`mobile_menu_padding`) does not affect the actual mobile menu items as expected in the front-end CSS output.
 
 ### 5. Menu Font Size Implementation (Header Builder)
-- **Status**: 🔴 Pending
+- **Status**: ✅ Resolved
 - **Condition**:
   - The header builder's "HTML 1" or "HTML 2" widget added to main row (second row) at the first column.
   - The "Menu 1" OR "Menu 2" widget added to main row (second row) as well. "Menu 1" has `menu_font_size` field, "Menu 2" has `wpbf_header_builder_desktop_menu_2_menu_font_size` field.
