@@ -42,3 +42,12 @@
 - **Problem**:
   - The expected behavior works in customize preview, but not in frontend (sure, I already saved/pusblished the customizer). In frontend, the Menu widget is using 14px, inheriting row's value (which is fine), but doesn't use its own value.
 - **Fix**: When header builder is enabled, always output menu font size (defaulting to 16px) to prevent inheriting row's font size. Added block comments explaining the architectural issue.
+
+### 6. Footer Builder Issues (Ongoing)
+- **Status**: 🛠️ In Progress
+- **Condition**: Footer Builder Enabled
+- **Issues**:
+  - **Main Row Settings**: Still empty and the Background Color is set to Black as default.
+  - **Live Preview (HTML Widget)**: When changing the content of a specific widget (e.g., HTML 1), the preview output resets to the Default Footer Style.
+  - **Logo Widget**: Lacks control settings (only add/remove Logo Image is available). Missing settings for Logo Width, etc.
+  - **Copyright Widget**: The [year] and [blogname] placeholders are not working in live preview or after saving.

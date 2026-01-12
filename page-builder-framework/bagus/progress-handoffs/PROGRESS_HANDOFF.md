@@ -23,11 +23,11 @@
 - TBD
 
 ## 3. Pending Tasks
-
-### Other Pending Issues
-Both of these tasks will be handled by AI agent in wpbf-premium.
-- Issue #3: Hamburger Icon Customization (Full Screen)
-- Issue #4: Mobile Navigation Padding
+- **Issue #6**: Footer Builder Issues (Ongoing)
+  - Main Row Settings empty/black background.
+  - Live Preview reset on HTML Widget change.
+  - Logo Widget control settings missing.
+  - Copyright Widget placeholders ([year], [blogname]) not working.
 
 ## 4. Notes
 

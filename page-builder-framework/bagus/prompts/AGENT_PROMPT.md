@@ -14,9 +14,11 @@
 ---
 
 ## Pending Issues
-
-- **Issue #3**: Hamburger Icon Customization (Full Screen)
-- **Issue #4**: Mobile Navigation Padding
+- **Issue #6**: Footer Builder Issues (Ongoing)
+  - **Main Row Settings**: Still empty and the Background Color is set to Black as default.
+  - **Live Preview (HTML Widget)**: When changing the content of a specific widget (e.g., HTML 1), the preview output resets to the Default Footer Style.
+  - **Logo Widget**: Lacks control settings (only add/remove Logo Image is available). Missing settings for Logo Width, etc.
+  - **Copyright Widget**: The [year] and [blogname] placeholders are not working in live preview or after saving.
 
 ---
 
