@@ -26,9 +26,10 @@
 - **Fix**: The `menu_off_canvas_hamburger_color` setting (in Navigation section, not Mobile Navigation) was targeting wrong selector `.wpbf-nav-item` instead of `.wpbf-menu-toggle`. Updated both PHP styles and postMessage handler to use correct selector.
 
 ### 4. Mobile Navigation Padding
-- **Status**: 🔴 Pending
+- **Status**: ✅ Resolved
 - **Condition**: Header Builder is disabled, and Menu field set to "Hamburger" or "Off Canvas"
 - **Problem**: Adjusting the "Padding" setting (`mobile_menu_padding`) does not affect the actual mobile menu items both in the customize preview and in the front-end CSS output.
+- **Fix**: The premium plugin's `mobile-navigation-styles.php` was only applying padding to the close button (`.wpbf-close`), not to menu items. Added CSS output for `.wpbf-mobile-menu-hamburger .wpbf-mobile-menu a` and `.wpbf-mobile-menu-off-canvas .wpbf-mobile-menu a` selectors. Also added postMessage handler in `mobile-navigation.ts` for live preview support.
 
 ### 5. Menu Font Size Implementation (Header Builder)
 - **Status**: ✅ Resolved
