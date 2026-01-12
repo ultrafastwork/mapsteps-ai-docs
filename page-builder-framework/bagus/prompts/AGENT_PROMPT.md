@@ -9,7 +9,7 @@
 
 **Objective**: Resolve Issue #5 in `issues.md` - Menu Font Size not applied on frontend.
 
-**Status**: Session v2.11.8+56 - Ready to start.
+**Status**: Session v2.11.8+55 - Ready to start.
 
 ---
 
@@ -25,10 +25,10 @@
 HTML widget inherits row's font size (14px), Menu widget uses its own font size (16px).
 
 ### Problem
-Works in Customizer preview, but **not on frontend**. On frontend, Menu widget uses 14px (row's value) instead of its own 16px value.
+Works in Customizer preview, but **not on frontend**. On frontend, Menu widget uses 14px (row's value) instead of its own 16px value. Inheriting value is correct, but when an element has its own setting value, then it should be prioritized.
 
 ### Investigation Notes
-- Nothing for now
+- TBD
 
 ---
 
