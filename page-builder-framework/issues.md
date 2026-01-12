@@ -27,8 +27,8 @@
 
 ### 4. Mobile Navigation Padding
 - **Status**: 🔴 Pending
-- **Condition**: Menu set to "Hamburger" or "Off Canvas"
-- **Problem**: Adjusting the "Padding" setting (`mobile_menu_padding`) does not affect the actual mobile menu items as expected in the front-end CSS output.
+- **Condition**: Header Builder is disabled, and Menu field set to "Hamburger" or "Off Canvas"
+- **Problem**: Adjusting the "Padding" setting (`mobile_menu_padding`) does not affect the actual mobile menu items both in the customize preview and in the front-end CSS output.
 
 ### 5. Menu Font Size Implementation (Header Builder)
 - **Status**: ✅ Resolved
