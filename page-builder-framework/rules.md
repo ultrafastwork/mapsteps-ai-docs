@@ -64,6 +64,7 @@ The `ai-docs/page-builder-framework/{developer}/` directory contains documentati
 - **File Structure**: Maintain the existing directory structure unless explicitly instructed to refactor.
 - **Building**:
   - To build and bundle customizer controls, run `pnpm build-controls-bundle` command.
+  - To build theme's styles, run `pnpm build-style` command.
   - To build specific asset, run `pnpm build-asset` with input path and optional output path.
   - To build customizer.ts, run `pnpm build-customizer` command.
   - To build postmessage.ts, run `pnpm build-postmessage` command.
