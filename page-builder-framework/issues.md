@@ -22,8 +22,10 @@
   - Use non-header builder (header builder disabled)
   - In customizer, navigate to "Header" -> "Navigation"
   - Set "Menu" field to "Full Screen" (a wpbf-premium feature).
-- **Problem**: "Icon Color" (`mobile_menu_hamburger_color`) and "Icon Size" (`mobile_menu_hamburger_size`) settings under the Design Tab for mobile navigation do not have any visual effect when the menu is in Full Screen mode.
-- **Fix**: The `menu_off_canvas_hamburger_color` setting (in Navigation section, not Mobile Navigation) was targeting wrong selector `.wpbf-nav-item` instead of `.wpbf-menu-toggle`. Updated both PHP styles and postMessage handler to use correct selector.
+- **Problem**: "Icon Color" (`menu_off_canvas_hamburger_color`) and "Icon Size" (`menu_off_canvas_hamburger_size`) settings under the Design Tab do not have any visual effect when the menu is in Full Screen mode.
+- **Fix**:
+  - **Icon Color**: The `menu_off_canvas_hamburger_color` setting was targeting wrong selector `.wpbf-nav-item` instead of `.wpbf-menu-toggle`. Updated both PHP styles (`wpbf-premium/inc/customizer/styles/off-canvas-menu-styles.php`) and postMessage handler (`wpbf-premium/inc/customizer/js/postmessage-parts/navigation.ts`) to use correct selector.
+  - **Icon Size**: The theme's postMessage handler for `wpbf_header_builder_desktop_menu_trigger_icon_size` was creating a style tag that overrode the premium plugin's `menu_off_canvas_hamburger_size` styles due to CSS cascade order. Fixed by adding `removeStyleTag()` call when header builder is disabled, and added a listener for the header builder toggle to clean up the style tag when disabled mid-session. Modified `page-builder-framework/inc/customizer/js/postmessage-parts/menu-triggers.ts`.
 
 ### 4. Mobile Navigation Padding
 - **Status**: ✅ Resolved
