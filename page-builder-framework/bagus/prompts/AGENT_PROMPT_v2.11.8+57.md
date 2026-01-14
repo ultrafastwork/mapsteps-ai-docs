@@ -15,13 +15,8 @@
 
 ## Completed Issues
 - **Issue #6**: Footer Builder Issues (Remaining)
-  - **Live Preview (HTML Widget)**: ✅ Implemented postMessage-based live preview for HTML widgets. Changed from partialRefresh to postMessage transport, added unique CSS classes to each HTML widget for targeting, and added postMessage handlers in `footer-builder-rows.ts`.
-
----
-
-## Recent Completed
-
-- ✅ Issue #6: Footer Builder Issues - Partial fix (v2.11.8+56) - See `PROGRESS_HANDOFF_v2.11.8+56_COMPLETE.md` for details.
-  - Main Row Settings fixed (added all controls)
-  - Copyright Widget placeholders fixed ([year], [blogname])
-  - Logo Widget controls added (Logo Width)
+  - **Problem**: HTML widget live preview was broken (resetting styles on edit) because it used `partialRefresh` which re-rendered the whole footer without applying dynamic styles.
+  - **Fix**: Implemented postMessage-based live preview for HTML widgets. Changed from partialRefresh to postMessage transport, added unique CSS classes to each HTML widget for targeting, and added postMessage handlers in `footer-builder-rows.ts`.
+- **Issue #6**: Footer Builder Issues (Initial)
+  - **Problem**: Main Row settings (padding, colors, etc.), Logo Width, and Copyright placeholders were missing or incomplete.
+  - **Fix**: Added all controls to desktop and mobile main-row-section.php and logo-section.php files. Updated `wpbf_parse_template_tags()` for placeholders. (v2.11.8+56)

@@ -16,7 +16,9 @@
 
 ## Pending Issues
 
-- **Issue #4**: Mobile Navigation Padding - Adjusting the "Padding" setting (`mobile_menu_padding`) does not affect the actual mobile menu items as expected.
+- **Issue #4**: Mobile Navigation Padding
+  - **Problem**: Adjusting the "Padding" setting (`mobile_menu_padding`) does not affect the actual mobile menu items in Hamburger or Off Canvas modes, only the close button.
+  - **Fix**: Added CSS output for `.wpbf-mobile-menu-hamburger .wpbf-mobile-menu a` and related selectors. Added postMessage handler for live preview.
 
 ---
 

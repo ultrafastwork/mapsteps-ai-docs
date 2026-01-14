@@ -17,6 +17,8 @@
 ## Completed
 
 - **Issue #3**: Hamburger Icon Customization on "Full Screen" Menu in Non-Header Builder - ✅ FIXED (both color and size)
+  - **Problem**: Icon Color setting targeted the wrong selector (.wpbf-nav-item). Icon Size setting was overridden by the theme's header builder style tag even when header builder was disabled.
+  - **Fix**: Updated selectors in PHP styles and postMessage handlers. Added `removeStyleTag()` in theme to clean up header builder styles when disabled.
 
 ---
 

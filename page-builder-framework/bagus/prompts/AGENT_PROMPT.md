@@ -23,6 +23,8 @@
 ## Recent Completed
 
 - ✅ Issue #6: Footer Builder Issues - Complete fix (v2.11.8+56, v2.11.8+57)
+  - **Problem**: Main Row settings (padding, colors, etc.), Logo Width, and Copyright placeholders were missing or incomplete. HTML widget live preview was broken (resetting styles on edit).
+  - **Fix**: Added all missing controls, updated `wpbf_parse_template_tags()`, and implemented postMessage-based live preview for HTML widgets.
   - Main Row Settings fixed (added all controls)
   - Copyright Widget placeholders fixed ([year], [blogname])
   - Logo Widget controls added (Logo Width)

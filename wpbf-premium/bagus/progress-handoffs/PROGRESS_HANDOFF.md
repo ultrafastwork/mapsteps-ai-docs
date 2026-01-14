@@ -17,7 +17,13 @@ See `ai-docs/wpbf-premium/rules.md` for project-specific guidelines and workflow
 ## Related Context
 
 **Issues List** (see `ai-docs/page-builder-framework/issues.md`):
-- All known issues are currently resolved.
+- All known issues (Issue #1-#6) are currently resolved.
+  - #1: Footer Builder Preview & Settings
+  - #2: Sticky Footer Field Placement
+  - #3: Hamburger Icon Customization (Full Screen)
+  - #4: Mobile Navigation Padding
+  - #5: Menu Font Size Implementation
+  - #6: Footer Builder Issues (Main Row, Logo, Copyright, HTML Live Preview)
 
 ---
 

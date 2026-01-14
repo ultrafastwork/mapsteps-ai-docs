@@ -15,6 +15,12 @@
 
 ## Current Task: Issue #5 - Menu Font Size Implementation (Header Builder)
 
+### Problem
+- The Header Builder's Menu 1 or Menu 2 widgets were inheriting the main row's font size on the frontend, even if they had their own font size settings. This worked in preview but failed on frontend because the CSS output for menu font size was missing or overridden by the row.
+
+### Fix
+- Modified the PHP style output to always include the menu font size (defaulting to 16px) when Header Builder is enabled, ensuring it doesn't inherit from the row. Added architectural comments.
+
 ### Condition
 - Header Builder's "HTML 1" or "HTML 2" widget added to main row (second row)
 - "Menu 1" OR "Menu 2" widget also in main row
