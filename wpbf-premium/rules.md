@@ -52,6 +52,12 @@ The `ai-docs/wpbf-premium/{developer}/` directory contains documentation to faci
 - **6. Suggest What are Next For Next Agent's Works**
 - **7. Show the copy-able prompt for the next agent** with following wording: "Please execute the instructions in: ai-docs/wpbf-premium/{developer}/prompts/AGENT_PROMPT.md".
 
+### 4. Commit Changes to Git
+
+- **Commit Changes in ai-docs**: If there are changes in ai-docs, commit them to git.
+- **Commit Changes in wpbf-premium**: If there are changes in wp-content/plugins/wpbf-premium, commit them to git.
+- **Git commit rules**: Commit message should be fewer than 50 characters and does not contain version numbering. Commit description can contain more detailed explanations.
+
 ## General Project Guidelines
 
 - **Code Style**: Follow the existing coding standards of the project.
