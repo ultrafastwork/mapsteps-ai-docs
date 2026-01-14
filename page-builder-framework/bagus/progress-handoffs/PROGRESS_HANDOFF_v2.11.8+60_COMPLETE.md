@@ -1,20 +1,17 @@
 # Progress Handoff
 
 **Date**: 2026-01-14
-**Status**: Active
-**Last Completed Session**: v2.11.8+60
-**Current Session**: v2.11.8+61
-**Last Completed Session Archive**: See `PROGRESS_HANDOFF_v2.11.8+60_COMPLETE.md` for the previous state.
+**Status**: Completed
+**Current Session**: v2.11.8+60
+**Previous Session Archive**: See `PROGRESS_HANDOFF_v2.11.8+59_COMPLETE.md` for the previous state.
 
 ## 1. Current State Summary
 
 **Recent Completed Tasks**:
 
-- ✅ Issue #2: Footer Builder HTML Widget margin-bottom fix (v2.11.8+60)
-  - **Fix**: Added CSS rule to reset margin-bottom on last element in `.wpbf-footer-html-widget`.
-- ✅ Issue #3: Footer Builder Social Icons spacing fix (v2.11.8+60)
-  - **Fix**: Added flexbox with `gap: 10px` to `.wpbf-footer-social` container.
 - ✅ Issue #1: Footer Builder Copyright Widget Theme Author Instant Preview fix (v2.11.8+59)
+  - **Problem**: When changing Theme Author settings, the footer reverted to standard layout instead of Footer Builder layout.
+  - **Fix**: Updated partial refresh callbacks to use `footer-builder.php` when Footer Builder is enabled. Added `[theme_author]` placeholder support.
 - ✅ Issue #1: Footer Builder Preview & Settings fix (v2.11.8+53)
 - ✅ Issue #2: Sticky Footer Field Placement fix (v2.11.8+54)
 - ✅ Issue #5: Menu Font Size Implementation fix (v2.11.8+55)
@@ -24,9 +21,14 @@
 
 **Codebase Health**: All settings files use modular structure. Footer Builder implementation is complete and fully functional.
 
-## 2. Session v2.11.8+61 Accomplishments
+## 2. Session v2.11.8+60 Accomplishments
 
-- (Session not started)
+- ✅ Issue #2: Footer Builder HTML Widget margin-bottom fix
+  - **Problem**: HTML widget content (paragraphs) had 20px margin-bottom causing text to not be vertically centered.
+  - **Fix**: Added CSS rule to reset margin-bottom on last element in `.wpbf-footer-html-widget`.
+- ✅ Issue #3: Footer Builder Social Icons spacing fix
+  - **Problem**: Social icons had no spacing between them when multiple icons were added.
+  - **Fix**: Added flexbox with `gap: 10px` to `.wpbf-footer-social` container.
 
 ## 3. Pending Tasks
 
