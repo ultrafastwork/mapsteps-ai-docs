@@ -15,23 +15,22 @@
 - ✅ Issue #3: Footer Builder Social Icons spacing fix (v2.11.8+60)
   - **Fix**: Added flexbox with `gap: 10px` to `.wpbf-footer-social` container.
 - ✅ Issue #1: Footer Builder Copyright Widget Theme Author Instant Preview fix (v2.11.8+59)
-- ✅ Issue #1: Footer Builder Preview & Settings fix (v2.11.8+53)
-- ✅ Issue #2: Sticky Footer Field Placement fix (v2.11.8+54)
-- ✅ Issue #5: Menu Font Size Implementation fix (v2.11.8+55)
-- ✅ Issue #6: Footer Builder Issues - Complete fix (v2.11.8+56, v2.11.8+57)
+- ✅ Test Footer Builder widget CSS fixes (HTML margin-bottom, Social Icons spacing) (v2.11.8+60)
+- ✅ Test Theme Author instant preview fix with Footer Builder (v2.11.8+60)
 
 **Earlier Milestones**: Footer Builder implementation (v2.11.8+45-52), CSS class refactoring (v2.11.8+43-44), Settings refactoring (verified)
 
-**Codebase Health**: All settings files use modular structure. Footer Builder implementation is complete and fully functional.
+**Codebase Health**: All settings files use modular structure. Footer Builder implementation is mostly complete, but requires fine-tuning on alignment and design.
 
 ## 2. Session v2.11.8+61 Accomplishments
 
-- (Session not started)
-
-## 3. Pending Tasks
-
-- Test Footer Builder widget CSS fixes (HTML margin-bottom, Social Icons spacing) in Customizer.
-- Test the Theme Author instant preview fix in Customizer with Footer Builder enabled.
+- ✅ Research Footer Builder vertical alignment and menu styling issues.
+- ✅ Analyze Customizer settings for menu widget customization.
+- [ ] Address vertical centering issue in Footer Builder:
+    - Suggestion: Remove `wpbf-items-center` on the row content in `FooterBuilderOutput.php`.
+    - Warning: `.wpbf-row-content` has `align-items: center` in CSS. Modifying it may break the Header Builder.
+- [ ] Implement proper styling for "Menu 1" and "Menu 2" widgets in Footer Builder.
+- [ ] Consider adding customization fields (padding/gap/margin) for Footer Builder Menu widgets.
 
 ## 4. Notes
 
