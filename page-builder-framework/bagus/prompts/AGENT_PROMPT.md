@@ -21,19 +21,22 @@
 - Renamed labels: "Border Top X" → "Separator X"
 - Field IDs and CSS output unchanged (backward compatible)
 
+✅ "Sticky Footer" Field Reordering completed:
+- Moved "Sticky Footer" after "Footer Builder" toggle and widget list
+- Updated toggle priority to `1` and widget list to `10` in theme
+- Updated sticky footer movement priority to `20` in premium plugin
+
 ---
 
-## Pending Tasks (v2.11.8+66)
+## Pending Tasks (v2.11.8+67)
 
-No specific tasks defined. Suggestions:
-1. Test separator controls in WordPress Customizer
-2. Add bottom separator controls if requested
-3. Other Footer Builder enhancements
+1. **Continue Footer Builder development or address next request.**
 
 ---
 
 ## Recent Completed
 
+- ✅ "Sticky Footer" Field Reordering (v2.11.8+66)
 - ✅ Footer Separator Controls Refactor (v2.11.8+65)
 - ✅ Border-Top Controls for Footer Builder Rows (v2.11.8+63)
 - ✅ Widget Title field for Menu/HTML widgets (v2.11.8+62)
