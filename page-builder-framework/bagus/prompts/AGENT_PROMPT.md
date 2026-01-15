@@ -6,24 +6,36 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Review Footer Builder implementation and identify next enhancements.
+**Objective**: Continue Footer Builder development or address new tasks.
 
-**Status**: Session v2.11.8+64 - Ready to start.
+**Status**: Session v2.11.8+66 - Ready to start.
 
 ---
 
-## Pending Tasks (v2.11.8+64)
+## Previous Session Summary (v2.11.8+65)
 
-- **Review Footer Builder Implementation**: Examine completed features and identify any improvements or new features to add.
+✅ Footer Separator Controls Refactor completed:
+- Added "Top Separator" headline field to all 6 row sections
+- Swapped Style/Width order (Style first, priority 220; Width second, priority 225)
+- Updated activeCallbacks to use `border_top_style !== 'none'`
+- Renamed labels: "Border Top X" → "Separator X"
+- Field IDs and CSS output unchanged (backward compatible)
+
+---
+
+## Pending Tasks (v2.11.8+66)
+
+No specific tasks defined. Suggestions:
+1. Test separator controls in WordPress Customizer
+2. Add bottom separator controls if requested
+3. Other Footer Builder enhancements
 
 ---
 
 ## Recent Completed
 
+- ✅ Footer Separator Controls Refactor (v2.11.8+65)
 - ✅ Border-Top Controls for Footer Builder Rows (v2.11.8+63)
-  - 4 controls (Width, Style, Color, Scope) added to all 6 row sections
-  - CSS output and postMessage live preview support
-- ✅ Widget Title field for Menu 1, Menu 2, HTML 1, HTML 2 (v2.11.8+62)
-- ✅ Widget Title layout fix - wrapper divs (v2.11.8+62)
-- ✅ Footer Builder vertical alignment fix (v2.11.8+61)
-- ✅ Footer Builder Menu widget styling (v2.11.8+61)
+- ✅ Widget Title field for Menu/HTML widgets (v2.11.8+62)
+- ✅ Widget Title layout fix (v2.11.8+62)
+- ✅ Footer Builder vertical alignment & menu styling (v2.11.8+61)
