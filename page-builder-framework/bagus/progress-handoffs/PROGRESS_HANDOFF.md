@@ -2,19 +2,20 @@
 
 **Date**: 2026-01-16
 **Status**: Completed
-**Last Completed Session**: v2.11.8+66
-**Current Session**: v2.11.8+67
+**Last Completed Session**: v2.11.8+67
+**Current Session**: v2.11.8+68
 **Last Completed Session Archive**: See `PROGRESS_HANDOFF_v2.11.8+65_COMPLETE.md` for the previous state.
 
 ## 1. Current State Summary
 
 **Recent Completed Tasks**:
 
-- ✅ "Sticky Footer" Field Reordering (v2.11.8+66)
+- ✅ "Sticky Footer" Field Reordering (v2.11.8+67)
   - Moved "Sticky Footer" after "Footer Builder" toggle and widget list
+  - Moved "Sticky Footer" separator before the toggle field
   - Set "Footer Builder" toggle priority to `1` in theme
   - Set "Responsive Builder" (widget list) priority to `10` in theme
-  - Set "Sticky Footer" movement priority to `20` in premium plugin
+  - Set "Sticky Footer" priorities to `20` (separator) and `21` (field) in premium plugin
 - ✅ Footer Separator Controls Refactor (v2.11.8+65)
   - Renamed "Border Top" labels to "Separator" terminology in all 6 row section files
   - Added "Top Separator" headline field to group separator controls
@@ -29,7 +30,7 @@
 
 **Codebase Health**: Footer Builder fully implemented with separator controls, widget titles, and menu styling.
 
-## 2. Session v2.11.8+67 Pending Tasks
+## 2. Session v2.11.8+68 Pending Tasks
 
 ### 1. Ready for next task.
 

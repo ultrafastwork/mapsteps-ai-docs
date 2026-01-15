@@ -23,12 +23,13 @@
 
 ✅ "Sticky Footer" Field Reordering completed:
 - Moved "Sticky Footer" after "Footer Builder" toggle and widget list
+- Moved "Sticky Footer" separator before the toggle field
 - Updated toggle priority to `1` and widget list to `10` in theme
-- Updated sticky footer movement priority to `20` in premium plugin
+- Adjusted sticky footer priorities (separator: 20, field: 21) in premium plugin
 
 ---
 
-## Pending Tasks (v2.11.8+67)
+## Pending Tasks (v2.11.8+68)
 
 1. **Continue Footer Builder development or address next request.**
 
