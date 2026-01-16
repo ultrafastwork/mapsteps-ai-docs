@@ -150,27 +150,29 @@ This adds binding callbacks for **every control that has dependencies**.
 
 ---
 
-### 7. Controls Missing Destroy Methods
+### 7. Controls Previously Missing Destroy Methods
 
-**Critical Issue**: Two controls extend `Control` directly but have **no destroy method**:
+**Status**: Both controls now have proper destroy methods.
 
-#### `sortable-control.ts`
-- Extends `wp.customize.Control` directly (not wpbfDynamicControl)
-- Creates jQuery Sortable: `container.find("ul.sortable").sortable({...})`
-- Binds click events: `.find("i.visibility").on("click", ...)`
-- **Missing**: No `destroy()` to call `.sortable("destroy")` or unbind events
+#### `sortable-control.ts` ✅ FIXED (v2.11.8+72)
+- Now has `destroy()` method that:
+  - Destroys jQuery Sortable: `.sortable("destroy")`
+  - Unbinds all container events: `.off()`
+- Has `removed` event handler to trigger destroy on control removal
 
-#### `repeater-control.ts` (~950 lines)
-- Extends `wp.customize.Control` directly
-- Creates multiple bindings: `container.on("click", ...)` (6+ handlers)
-- Creates jQuery Sortable: `repeaterFieldsContainer.sortable({...})`
-- Creates wp.media frames: `this.frame = wp.media({...})`
-- Initializes color pickers: `wpColorPicker(options)`
-- Creates row objects with their own event handlers
-- **Missing**: No `destroy()` method at all despite heavy resource usage
+#### `repeater-control.ts` ✅ FIXED (v2.11.8+71)
+- Now has comprehensive `destroy()` method that:
+  - Destroys jQuery Sortable on repeater fields container
+  - Unbinds all container event handlers
+  - Disposes wp.media frame if exists
+  - Destroys wpColorPicker instances
+  - Cleans up row objects (unbinds container and header events)
+  - Clears memoized template function and other references
+- Has `removed` event handler to trigger destroy on control removal
 
-> [!CAUTION]
-> The Repeater control is a significant memory leak source. Each usage creates media frames, color pickers, sortable instances, and event handlers that are never cleaned up.
+> [!NOTE]
+> Both controls now properly clean up resources when removed via `customizer.control.remove()`.
+> The "removed" event still only fires on explicit removal, not section collapse.
 
 ---
 
@@ -185,13 +187,13 @@ This adds binding callbacks for **every control that has dependencies**.
 | Control dependency bindings | Medium | ~100+ additional callbacks |
 | Select2 instances | Medium | ~15-20, have destroy but not called on section close |
 | React roots (color pickers) | Medium | ~40+, have destroy but not called on section close |
-| **Missing destroy: Sortable** | High | jQuery Sortable + events never cleaned |
-| **Missing destroy: Repeater** | **Critical** | Media frames, color pickers, sortable, 6+ event handlers |
+| **Sortable destroy** | ✅ Fixed | v2.11.8+72 - Proper cleanup implemented |
+| **Repeater destroy** | ✅ Fixed | v2.11.8+71 - Comprehensive cleanup implemented |
 | Google Fonts data (global) | Low | ~200KB, acceptable |
 
-**Bottom line**: Controls with proper destroy methods exist, but:
+**Bottom line**: All controls now have proper destroy methods, but:
 1. Destroy is only called on explicit control removal (rare)
-2. Two controls (Sortable, Repeater) have no destroy at all
+2. ✅ Sortable and Repeater controls now have destroy methods (v2.11.8+71-72)
 
 ---
 
@@ -268,16 +270,9 @@ performance.measureUserAgentSpecificMemory?.();
 
 ### Priority 1: Critical Fixes
 
-1. **Add destroy method to `repeater-control.ts`**
-   - Destroy jQuery Sortable: `this.repeaterFieldsContainer?.sortable("destroy")`
-   - Unbind container events: `this.container?.off()`
-   - Destroy wp.media frame: `this.frame?.dispose?.()`
-   - Destroy color pickers: `.wpColorPicker("destroy")`
-   - Clean up row objects
+1. ~~**Add destroy method to `repeater-control.ts`**~~ ✅ DONE (v2.11.8+71)
 
-2. **Add destroy method to `sortable-control.ts`**
-   - Destroy jQuery Sortable: `container.find("ul.sortable").sortable("destroy")`
-   - Unbind click events: `container.find("i.visibility").off("click")`
+2. ~~**Add destroy method to `sortable-control.ts`**~~ ✅ DONE (v2.11.8+72)
 
 ### Priority 2: Quick Wins
 
@@ -320,9 +315,9 @@ performance.measureUserAgentSpecificMemory?.();
 
 ## Files to Review
 
-### Critical (Missing destroy methods)
-- `Customizer/Controls/Sortable/src/sortable-control.ts` - **No destroy**, has jQuery Sortable
-- `Customizer/Controls/Repeater/src/repeater-control.ts` - **No destroy**, major leak source
+### Previously Critical (Now Fixed)
+- `Customizer/Controls/Sortable/src/sortable-control.ts` - ✅ Has destroy (v2.11.8+72)
+- `Customizer/Controls/Repeater/src/repeater-control.ts` - ✅ Has destroy (v2.11.8+71)
 
 ### High Priority (PostMessage handlers)
 - `inc/customizer/js/postmessage.ts` - Entry point

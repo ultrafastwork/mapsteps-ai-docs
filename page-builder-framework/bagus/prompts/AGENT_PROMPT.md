@@ -6,9 +6,9 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Add a `destroy()` method to `sortable-control.ts` to fix memory leak issues.
+**Objective**: Fix hook accumulation bug in `typography-control.ts`.
 
-**Status**: Session v2.11.8+72 - Implement destroy method for Sortable control.
+**Status**: Session v2.11.8+73 - Fix typography control hook accumulation.
 
 ---
 
@@ -16,61 +16,53 @@
 
 ### Background
 
-The Sortable control is identified as a **memory leak source** (see `ai-docs/page-builder-framework/memory-issues.md`). It extends `wp.customize.Control` directly but has **no destroy method**, despite creating:
-
-- jQuery Sortable instances
-- Click event handlers on visibility icons
+The Typography control has a hook accumulation bug (see `ai-docs/page-builder-framework/memory-issues.md`). Every time `composeFontProperties()` runs (on every font-family change), it adds a new WordPress hook action, causing memory leaks.
 
 ### Objective
 
-Add a `destroy()` method to `Customizer/Controls/Sortable/src/sortable-control.ts` that properly cleans up all resources.
+Fix the hook accumulation issue in `Customizer/Controls/Typography/src/typography-control.ts` by moving `wp.hooks.addAction()` outside of the `composeFontProperties()` function.
 
 ### Implementation Requirements
 
-1. **Destroy jQuery Sortable**:
-   ```typescript
-   this.container?.find("ul.sortable").sortable("destroy");
-   ```
+1. **Identify the problematic pattern**:
+   - Look for `wp.hooks.addAction()` calls inside `composeFontProperties()`
+   - These should only be registered once, not on every font change
 
-2. **Unbind container events**:
-   ```typescript
-   this.container?.off();
-   ```
+2. **Move hook registration**:
+   - Move hook registration to control initialization (outside the change handler)
+   - Ensure hooks are registered only once per control lifetime
 
-3. **Add removed event handler** (follow repeater-control.ts pattern):
-   - Bind to "removed" event in ready()
-   - Call destroy() when this control is removed
+3. **Test**:
+   - Verify font-family changes work correctly
+   - Verify no duplicate hook registrations
 
 ### Files to Modify
 
-- `Customizer/Controls/Sortable/src/sortable-control.ts`
+- `Customizer/Controls/Typography/src/typography-control.ts`
 
 ### Reference Files
 
-- `ai-docs/page-builder-framework/memory-issues.md` - Full analysis
-- `Customizer/Controls/Repeater/src/repeater-control.ts` - Example of destroy implementation
+- `ai-docs/page-builder-framework/memory-issues.md` - Full analysis (lines 57-77)
 
 ---
 
-## Previous Session Summary (v2.11.8+71)
+## Previous Session Summary (v2.11.8+72)
 
-✅ Added `destroy()` method to `repeater-control.ts`
-✅ Implemented cleanup for jQuery Sortable, container events, wp.media frames, color pickers, row objects
-✅ Added removed event handler to trigger destroy on control removal
-✅ Built controls bundle successfully
+✅ Added `destroy()` method to `sortable-control.ts`
+✅ All Priority 1 memory leak fixes are now complete
 
 ---
 
-## Pending Tasks (v2.11.8+72)
+## Pending Tasks (v2.11.8+73)
 
-- [ ] Implement `destroy()` method for `sortable-control.ts`
-- [ ] Test that destroy method properly cleans up resources
+- [ ] Fix hook accumulation in `typography-control.ts`
+- [ ] Build controls bundle
+- [ ] Test font-family changes work correctly
 
 ---
 
 ## Recent Completed
 
+- ✅ Sortable Control Destroy Method (v2.11.8+72)
 - ✅ Repeater Control Destroy Method (v2.11.8+71)
 - ✅ Footer Builder Buttons & Margin Controls (v2.11.8+69)
-- ✅ Handoff Documentation (v2.11.8+68)
-- ✅ "Sticky Footer" Field Reordering (v2.11.8+67)
