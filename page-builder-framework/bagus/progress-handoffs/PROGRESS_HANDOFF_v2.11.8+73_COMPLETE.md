@@ -1,9 +1,9 @@
 # Progress Handoff
 
 **Date**: 2026-01-16
-**Status**: Active
-**Last Completed Session**: v2.11.8+73
-**Current Session**: v2.11.8+74
+**Status**: Completed
+**Last Completed Session**: v2.11.8+72
+**Current Session**: v2.11.8+73
 
 ## 1. Current State Summary
 
@@ -16,7 +16,16 @@
 
 **Codebase Health**: All Customizer controls now have proper destroy methods. Memory leak issues for Priority 1 and Priority 2 hook accumulation are resolved.
 
-## 2. Session v2.11.8+74 Pending Tasks
+## 2. Session v2.11.8+73 Accomplishments
+
+Fixed hook accumulation bug in `Customizer/Controls/Typography/src/typography-control.ts`:
+
+- Moved `wp.hooks.addAction()` from inside `composeFontProperties()` to `setupTypographyFields()`
+- Hook is now registered once per typography control during initialization
+- Uses unique namespace per control ID (`wpbf/typography/{id}`) to prevent conflicts
+- Prevents memory leaks from duplicate hook registrations on every font-family change
+
+## 3. Next Steps for v2.11.8+74
 
 ### Priority 2: Quick Wins
 
@@ -28,12 +37,12 @@
    - In `headings.ts` and similar files, use single style tag with media queries
    - Instead of 3 separate calls to `writeCSS()` per responsive field
 
-## 3. Future Tasks (from memory-issues.md)
+## 4. Future Tasks (from memory-issues.md)
 
 - **Priority 3**: Implement lazy postMessage registration
 - **Priority 3**: Add cleanup on section collapse
 
-## 4. Notes
+## 5. Notes
 
 - All Priority 1 memory leak fixes are now complete
 - The "removed" event only fires when `customizer.control.remove()` is explicitly called

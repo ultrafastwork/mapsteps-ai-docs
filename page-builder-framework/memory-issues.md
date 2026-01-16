@@ -56,7 +56,7 @@ page_h1_font_size      →  Creates 3 style tags:
 
 ---
 
-### 3. Typography Controls - Multiple Bindings Per Control
+### 3. Typography Controls - Multiple Bindings Per Control ✅ FIXED
 
 **Location**: `Typography/src/typography-control.ts`
 
@@ -64,13 +64,14 @@ Each typography control creates bindings for:
 - Main setting (`page_font_family`)
 - Sub-properties: `[font-family]`, `[variant]`, `[font-size]`, `[line-height]`, `[letter-spacing]`
 
-**Pattern issues:**
+**Pattern issues:** ✅ FIXED in v2.11.8+73
 ```typescript
-// Inside composeFontProperties()
+// BEFORE: Inside composeFontProperties() - caused hook accumulation
+// AFTER: Moved to setupTypographyFields() - registered once per control
 window.wp.hooks.addAction(
     "wpbf.dynamicControl.initWpbfControl",
-    // This action is added EVERY time composeFontProperties runs
-    // on every font-family change!
+    "wpbf/typography/" + id,  // Unique namespace per control
+    // ...
 );
 ```
 

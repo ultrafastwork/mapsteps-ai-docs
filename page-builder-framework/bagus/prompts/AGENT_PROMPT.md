@@ -6,9 +6,9 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Fix hook accumulation bug in `typography-control.ts`.
+**Objective**: Add WooCommerce conditional loading to postmessage.ts.
 
-**Status**: Session v2.11.8+73 - Fix typography control hook accumulation.
+**Status**: Session v2.11.8+74 - WooCommerce conditional loading.
 
 ---
 
@@ -16,53 +16,52 @@
 
 ### Background
 
-The Typography control has a hook accumulation bug (see `ai-docs/page-builder-framework/memory-issues.md`). Every time `composeFontProperties()` runs (on every font-family change), it adds a new WordPress hook action, causing memory leaks.
+The `postmessage.ts` file calls `woocommerceSetup()` unconditionally, creating ~35 bindings even when WooCommerce is not active. This wastes resources.
 
 ### Objective
 
-Fix the hook accumulation issue in `Customizer/Controls/Typography/src/typography-control.ts` by moving `wp.hooks.addAction()` outside of the `composeFontProperties()` function.
+Add a check to only call `woocommerceSetup()` when WooCommerce is active.
 
 ### Implementation Requirements
 
-1. **Identify the problematic pattern**:
-   - Look for `wp.hooks.addAction()` calls inside `composeFontProperties()`
-   - These should only be registered once, not on every font change
+1. **Find the WooCommerce setup call**:
+   - Look for `woocommerceSetup()` call in `inc/customizer/js/postmessage.ts`
 
-2. **Move hook registration**:
-   - Move hook registration to control initialization (outside the change handler)
-   - Ensure hooks are registered only once per control lifetime
+2. **Add conditional check**:
+   - Check if WooCommerce is active before calling `woocommerceSetup()`
+   - Use a PHP-provided flag or check for WooCommerce-specific elements
 
 3. **Test**:
-   - Verify font-family changes work correctly
-   - Verify no duplicate hook registrations
+   - Verify WooCommerce preview still works when WooCommerce is active
+   - Verify no errors when WooCommerce is not active
 
 ### Files to Modify
 
-- `Customizer/Controls/Typography/src/typography-control.ts`
+- `inc/customizer/js/postmessage.ts`
 
 ### Reference Files
 
-- `ai-docs/page-builder-framework/memory-issues.md` - Full analysis (lines 57-77)
+- `ai-docs/page-builder-framework/memory-issues.md`
 
 ---
 
-## Previous Session Summary (v2.11.8+72)
+## Previous Session Summary (v2.11.8+73)
 
-✅ Added `destroy()` method to `sortable-control.ts`
-✅ All Priority 1 memory leak fixes are now complete
+✅ Fixed hook accumulation in `typography-control.ts`
+✅ Moved `wp.hooks.addAction()` from `composeFontProperties()` to `setupTypographyFields()`
 
 ---
 
-## Pending Tasks (v2.11.8+73)
+## Pending Tasks (v2.11.8+74)
 
-- [ ] Fix hook accumulation in `typography-control.ts`
-- [ ] Build controls bundle
-- [ ] Test font-family changes work correctly
+- [ ] Add WooCommerce conditional loading in `postmessage.ts`
+- [ ] Build postmessage bundle
+- [ ] Test WooCommerce preview functionality
 
 ---
 
 ## Recent Completed
 
+- ✅ Typography Control Hook Fix (v2.11.8+73)
 - ✅ Sortable Control Destroy Method (v2.11.8+72)
 - ✅ Repeater Control Destroy Method (v2.11.8+71)
-- ✅ Footer Builder Buttons & Margin Controls (v2.11.8+69)
