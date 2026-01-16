@@ -277,17 +277,20 @@ performance.measureUserAgentSpecificMemory?.();
 
 ### Priority 2: Quick Wins
 
-3. **Fix hook accumulation in `typography-control.ts`**
-   - Move `wp.hooks.addAction()` outside of `composeFontProperties()` function
-   - Should only register hook once, not on every font change
+3. **Fix hook accumulation in `typography-control.ts`** ✅ DONE (v2.11.8+73)
+   - Moved `wp.hooks.addAction()` outside of `composeFontProperties()` function
+   - Hook now registered once per control, not on every font change
 
-4. **Add WooCommerce conditional loading**
-   - In `postmessage.ts`, check if WooCommerce is active before calling `woocommerceSetup()`
+4. **Add WooCommerce conditional loading** ✅ DONE (v2.11.8+74)
+   - Added `wpbfIsWooActive` check in `postmessage.ts`
    - Saves ~35 bindings when WooCommerce not active
 
-5. **Consolidate responsive style tags**
-   - In `headings.ts` and similar files, use single style tag with media queries
-   - Instead of 3 separate calls to `writeCSS()` per responsive field
+5. **Consolidate responsive style tags** ✅ DONE (v2.11.8+75)
+   - Added `writeResponsiveCSS()` to premium plugin utils.ts
+   - Added `writeResponsiveCSSMultiSelector()` to theme customizer-util.ts
+   - Updated premium plugin: `headings.ts`, `text.ts`
+   - Updated theme: `logo.ts`, `tagline.ts`, `layout.ts`
+   - Reduces 33 style tags to 11 (22 fewer DOM elements)
 
 ### Priority 3: Medium-Term Improvements
 
