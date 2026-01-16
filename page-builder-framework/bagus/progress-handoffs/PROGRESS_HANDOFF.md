@@ -1,68 +1,57 @@
 # Progress Handoff
 
 **Date**: 2026-01-16
-**Status**: Active
-**Last Completed Session**: v2.11.8+70
-**Current Session**: v2.11.8+71
+**Status**: Completed
+**Last Completed Session**: v2.11.8+71
+**Current Session**: v2.11.8+72
 
 ## 1. Current State Summary
 
 **Recent Completed Tasks**:
 
+- ✅ Added `destroy()` method to `repeater-control.ts` (v2.11.8+71)
 - ✅ Added "Button 1" & "Button 2" widgets to Footer Builder (v2.11.8+69)
 - ✅ Implemented non-responsive margin controls for all button widgets (v2.11.8+69)
 - ✅ "Sticky Footer" Field Reordering (v2.11.8+67)
-- ✅ Footer Separator Controls Refactor (v2.11.8+65)
 
-**Codebase Health**: Footer Builder is feature-complete. Theme is stable. Memory consumption analysis has identified critical issues in Customizer controls (see `ai-docs/page-builder-framework/memory-issues.md`).
+**Codebase Health**: Footer Builder is feature-complete. Repeater control now has proper cleanup. Theme is stable.
 
-## 2. Session v2.11.8+71 Pending Tasks
+## 2. Session v2.11.8+71 Accomplishments
 
-### Priority 1: Add destroy() method to repeater-control.ts
+Added `destroy()` method to `Customizer/Controls/Repeater/src/repeater-control.ts`:
 
-**Why**: The Repeater control is a **critical memory leak source**. It creates multiple resources (jQuery Sortable, event handlers, wp.media frames, color pickers) that are never cleaned up.
+- Destroys jQuery Sortable on repeater fields container
+- Unbinds all container event handlers
+- Disposes wp.media frame if exists
+- Destroys wpColorPicker instances
+- Cleans up row objects (unbinds container and header events)
+- Clears memoized template function and other references
 
-**File**: `Customizer/Controls/Repeater/src/repeater-control.ts` (~950 lines)
+Also added `removed` event handler in `ready()` to trigger destroy when control is removed.
+
+## 3. Session v2.11.8+72 Pending Tasks
+
+### Priority 1: Add destroy method to sortable-control.ts
+
+**Why**: The Sortable control also extends `wp.customize.Control` directly and has no destroy method.
+
+**File**: `Customizer/Controls/Sortable/src/sortable-control.ts`
 
 **Requirements**:
-
-1. Destroy jQuery Sortable:
-   ```typescript
-   this.repeaterFieldsContainer?.sortable("destroy");
-   ```
-
-2. Unbind container events:
-   ```typescript
-   this.container?.off();
-   ```
-
-3. Destroy wp.media frame:
-   ```typescript
-   this.frame?.dispose?.();
-   ```
-
-4. Destroy color pickers:
-   ```typescript
-   this.container?.find(".color-picker-hex").wpColorPicker("destroy");
-   ```
-
-5. Clean up row objects and their event handlers
+1. Destroy jQuery Sortable
+2. Unbind visibility click events
 
 **Reference**: See `ai-docs/page-builder-framework/memory-issues.md` for full analysis.
 
-## 3. Future Tasks (from memory-issues.md)
+## 4. Future Tasks (from memory-issues.md)
 
-After completing the Repeater control fix:
-
-- **Priority 1**: Add destroy method to `sortable-control.ts`
 - **Priority 2**: Fix hook accumulation in `typography-control.ts`
 - **Priority 2**: Add WooCommerce conditional loading
 - **Priority 2**: Consolidate responsive style tags
 - **Priority 3**: Implement lazy postMessage registration
 - **Priority 3**: Add cleanup on section collapse
 
-## 4. Notes
+## 5. Notes
 
 - The "removed" event only fires when `customizer.control.remove()` is explicitly called
 - Controls remain in memory when sections collapse - destroy is NOT automatically called
-- Button margin control uses `margin-padding` field with `subtype => 'margin'` and `dont_save_unit => true`

@@ -6,9 +6,9 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Add a `destroy()` method to `repeater-control.ts` to fix memory leak issues.
+**Objective**: Add a `destroy()` method to `sortable-control.ts` to fix memory leak issues.
 
-**Status**: Session v2.11.8+71 - Implement destroy method for Repeater control.
+**Status**: Session v2.11.8+72 - Implement destroy method for Sortable control.
 
 ---
 
@@ -16,23 +16,20 @@
 
 ### Background
 
-The Repeater control is identified as a **critical memory leak source** (see `ai-docs/page-builder-framework/memory-issues.md`). It extends `wp.customize.Control` directly but has **no destroy method**, despite creating:
+The Sortable control is identified as a **memory leak source** (see `ai-docs/page-builder-framework/memory-issues.md`). It extends `wp.customize.Control` directly but has **no destroy method**, despite creating:
 
 - jQuery Sortable instances
-- Multiple container event handlers (6+)
-- wp.media frames
-- wpColorPicker instances
-- Row objects with their own event handlers
+- Click event handlers on visibility icons
 
 ### Objective
 
-Add a `destroy()` method to `Customizer/Controls/Repeater/src/repeater-control.ts` that properly cleans up all resources.
+Add a `destroy()` method to `Customizer/Controls/Sortable/src/sortable-control.ts` that properly cleans up all resources.
 
 ### Implementation Requirements
 
 1. **Destroy jQuery Sortable**:
    ```typescript
-   this.repeaterFieldsContainer?.sortable("destroy");
+   this.container?.find("ul.sortable").sortable("destroy");
    ```
 
 2. **Unbind container events**:
@@ -40,53 +37,40 @@ Add a `destroy()` method to `Customizer/Controls/Repeater/src/repeater-control.t
    this.container?.off();
    ```
 
-3. **Destroy wp.media frame**:
-   ```typescript
-   this.frame?.dispose?.();
-   // or this.frame?.remove?.();
-   ```
-
-4. **Destroy color pickers**:
-   ```typescript
-   this.container?.find(".color-picker-hex").wpColorPicker("destroy");
-   ```
-
-5. **Clean up row objects**: 
-   - If rows have their own event handlers, unbind them
-   - Clear any references to row objects
+3. **Add removed event handler** (follow repeater-control.ts pattern):
+   - Bind to "removed" event in ready()
+   - Call destroy() when this control is removed
 
 ### Files to Modify
 
-- `Customizer/Controls/Repeater/src/repeater-control.ts` (~950 lines)
+- `Customizer/Controls/Sortable/src/sortable-control.ts`
 
 ### Reference Files
 
 - `ai-docs/page-builder-framework/memory-issues.md` - Full analysis
-- `Customizer/Controls/Sortable/src/sortable-control.ts` - Similar control needing destroy
-- `Customizer/Controls/Base/src/base-control.ts` - Base control with basic destroy pattern
-- `Customizer/Controls/Color/src/ColorControl.tsx` - Example of proper destroy pattern
+- `Customizer/Controls/Repeater/src/repeater-control.ts` - Example of destroy implementation
 
 ---
 
-## Previous Session Summary (v2.11.8+69-70)
+## Previous Session Summary (v2.11.8+71)
 
-✅ Added "Button 1" & "Button 2" widgets to Footer Builder.
-✅ Implemented non-responsive margin controls for all button widgets.
-✅ Built postmessage bundle successfully.
+✅ Added `destroy()` method to `repeater-control.ts`
+✅ Implemented cleanup for jQuery Sortable, container events, wp.media frames, color pickers, row objects
+✅ Added removed event handler to trigger destroy on control removal
+✅ Built controls bundle successfully
 
 ---
 
-## Pending Tasks (v2.11.8+71)
+## Pending Tasks (v2.11.8+72)
 
-- [ ] Implement `destroy()` method for `repeater-control.ts`
+- [ ] Implement `destroy()` method for `sortable-control.ts`
 - [ ] Test that destroy method properly cleans up resources
-- [ ] Consider adding destroy to `sortable-control.ts` as follow-up (Priority 2 task)
 
 ---
 
 ## Recent Completed
 
+- ✅ Repeater Control Destroy Method (v2.11.8+71)
 - ✅ Footer Builder Buttons & Margin Controls (v2.11.8+69)
 - ✅ Handoff Documentation (v2.11.8+68)
 - ✅ "Sticky Footer" Field Reordering (v2.11.8+67)
-- ✅ Footer Separator Controls Refactor (v2.11.8+65)
