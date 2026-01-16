@@ -6,9 +6,9 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Add WooCommerce conditional loading to postmessage.ts.
+**Objective**: Consolidate responsive style tags in postmessage handlers.
 
-**Status**: Session v2.11.8+74 - WooCommerce conditional loading.
+**Status**: Session v2.11.8+75 - Responsive style tag consolidation.
 
 ---
 
@@ -16,28 +16,30 @@
 
 ### Background
 
-The `postmessage.ts` file calls `woocommerceSetup()` unconditionally, creating ~35 bindings even when WooCommerce is not active. This wastes resources.
+The postmessage handlers create separate `<style>` tags for each responsive breakpoint (desktop, tablet, mobile). This results in ~400-500 style elements in the DOM. Consolidating these into single style tags with media queries would reduce DOM pollution.
 
 ### Objective
 
-Add a check to only call `woocommerceSetup()` when WooCommerce is active.
+Modify `writeCSS()` usage in postmessage handlers to use single style tags with media queries instead of 3 separate calls per responsive field.
 
 ### Implementation Requirements
 
-1. **Find the WooCommerce setup call**:
-   - Look for `woocommerceSetup()` call in `inc/customizer/js/postmessage.ts`
+1. **Analyze current pattern**:
+   - Look at `headings.ts` and similar files in `inc/customizer/js/postmessage-parts/`
+   - Identify responsive fields that make 3 separate `writeCSS()` calls
 
-2. **Add conditional check**:
-   - Check if WooCommerce is active before calling `woocommerceSetup()`
-   - Use a PHP-provided flag or check for WooCommerce-specific elements
+2. **Implement consolidated approach**:
+   - Modify `writeCSS()` or create a new utility function for responsive CSS
+   - Use media queries within a single style tag instead of 3 separate tags
 
 3. **Test**:
-   - Verify WooCommerce preview still works when WooCommerce is active
-   - Verify no errors when WooCommerce is not active
+   - Verify responsive preview still works correctly
+   - Verify style changes apply at correct breakpoints
 
-### Files to Modify
+### Files to Review
 
-- `inc/customizer/js/postmessage.ts`
+- `inc/customizer/js/customizer-util.ts` - Contains `writeCSS()` function
+- `inc/customizer/js/postmessage-parts/headings.ts` - Example of responsive handling
 
 ### Reference Files
 
@@ -45,23 +47,17 @@ Add a check to only call `woocommerceSetup()` when WooCommerce is active.
 
 ---
 
-## Previous Session Summary (v2.11.8+73)
+## Previous Session Summary (v2.11.8+74)
 
-✅ Fixed hook accumulation in `typography-control.ts`
-✅ Moved `wp.hooks.addAction()` from `composeFontProperties()` to `setupTypographyFields()`
-
----
-
-## Pending Tasks (v2.11.8+74)
-
-- [ ] Add WooCommerce conditional loading in `postmessage.ts`
-- [ ] Build postmessage bundle
-- [ ] Test WooCommerce preview functionality
+✅ Added WooCommerce conditional loading in `postmessage.ts`
+✅ Added `wpbfIsWooActive` PHP flag in `customizer-functions.php`
+✅ Saves ~35 bindings when WooCommerce is not active
 
 ---
 
 ## Recent Completed
 
+- ✅ WooCommerce Conditional Loading (v2.11.8+74)
 - ✅ Typography Control Hook Fix (v2.11.8+73)
 - ✅ Sortable Control Destroy Method (v2.11.8+72)
 - ✅ Repeater Control Destroy Method (v2.11.8+71)
