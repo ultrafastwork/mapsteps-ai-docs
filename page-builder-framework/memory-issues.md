@@ -192,6 +192,20 @@ This adds binding callbacks for **every control that has dependencies**.
 | **Repeater destroy** | ✅ Fixed | v2.11.8+71 - Comprehensive cleanup implemented |
 | Google Fonts data (global) | Low | ~200KB, acceptable |
 
+### Estimated Memory Costs
+
+| Resource Type | Estimated Size | Priority to Fix |
+|---------------|----------------|-----------------|
+| JavaScript closures & bindings (340+) | **Megabytes** | 🔴 High (but breaks instant preview) |
+| React component state & roots | **Hundreds of KB** | 🟡 Medium |
+| Select2 instances with font data | ~100-200KB | 🟡 Medium |
+| Google Fonts global data | ~200KB | ✅ Acceptable |
+| Dynamic `<style>` elements (DOM overhead) | ~100KB | ✅ Low priority |
+| CSS text in style elements | ~50KB | ✅ Low priority |
+
+> [!NOTE]
+> The 400-500 `<style>` elements contribute only ~150KB total. The real memory consumers are JavaScript closures holding callback references, which can reach megabytes. Unfortunately, the high-impact optimizations (#6, #7, #8) break instant preview functionality.
+
 **Bottom line**: All controls now have proper destroy methods, but:
 1. Destroy is only called on explicit control removal (rare)
 2. ✅ Sortable and Repeater controls now have destroy methods (v2.11.8+71-72)
@@ -294,26 +308,38 @@ performance.measureUserAgentSpecificMemory?.();
 
 ### Priority 3: Medium-Term Improvements
 
-6. **Implement lazy postMessage registration**
-   - Create a registry of handlers per section
-   - Only `setting.bind()` when section is first expanded
-   - Store handlers as functions until needed
+6. ~~**Implement lazy postMessage registration**~~ ❌ NOT DOABLE
+   - ~~Create a registry of handlers per section~~
+   - ~~Only `setting.bind()` when section is first expanded~~
+   - ~~Store handlers as functions until needed~~
+   
+   > [!CAUTION]
+   > **Breaks instant preview.** The preview iframe's `postMessage` handlers expect settings to be bound at load time. Lazy registration creates a timing mismatch where the preview is already listening but the parent frame's `setting.bind()` chain isn't established, causing instant preview to fail.
 
-7. **Add cleanup on section collapse**
-   - Listen to `section.expanded.bind()` for collapse events
-   - Call control `destroy()` methods with debounce on collapse
-   - Re-embed controls on next expand
+7. ~~**Add cleanup on section collapse**~~ ❌ NOT DOABLE (even worse than #6)
+   - ~~Listen to `section.expanded.bind()` for collapse events~~
+   - ~~Call control `destroy()` methods with debounce on collapse~~
+   - ~~Re-embed controls on next expand~~
+   
+   > [!CAUTION]
+   > **Even worse than #6 - completely breaks instant preview.** Destroying controls unbinds their setting callbacks. When re-embedded, the setting → preview communication chain is broken or creates duplicate/orphaned bindings. Tested and confirmed: many instant previews stop working after section collapse/expand cycles.
 
 ### Priority 4: Long-Term Architecture
 
-8. **Split postMessage handlers into dynamic imports**
-   - Convert each postmessage-parts file to dynamic `import()`
-   - Load only when corresponding customizer section is accessed
+8. ~~**Split postMessage handlers into dynamic imports**~~ ❌ NOT DOABLE
+   - ~~Convert each postmessage-parts file to dynamic `import()`~~
+   - ~~Load only when corresponding customizer section is accessed~~
+   
+   > [!CAUTION]
+   > **Network latency breaks instant preview.** When user expands a section, dynamic imports create network delay (100-500ms+) before handlers are registered. During this window, setting changes produce no preview update. Users would need to change settings twice - once to trigger the load, once to actually see the preview. Same fundamental problem as #6, but with external network dependency making timing even less predictable.
 
-9. **Create unified style management**
-   - Single style element with consolidated CSS rules
-   - Batch updates on requestAnimationFrame
-   - Remove individual style tags approach
+9. ~~**Create unified style management**~~ ❌ NOT WORTH IT
+   - ~~Single style element with consolidated CSS rules~~
+   - ~~Batch updates on requestAnimationFrame~~
+   - ~~Remove individual style tags approach~~
+   
+   > [!CAUTION]
+   > **Low ROI - High effort, minimal memory impact.** The 400-500 style elements contribute ~150KB total (DOM overhead + CSS text), which is negligible compared to JavaScript closures and bindings (megabytes). Migrating 30+ postmessage handler files for ~150KB savings is not worthwhile. The real memory issues are the callback bindings (#6, #7), which have been proven to break instant preview and are marked NOT DOABLE.
 
 ---
 
