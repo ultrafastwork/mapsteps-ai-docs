@@ -117,17 +117,87 @@ customizer.control.bind("removed", handleOnRemoved);
 
 ---
 
-### 5. Select2 Instances for Google Fonts
+### 5. Select2 Instances for Google Fonts 🔴 HIGH MEMORY IMPACT
 
-**Location**: `Select/src/select-control.ts`
+**Location**: `Select/src/select-control.ts`, `Typography/TypographyField.php`
 
-Each typography control with Google Fonts creates a Select2 instance:
-- Select2 maintains its own event listeners and DOM elements
-- The `destroy()` method properly cleans up but is **never invoked**
+#### Typography Field Count
 
-**Data payload**:
-- `wpbfGoogleFonts` global variable contains ~1000+ font families with variants
-- Each variant dropdown may hold 10-20 options
+| Source | Typography Fields | Select2 Instances |
+|--------|-------------------|-------------------|
+| Theme (`inc/customizer/settings/typography/`) | 12 | 24 (2 per field) |
+| Premium Plugin | 0 (uses individual controls) | 0 |
+| **Total** | **12** | **24** |
+
+**Theme typography fields (12 total)**:
+- `title-tagline-fields.php`: 2 (logo font, tagline font)
+- `text-fields.php`: 1 (body text font)
+- `menu-fields.php`: 1 (menu font)
+- `sub-menu-fields.php`: 1 (sub-menu font)
+- `headings-fields.php`: 6 (H1-H6 fonts)
+- `footer-fields.php`: 1 (footer font)
+
+> [!NOTE]
+> The premium plugin's heading typography uses individual `responsive-input-slider`, `color`, `slider`, and `select` controls instead of the `typography` control type, so it does NOT create Select2 instances for font-family selection.
+
+#### PHP-Side Optimization (Partial)
+
+The Google Fonts data is printed once via `TypographyStore::$control_vars_printed`:
+
+```php
+// TypographyField.php - JS object printed ONCE regardless of field count
+if ( ! TypographyStore::$control_vars_printed ) {
+    wp_localize_script( 'wpbf-controls-bundle', 'wpbfGoogleFonts', 
+        ( new GoogleFontsUtil() )->getCollections() );
+    TypographyStore::$control_vars_printed = true;
+}
+```
+
+> [!WARNING]
+> **Select2 DUPLICATES data internally!** When you pass `data: choicesFromGlobalVar`, Select2 does NOT keep a reference to your array. It creates its own internal JavaScript objects AND renders `<option>` DOM elements for each item.
+
+#### JS-Side Problem: Data Duplication + Mutation Bug
+
+```typescript
+// select-control.ts - Each instance gets a reference to the SAME array
+const choicesFromGlobalVar = window[choicesGlobalVar];
+
+// ⚠️ BUG: This mutates the GLOBAL array!
+choicesFromGlobalVar.forEach((choice, index) => {
+    if (choice.id && values.includes(choice.id)) {
+        choicesFromGlobalVar[index].selected = true;  // Pollutes global!
+    }
+});
+
+// Select2 then COPIES this data internally
+$selectbox?.select2({ data: choicesFromGlobalVar });
+```
+
+**Two problems:**
+1. Each control mutates the shared global to set `selected: true`
+2. Select2 creates internal copies of the ~200KB data array for EACH instance
+
+#### Actual Memory Impact
+
+| Resource | Size | Count | Total |
+|----------|------|-------|-------|
+| `wpbfGoogleFonts` global | ~200KB | 1 | ~200KB |
+| Select2 internal data copy | ~200KB | 24 | **~4.8MB** |
+| DOM `<option>` elements | ~100KB | 24 | **~2.4MB** |
+| Select2 instance overhead | ~7KB | 24 | ~170KB |
+| **Total for Google Fonts dropdowns** | | | **~7-8MB** |
+
+> [!CAUTION]
+> The 24 Google Fonts Select2 dropdowns consume approximately **7-8MB of memory** - far more than the ~400KB initially estimated. This is one of the largest memory consumers in the Customizer.
+
+#### Possible Optimizations
+
+1. **Use AJAX/remote data source** - Select2 can fetch data on demand instead of loading all ~1000 fonts upfront
+2. **Custom DataAdapter** - Create a shared Select2 adapter that doesn't copy data
+3. **Lazy initialization** - Only initialize Select2 when typography section expands
+4. **Fix the mutation bug** - Clone data before setting `selected` to avoid polluting global
+
+**The `destroy()` method exists but is never called** when sections collapse - only on explicit control removal via `customizer.control.remove()`.
 
 ---
 
@@ -183,28 +253,26 @@ This adds binding callbacks for **every control that has dependencies**.
 |----------|--------|-------|
 | PostMessage bindings (theme) | High | ~260+ callbacks registered at load |
 | PostMessage bindings (plugin) | High | ~80+ callbacks registered at load |
+| **Select2 Google Fonts (24 instances)** | 🔴 High | **~7-8MB** due to data duplication |
 | Dynamic `<style>` elements | Medium | ~400-500, never removed |
-| Typography field sub-bindings | Medium | ~50+ with hook accumulation bug |
+| Typography field sub-bindings | ✅ Fixed | Hook accumulation fixed in v2.11.8+73 |
 | Control dependency bindings | Medium | ~100+ additional callbacks |
-| Select2 instances | Medium | ~15-20, have destroy but not called on section close |
 | React roots (color pickers) | Medium | ~40+, have destroy but not called on section close |
 | **Sortable destroy** | ✅ Fixed | v2.11.8+72 - Proper cleanup implemented |
 | **Repeater destroy** | ✅ Fixed | v2.11.8+71 - Comprehensive cleanup implemented |
-| Google Fonts data (global) | Low | ~200KB, acceptable |
 
 ### Estimated Memory Costs
 
 | Resource Type | Estimated Size | Priority to Fix |
 |---------------|----------------|-----------------|
+| **Select2 Google Fonts dropdowns** | **~7-8MB** | 🔴 High (24 instances × data duplication) |
 | JavaScript closures & bindings (340+) | **Megabytes** | 🔴 High (but breaks instant preview) |
 | React component state & roots | **Hundreds of KB** | 🟡 Medium |
-| Select2 instances with font data | ~100-200KB | 🟡 Medium |
-| Google Fonts global data | ~200KB | ✅ Acceptable |
 | Dynamic `<style>` elements (DOM overhead) | ~100KB | ✅ Low priority |
 | CSS text in style elements | ~50KB | ✅ Low priority |
 
-> [!NOTE]
-> The 400-500 `<style>` elements contribute only ~150KB total. The real memory consumers are JavaScript closures holding callback references, which can reach megabytes. Unfortunately, the high-impact optimizations (#6, #7, #8) break instant preview functionality.
+> [!IMPORTANT]
+> The Select2 Google Fonts dropdowns are a **major memory consumer** (~7-8MB). Select2 duplicates the ~200KB font data internally for each of the 24 instances, plus creates DOM `<option>` elements. This was previously underestimated.
 
 **Bottom line**: All controls now have proper destroy methods, but:
 1. Destroy is only called on explicit control removal (rare)
