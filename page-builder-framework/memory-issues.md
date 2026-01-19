@@ -117,7 +117,7 @@ customizer.control.bind("removed", handleOnRemoved);
 
 ---
 
-### 5. Select2 Instances for Google Fonts 🔴 HIGH MEMORY IMPACT
+### 5. Select2 Instances for Google Fonts ✅ OPTIMIZED (v2.11.8+77)
 
 **Location**: `Select/src/select-control.ts`, `Typography/TypographyField.php`
 
@@ -193,9 +193,13 @@ $selectbox?.select2({ data: choicesFromGlobalVar });
 #### Possible Optimizations
 
 1. **Use AJAX/remote data source** - Select2 can fetch data on demand instead of loading all ~1000 fonts upfront
-2. **Custom DataAdapter** - Create a shared Select2 adapter that doesn't copy data
+2. **Custom DataAdapter** ✅ IMPLEMENTED (v2.11.8+77)
+   - Created `SharedFontDataAdapter` that extends ArrayAdapter
+   - Overrides `_normalizeItem()` to avoid `$.extend()` data copying
+   - Pre-processes data with selection state without mutating global
+   - **Fixed bug**: Removed global array mutation in `select-control.ts`
 3. **Lazy initialization** - Only initialize Select2 when typography section expands
-4. **Fix the mutation bug** - Clone data before setting `selected` to avoid polluting global
+4. ~~**Fix the mutation bug**~~ ✅ FIXED in v2.11.8+77
 
 **The `destroy()` method exists but is never called** when sections collapse - only on explicit control removal via `customizer.control.remove()`.
 
@@ -253,7 +257,7 @@ This adds binding callbacks for **every control that has dependencies**.
 |----------|--------|-------|
 | PostMessage bindings (theme) | High | ~260+ callbacks registered at load |
 | PostMessage bindings (plugin) | High | ~80+ callbacks registered at load |
-| **Select2 Google Fonts (24 instances)** | 🔴 High | **~7-8MB** due to data duplication |
+| **Select2 Google Fonts (24 instances)** | ✅ Optimized | Custom DataAdapter avoids `$.extend()` copying (v2.11.8+77) |
 | Dynamic `<style>` elements | Medium | ~400-500, never removed |
 | Typography field sub-bindings | ✅ Fixed | Hook accumulation fixed in v2.11.8+73 |
 | Control dependency bindings | Medium | ~100+ additional callbacks |
@@ -265,14 +269,14 @@ This adds binding callbacks for **every control that has dependencies**.
 
 | Resource Type | Estimated Size | Priority to Fix |
 |---------------|----------------|-----------------|
-| **Select2 Google Fonts dropdowns** | **~7-8MB** | 🔴 High (24 instances × data duplication) |
+| **Select2 Google Fonts dropdowns** | ✅ Optimized | Custom DataAdapter implemented (v2.11.8+77) |
 | JavaScript closures & bindings (340+) | **Megabytes** | 🔴 High (but breaks instant preview) |
 | React component state & roots | **Hundreds of KB** | 🟡 Medium |
 | Dynamic `<style>` elements (DOM overhead) | ~100KB | ✅ Low priority |
 | CSS text in style elements | ~50KB | ✅ Low priority |
 
-> [!IMPORTANT]
-> The Select2 Google Fonts dropdowns are a **major memory consumer** (~7-8MB). Select2 duplicates the ~200KB font data internally for each of the 24 instances, plus creates DOM `<option>` elements. This was previously underestimated.
+> [!NOTE]
+> The Select2 Google Fonts optimization (v2.11.8+77) implemented a custom DataAdapter that avoids `$.extend()` data copying. Expected memory reduction: ~7-8MB → ~500KB-1MB. Actual savings should be verified via Chrome DevTools heap snapshot.
 
 **Bottom line**: All controls now have proper destroy methods, but:
 1. Destroy is only called on explicit control removal (rare)
