@@ -38,18 +38,25 @@ The `ai-docs/wpbf-premium/{developer}/` directory contains documentation to faci
   - **Accomplishments**: List what YOU did.
   - **Next Steps**: List what the NEXT agent should do.
 - **2. Archive Handoff**:
-  - Read the `Current Session` version from the file (e.g., `v2.11.8+1`).
+  - Read the `Current Session` version from the file (e.g., `v2.10.3+1`).
   - Save a copy as `progress-handoffs/PROGRESS_HANDOFF_{version}_COMPLETE.md`.
-- **3. Archive & Renew Prompt**:
-  - Archive the current `prompts/AGENT_PROMPT.md` to `prompts/AGENT_PROMPT_{version}.md`.
-  - **Update** `prompts/AGENT_PROMPT.md` with the **Objective** and **Instructions** for the _next_ session (based on your "Next Steps").
-- **4. Renew Handoff**:
+- **3. Renew Handoff**:
   - Update `PROGRESS_HANDOFF.md` to prepare for the _next_ session.
   - **Status**: Set to `Active`.
-  - **Current Session**: Increment the version (e.g., `v2.11.8+1` -> `v2.11.8+2`).
+  - **Current Session**: Increment the version (e.g., `v2.10.3+1` -> `v2.10.3+2`).
   - **Content**: Clear "Recent Accomplishments" and move "Next Steps" to "Pending Tasks".
-- **5. Suggest What are Next For Next Agent's Works**
-- **6. Show the copy-able prompt for the next agent** with following wording: "Please execute the instructions in: ai-docs/wpbf-premium/{developer}/prompts/AGENT_PROMPT.md".
+- **4. Archive Prompt**:
+  - Archive the current `prompts/AGENT_PROMPT.md` to `prompts/AGENT_PROMPT_{version}.md`.the _next_ session (based on your "Next Steps").
+- **5. Renew Prompt**:
+  - **Update** `prompts/AGENT_PROMPT.md` with the **Objective** and **Instructions** for the _next_ session (based on your "Next Steps").
+- **6. Suggest What are Next For Next Agent's Works**
+- **7. Show the copy-able prompt for the next agent** with following wording: "Please execute the instructions in: ai-docs/wpbf-premium/{developer}/prompts/AGENT_PROMPT.md".
+
+### 4. Commit Changes to Git
+
+- **Commit Changes in ai-docs**: If there are changes in ai-docs, commit them to git.
+- **Commit Changes in wpbf-premium**: If there are changes in wp-content/plugins/wpbf-premium, commit them to git.
+- **Git commit rules**: Commit message should be fewer than 50 characters and does not contain version numbering. Commit description can contain more detailed explanations.
 
 ## General Project Guidelines
 

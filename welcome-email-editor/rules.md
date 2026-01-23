@@ -40,16 +40,17 @@ The `ai-docs/welcome-email-editor/{developer}/` directory contains documentation
 - **2. Archive Handoff**:
   - Read the `Current Session` version from the file (e.g., `v2.11.8+1`).
   - Save a copy as `progress-handoffs/PROGRESS_HANDOFF_{version}_COMPLETE.md`.
-- **3. Archive & Renew Prompt**:
-  - Archive the current `prompts/AGENT_PROMPT.md` to `prompts/AGENT_PROMPT_{version}.md`.
-  - **Update** `prompts/AGENT_PROMPT.md` with the **Objective** and **Instructions** for the _next_ session (based on your "Next Steps").
-- **4. Renew Handoff**:
+- **3. Renew Handoff**:
   - Update `PROGRESS_HANDOFF.md` to prepare for the _next_ session.
   - **Status**: Set to `Active`.
   - **Current Session**: Increment the version (e.g., `v2.11.8+1` -> `v2.11.8+2`).
   - **Content**: Clear "Recent Accomplishments" and move "Next Steps" to "Pending Tasks".
-- **5. Suggest What are Next For Next Agent's Works**
-- **6. Show the copy-able prompt for the next agent** with following wording: "Please execute the instructions in: ai-docs/welcome-email-editor/{developer}/prompts/AGENT_PROMPT.md".
+- **4. Archive Prompt**:
+  - Archive the current `prompts/AGENT_PROMPT.md` to `prompts/AGENT_PROMPT_{version}.md`.
+- **5. Renew Prompt**:
+  - **Update** `prompts/AGENT_PROMPT.md` with the **Objective** and **Instructions** for the _next_ session (based on your "Next Steps").
+- **6. Suggest What are Next For Next Agent's Works**
+- **7. Show the copy-able prompt for the next agent** with following wording: "Please execute the instructions in: ai-docs/welcome-email-editor/{developer}/prompts/AGENT_PROMPT.md".
 
 ## General Project Guidelines
 

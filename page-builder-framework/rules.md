@@ -40,16 +40,23 @@ The `ai-docs/page-builder-framework/{developer}/` directory contains documentati
 - **2. Archive Handoff**:
   - Read the `Current Session` version from the file (e.g., `v2.11.8+1`).
   - Save a copy as `progress-handoffs/PROGRESS_HANDOFF_{version}_COMPLETE.md`.
-- **3. Archive & Renew Prompt**:
-  - Archive the current `prompts/AGENT_PROMPT.md` to `prompts/AGENT_PROMPT_{version}.md`.
-  - **Update** `prompts/AGENT_PROMPT.md` with the **Objective** and **Instructions** for the _next_ session (based on your "Next Steps").
-- **4. Renew Handoff**:
+- **3. Renew Handoff**:
   - Update `PROGRESS_HANDOFF.md` to prepare for the _next_ session.
   - **Status**: Set to `Active`.
   - **Current Session**: Increment the version (e.g., `v2.11.8+1` -> `v2.11.8+2`).
   - **Content**: Clear "Recent Accomplishments" and move "Next Steps" to "Pending Tasks".
-- **5. Suggest What are Next For Next Agent's Works**
-- **6. Show the copy-able prompt for the next agent** with following wording: "Please execute the instructions in: ai-docs/page-builder-framework/{developer}/prompts/AGENT_PROMPT.md".
+- **4. Archive Prompt**:
+  - Archive the current `prompts/AGENT_PROMPT.md` to `prompts/AGENT_PROMPT_{version}.md`.
+- **5. Renew Prompt**:
+  - **Update** `prompts/AGENT_PROMPT.md` with the **Objective** and **Instructions** for the _next_ session (based on your "Next Steps").
+- **6. Suggest What are Next For Next Agent's Works**
+- **7. Show the copy-able prompt for the next agent** with following wording: "Please execute the instructions in: ai-docs/page-builder-framework/{developer}/prompts/AGENT_PROMPT.md".
+
+### 4. Commit Changes to Git
+
+- **Commit Changes in ai-docs**: If there are changes in ai-docs, commit them to git.
+- **Commit Changes in page-builder-framework**: If there are changes in wp-content/themes/page-builder-framework, commit them to git.
+- **Git commit rules**: Commit message should be fewer than 50 characters and does not contain version numbering. Commit description can contain more detailed explanations.
 
 ## General Project Guidelines
 
@@ -57,6 +64,7 @@ The `ai-docs/page-builder-framework/{developer}/` directory contains documentati
 - **File Structure**: Maintain the existing directory structure unless explicitly instructed to refactor.
 - **Building**:
   - To build and bundle customizer controls, run `pnpm build-controls-bundle` command.
+  - To build theme's styles, run `pnpm build-style` command.
   - To build specific asset, run `pnpm build-asset` with input path and optional output path.
   - To build customizer.ts, run `pnpm build-customizer` command.
   - To build postmessage.ts, run `pnpm build-postmessage` command.
