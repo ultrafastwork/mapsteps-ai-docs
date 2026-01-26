@@ -6,15 +6,56 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Await new tasks or improvements for the Page Builder Framework theme.
+**Objective**: Conditionally hide desktop menu trigger widget when wpbf-premium plugin is inactive.
 
-**Status**: Session v2.11.8+80 - Ready for new tasks.
+**Status**: Session v2.11.8+80 - Desktop Menu Trigger Conditional Display.
 
 ---
 
-## Current Status
+## Task Details
 
-All pending tasks have been completed. The Row 2 menu style decoupling has been successfully implemented in session v2.11.8+79.
+### Background
+
+The desktop menu trigger widget in Header Builder can be added regardless of whether wpbf-premium plugin is active. However, this widget only triggers Desktop Off-Canvas or Full-Screen menus, which are premium-only features. When premium is inactive, the widget serves no purpose on desktop view.
+
+### Problem
+
+- Desktop menu trigger widget appears in Header Builder widget list even when wpbf-premium is inactive
+- Widget is useless without premium features (Desktop Off-Canvas/Full-Screen menus)
+- Mobile menu trigger should remain available (triggers dropdown menu - free feature)
+
+### Objective
+
+Hide or disable the desktop menu trigger widget from the Header Builder widget list when wpbf-premium plugin is inactive, while keeping it available for mobile/tablet versions.
+
+### Key Files
+
+1. **`Customizer/HeaderBuilder/HeaderBuilderConfig.php`** (line 36-40)
+   - Registers desktop menu trigger widget in `availableWidgets()` method
+   
+2. **`inc/init.php`** (line 15-17)
+   - Contains `wpbf_is_premium()` function for premium detection
+
+3. **`inc/customizer/settings/header-builder/desktop/offcanvas-section.php`** (line 44)
+   - Example of premium check implementation
+
+### Implementation Steps
+
+1. **Modify Widget Registration**:
+   - File: `Customizer/HeaderBuilder/HeaderBuilderConfig.php`
+   - Action: Add conditional check in `availableWidgets()` method to exclude `desktop_menu_trigger` from desktop widgets array when `!wpbf_is_premium()`
+   - Keep mobile menu trigger widget available (it works with free dropdown menu)
+
+2. **Test Scenarios**:
+   - Verify desktop menu trigger is hidden in customizer when premium is inactive
+   - Verify desktop menu trigger appears when premium is active
+   - Verify mobile menu trigger remains available in both cases
+
+### Expected Outcome
+
+- Desktop menu trigger widget only appears in Header Builder widget list when wpbf-premium is active
+- Mobile menu trigger widget remains available regardless of premium status
+- Existing desktop menu trigger widgets in saved layouts continue to work when premium is active
 
 ---
 
