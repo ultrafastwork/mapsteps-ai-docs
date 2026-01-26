@@ -6,74 +6,46 @@
 **Source of Truth**: `ai-docs/page-builder-framework/bagus/progress-handoffs/PROGRESS_HANDOFF.md`
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
-**Objective**: Manual verification of Custom Select2 DataAdapter implementation.
+**Objective**: Await new tasks or improvements for the Page Builder Framework theme.
 
-**Status**: Session v2.11.8+78 - Verify Typography Controls in Customizer.
-
----
-
-## Task Details
-
-### Background
-
-Session v2.11.8+77 implemented a Custom Select2 DataAdapter to reduce memory consumption from ~7-8MB to ~500KB-1MB for Google Fonts typography controls.
-
-**Files created/modified**:
-- `Customizer/Controls/Select/src/shared-font-data-adapter.ts` (NEW)
-- `Customizer/Controls/Select/src/select-control.ts` (MODIFIED)
-
-### Objective
-
-Manually verify the implementation works correctly in WordPress Customizer.
-
-### Verification Steps
-
-1. **Open WordPress Customizer** → Navigate to Typography section
-
-2. **Test font-family dropdown**:
-   - Click a font-family dropdown → fonts should appear instantly
-   - Search for "Roboto" → filtering should work
-   - Select a font → it should show as selected
-   - Save → selection should persist after page reload
-
-3. **Test font variant dropdown**:
-   - After selecting a font with variants (e.g., "Roboto")
-   - Click variant dropdown → variants should appear
-   - Select a variant → it should update correctly
-
-4. **Test multiple typography controls**:
-   - Change fonts in multiple controls (different sections)
-   - Each control should maintain its own selection state
-   - One control's selection should NOT affect others
-
-5. **Memory verification** (optional):
-   - Open Chrome DevTools → Memory tab
-   - Take heap snapshot before expanding typography section
-   - Expand typography section
-   - Take heap snapshot after
-   - Compare: should be ~1MB increase, NOT ~7MB
-
-### Expected Outcome
-
-- All typography dropdowns work exactly as before
-- Font selection and variant selection function correctly
-- Memory usage is significantly reduced (~85% reduction)
+**Status**: Session v2.11.8+80 - Ready for new tasks.
 
 ---
 
-## Previous Session Summary (v2.11.8+77)
+## Current Status
 
-Session v2.11.8+77 implemented the Custom Select2 DataAdapter:
-- ✅ Created `shared-font-data-adapter.ts` with custom DataAdapter
-- ✅ Modified `select-control.ts` to use adapter when `choicesGlobalVar` is set
-- ✅ Fixed global array mutation bug
-- ✅ Build verified with `pnpm build-controls-bundle`
+All pending tasks have been completed. The Row 2 menu style decoupling has been successfully implemented in session v2.11.8+79.
+
+---
+
+## Recent Accomplishments (v2.11.8+79)
+
+### Row 2 Menu Style Decoupling Implementation
+
+**Changes Made**:
+
+1. **Scoped Legacy Styles** (`inc/customizer/styles/header-styles.php`):
+   - Wrapped `menu_bg_color` and `menu_font_colors` logic with `if ( ! wpbf_header_builder_enabled() )`.
+   - Prevents global CSS leakage when Header Builder is active.
+
+2. **Added Row 2 Controls** (`inc/customizer/settings/header-builder/desktop/main-row-section.php`):
+   - Added `accent_colors` (multicolor) control with 'default' and 'hover' choices.
+
+3. **Updated Row Styles** (`inc/customizer/styles/header-builder-rows-styles.php`):
+   - Row 2 now applies its own `accent_colors` to row-specific selectors.
+   - Row 2 is now row-agnostic like Row 3.
+
+**Result**:
+- ✅ Menus in Row 3 or Row 1 are no longer affected by Row 2's legacy color settings.
+- ✅ Row 2 can be styled independently with its own font and accent colors.
+- ✅ Row 1 maintains its connection to `pre_header_*` settings (intended behavior).
 
 ---
 
 ## Recent Completed
 
+- ✅ Row 2 Menu Style Decoupling Implementation (v2.11.8+79)
+- ✅ Row 2 Menu Style Decoupling Analysis (v2.11.8+78)
 - ✅ Custom Select2 DataAdapter Implementation (v2.11.8+77)
 - ✅ Typography Controls Memory Analysis (v2.11.8+76)
 - ✅ Responsive Style Tag Consolidation (v2.11.8+75)
-- ✅ WooCommerce Conditional Loading (v2.11.8+74)
