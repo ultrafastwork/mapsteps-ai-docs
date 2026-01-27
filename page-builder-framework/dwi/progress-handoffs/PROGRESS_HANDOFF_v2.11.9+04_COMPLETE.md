@@ -47,6 +47,7 @@ Session v2.11.9+03 implemented the missing "Font Color" setting for the Header B
 1.  The "Main Row" (Desktop Row 2) in Header Builder lacked a generic "Font Color" setting (only had Menu Font Colors).
 2.  The existing "Font Colors" label was ambiguous, referring specifically to Menu items.
 3.  Live preview for generic font color updates didn't work for HTML widgets.
+4.  
 
 **Solution**:
 1.  **New Setting**: Added `text_color` control to `main-row-section.php`.
@@ -567,7 +568,7 @@ Performed systematic code analysis of all Header Builder controls and their post
 | **Row 3 (Bottom)** | `desktop/bottom-row-section.php` | `header-builder-rows.ts` | ✅ Verified |
 | **Menu 1** | `desktop/menu-1-section.php` | `navigation.ts` | ✅ Verified |
 | **Menu 2** | `desktop/menu-2-section.php` | `mobile-header-builder-rows.ts` | ✅ Verified |
-| **Button 1** | `desktop/button-1-section.php` | `header-builder-buttons.ts` | ✅ Verified |
+| **Button 1** | `desktop/button-1-section.php" | `header-builder-buttons.ts` | ✅ Verified |
 | **Button 2** | `desktop/button-2-section.php` | `header-builder-buttons.ts` | ✅ Verified |
 | **Search** | `desktop/search-section.php` | `header-builder.ts` | ✅ Verified |
 | **HTML 1/2** | `desktop/html-1-section.php` | N/A (content only) | ✅ N/A |
@@ -582,7 +583,7 @@ Performed systematic code analysis of all Header Builder controls and their post
 | **Row 2 (Main)** | `mobile/main-row-section.php` | `mobile-header-builder-rows.ts` | ✅ Verified |
 | **Row 3 (Bottom)** | `mobile/bottom-row-section.php` | `mobile-header-builder-rows.ts` | ✅ Verified |
 | **Menu 1** | `mobile/menu-1-section.php` | `mobile-navigation.ts` | ✅ Verified |
-| **Menu 2** | `mobile/menu-2-section.php` | `mobile-header-builder-rows.ts` | ✅ Verified |
+| **Menu 2** | `mobile/menu-2-section.php" | `mobile-header-builder-rows.ts` | ✅ Verified |
 | **Button 1** | `mobile/button-1-section.php` | `header-builder-buttons.ts` | ✅ Verified |
 | **Button 2** | `mobile/button-2-section.php` | `header-builder-buttons.ts` | ✅ Verified |
 | **Search** | `mobile/search-section.php` | `header-builder-search.ts` | ✅ Fixed & Verified |
