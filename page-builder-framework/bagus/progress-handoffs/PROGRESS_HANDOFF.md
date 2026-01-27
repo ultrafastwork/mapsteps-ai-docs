@@ -2,44 +2,42 @@
 
 **Date**: 2026-01-27
 **Status**: Active
-**Last Completed Session**: v2.11.8+82
-**Current Session**: v2.11.8+83
+**Last Completed Session**: v2.11.8+83
+**Current Session**: v2.11.8+84
 
 ## 1. Pending Tasks
 
-### Test Bidirectional Synchronization Assistant
-The Menu Trigger Sync feature was implemented in v2.11.8+82. Testing is needed:
+### Auto-Open Widget Settings Section After Drag-Drop
 
-1. **Test Ghost Trigger Warning**:
-   - Enable Header Builder
-   - Add Menu Trigger widget to a mobile row (without adding menu widgets to Mobile Menu area)
-   - Verify warning appears in Menu Trigger section
-   - Click "Setup Mobile Menu" button and verify it focuses on Mobile Menu section with highlighting
+**Problem**: After drag-and-dropping a widget (e.g., Menu 1, Menu 2) to the builder area, users often forget they need to click on the widget button to open its settings section and configure it (e.g., select a menu).
 
-2. **Test Missing Trigger Warning**:
-   - Enable Header Builder
-   - Add Menu 1 or Menu 2 widget to Mobile Menu area (without adding Menu Trigger to rows)
-   - Verify warning appears in Mobile Menu section
-   - Click "Add Menu Trigger" button and verify it highlights the trigger widget
+**Proposed Solution**: Auto-open the widget's settings section when a widget is dropped into the builder area.
 
-3. **Test Preview Communication**:
-   - Create a Ghost Trigger scenario
-   - Click the trigger in the preview
-   - Verify the Customizer receives the notification and shows feedback
+**Implementation Approach**:
+1. Listen for widget drop events in the builder control (`responsive-builder-control.ts`)
+2. After a widget is dropped, automatically expand/focus its corresponding Customizer section
+3. The section IDs follow the pattern: `wpbf_header_builder_{widget_key}_section`
 
-### Potential Refinements
-- Adjust warning message styling if needed
-- Add animation timing adjustments for highlighting
-- Consider adding similar sync logic for Desktop Menu Trigger (premium feature)
+**Files to Modify**:
+- `Customizer/Controls/Builder/src/responsive-builder-control.ts` - Add drop event handler to auto-open section
+
+**Considerations**:
+- Should this apply to all widgets or only specific ones (like menu widgets)?
+- Should there be a slight delay before opening to let the user see the widget was placed?
+- What if the user is rapidly dragging multiple widgets?
 
 ## 2. Recently Completed
 
-- ✅ **Bidirectional Synchronization Assistant** (v2.11.8+82)
+- ✅ **Menu Trigger Sync - Builder Area Highlighting** (v2.11.8+83)
+  - Highlights Mobile Menu AREA when Menu Trigger is added but area is empty
+  - Highlights Menu Trigger widget when menu widgets exist but no trigger
+  - Uses CSS classes: `wpbf-ghost-trigger-warning`, `wpbf-missing-trigger-warning`
+  - Files: `setup-menu-trigger-sync.ts`, `customizer.css`
+- ✅ Bidirectional Synchronization Assistant (v2.11.8+82)
 - ✅ Desktop Menu Trigger Conditional Display (v2.11.8+80)
 - ✅ Row 2 Menu Style Decoupling Implementation (v2.11.8+79)
 - ✅ Row 2 Menu Style Decoupling Analysis (v2.11.8+78)
 - ✅ Custom Select2 DataAdapter for Google Fonts (v2.11.8+77)
-- ✅ Typography Controls Memory Analysis (v2.11.8+76)
 
 ## 3. Previously Attempted (NOT DOABLE)
 
