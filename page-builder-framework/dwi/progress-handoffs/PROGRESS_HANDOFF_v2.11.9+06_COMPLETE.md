@@ -67,14 +67,24 @@ if ( is_customize_preview() ) {
 ### ✅ FIXED: Header Builder Search Icon Alignment (Mobile/Tablet)
 
 **Problem**:
-The search icon in the Header Builder search widget was not aligned correctly on mobile and tablet devices.
+The search icon in the Header Builder search widget was not aligned correctly on mobile and tablet devices, often dropping to the next line or floating incorrectly.
+
+**Root Cause**:
+The responsive styles for the search button did not enforce absolute positioning effectively for the specific markup structure used in the Header Builder's mobile/tablet view.
 
 **Solution**:
-Implemented CSS rule in `header-builder-search-styles.php` for mobile/tablet breakpoints with `transform: translateY(-85%)`.
+Implemented a specific CSS rule in `header-builder-search-styles.php` for mobile and tablet breakpoints:
+1.  Targeted `.wpbf-menu-item-search.active .searchform button`.
+2.  Applied `transform: translateY(-85%)` to vertically center the icon relative to the input field.
+3.  (User also manually refined `right` positioning in `_content.scss` to `10px`).
 
 **Files Modified**:
 -   `inc/customizer/styles/header-builder-search-styles.php`
--   `assets/scss/main/_content.scss`
+-   `assets/scss/main/_content.scss` (User modification)
+
+**Verification**:
+-   ✅ Confirmed via code review that the fix targets the correct breakpoint and selectors.
+-   ✅ User verified the visual result.
 
 ---
 
@@ -84,6 +94,7 @@ Implemented CSS rule in `header-builder-search-styles.php` for mobile/tablet bre
 
 - **Location**: `page-builder-framework-e2e-testing/`
 - **Framework**: Nightwatch v3.12.3
+- **Browsers**: Chrome, Firefox (with headless options)
 - **Configuration**: `nightwatch.conf.js`
 
 ### Running Tests
@@ -93,19 +104,35 @@ cd page-builder-framework-e2e-testing
 pnpm test                    # Run all tests
 pnpm test:chrome             # Run with Chrome
 pnpm test:chrome:headless    # Run headless
+pnpm test:smoke              # Run smoke (login + Customizer load) first
+pnpm test:customizer         # Run Customizer tests only
+pnpm test:controls           # Run control tests only
+pnpm test:builder            # Run Builder tests
+pnpm test:repeater           # Run Repeater tests
+pnpm test:enhanced-select    # Run Enhanced Select tests
+pnpm test:ci                 # Run CI mode (headless + HTML reporter)
 ```
 
 ### WordPress Configuration
 
-Credentials in `.env.local`:
+Credentials are loaded from `.env.local` at project root:
 ```bash
 WP_USERNAME=nightwatch
 WP_PASSWORD='Mapsteps e2e testing :)'
 ```
 
-Site URLs in `config/globals.js`:
+Default site URLs in `config/globals.js`:
 - Site URL: `http://mapsteps.local`
 - Admin URL: `http://mapsteps.local/wp-admin`
+
+**Note**: Tests require a running WordPress instance with Page Builder Framework theme activated.
+
+### Control Types in WPBF
+
+Located in `wp-content/themes/page-builder-framework/Customizer/Controls/`:
+- Base, Builder, Checkbox, Code, Color, Custom, Dimension
+- Editor, Generic, Headline, MarginPadding, Media, Radio
+- Repeater, Responsive, Select, Slider, Sortable, Typography
 
 ## 5. Instructions for Next Agent
 
@@ -117,10 +144,11 @@ The search icon alignment issues for both mobile/tablet and desktop customizer p
 
 ### General Guidelines
 
-1. **Follow WordPress best practices**: sanitize inputs, escape outputs, respect capabilities
-2. **Use pnpm** for builds (avoid npm). Prefer targeted builds over `build-all` unless necessary
-3. **Test thoroughly**: Verify in Customizer live preview AND frontend
-4. **Document progress**: Update this handoff with findings, fixes, and verification steps
+1. **Read Section 5** for assigned tasks and objectives
+2. **Follow WordPress best practices**: sanitize inputs, escape outputs, respect capabilities
+3. **Use pnpm** for builds (avoid npm). Prefer targeted builds over `build-all` unless necessary
+4. **Test thoroughly**: Verify in Customizer live preview AND frontend
+5. **Document progress**: Update this handoff with findings, fixes, and verification steps
 
 ### Success Criteria
 
