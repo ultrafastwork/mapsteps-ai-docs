@@ -143,7 +143,7 @@ Site URLs in `config/globals.js`:
 
 ## 6. Instructions for Next Agent
 
-You are starting session **v2.11.9+10**.
+You are starting session **v2.11.9+11**.
 
 ### Current Status
 
