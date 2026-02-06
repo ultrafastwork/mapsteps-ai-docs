@@ -12,16 +12,17 @@ Strictly follow:
 1. `.antigravityrules` (Root-level operating principles)
 
 **Session Info**:
-- Last Completed Session: **v2.11.9+09**
-- Current Session: **v2.11.9+10**
+- Last Completed Session: **v2.11.9+08**
+- Current Session: **v2.11.9+09**
 
 **Objective**:
 Waiting for next task.
 
-**Previous Session Summary (v2.11.9+09)**:
-✅ Fixed Issue #6 - Menu Trigger "Style" Setting Placement:
-1.  Moved the Menu Trigger "Style" setting from the "General" tab to the "Design" tab in both desktop and mobile header builder sections.
-2.  Verified that dependent controls (Button Settings, Padding, Icon Settings) remain correctly grouped in the "Design" tab.
+**Previous Session Summary (v2.11.9+08)**:
+✅ Footer Menu postMessage Support:
+1.  Implemented missing `postMessage` handlers for Footer Menu item spacing and link colors.
+2.  Ensured instant live preview in the Customizer for all four menu widgets.
+3.  Rebuilt customizer assets to apply the JS changes.
 
 **Instructions**:
 1. Read `PROGRESS_HANDOFF.md` for full context and next tasks.
