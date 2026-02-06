@@ -1,28 +1,21 @@
 # Progress Handoff
 
-**Date**: 2026-01-27
+**Date**: 2026-02-06
 **Status**: Active
-**Last Completed Session**: v2.11.8+84
-**Current Session**: v2.11.8+85
+**Last Completed Session**: v2.11.8+86
+**Current Session**: v2.11.8+87
 
 ## 1. Pending Tasks
 
-No pending tasks at this time. Awaiting next feature request or bug report.
+- [ ] **Visual QA of margin-padding spacing fix**: Verify the margin-padding controls in the Customizer UI across all instances (Header Builder margins, responsive padding controls, etc.).
+- [ ] **Address Issue #1**: Inconsistent spacing between header widgets — add Margin controls to HTML and Menu widgets (see `ai-docs/page-builder-framework/header-builder-issues.md`).
+- [ ] **Address Issue #3**: Search widget UX improvements — smooth expansion, icon collision, hover transitions (see `ai-docs/page-builder-framework/header-builder-issues.md`).
 
 ## 2. Recently Completed
 
-- ✅ **Auto-Open Widget Settings Section After Drag-Drop** (v2.11.8+84)
-  - Automatically expands widget settings section after drag-drop
-  - 300ms delay for better UX
-  - Files: `responsive-builder-control.ts`
-- ✅ **Menu Trigger Sync - Builder Area Highlighting** (v2.11.8+83)
-  - Highlights Mobile Menu AREA when Menu Trigger is added but area is empty
-  - Highlights Menu Trigger widget when menu widgets exist but no trigger
-  - Uses CSS classes: `wpbf-ghost-trigger-warning`, `wpbf-missing-trigger-warning`
-  - Files: `setup-menu-trigger-sync.ts`, `customizer.css`
-- ✅ Bidirectional Synchronization Assistant (v2.11.8+82)
-- ✅ Desktop Menu Trigger Conditional Display (v2.11.8+80)
-- ✅ Row 2 Menu Style Decoupling Implementation (v2.11.8+79)
+- ✅ **Improved visual spacing in `margin-padding` unit controls** (v2.11.8+86)
+  - Fixed excessive horizontal distance between numeric inputs and unit selectors.
+  - Modified `Customizer/Controls/MarginPadding/src/margin-padding-control.scss`.
 
 ## 3. Previously Attempted (NOT DOABLE)
 
