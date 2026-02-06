@@ -98,3 +98,99 @@ Expected Outcome:
 - No visual collision between icons by default.
 - Better alignment with menu animation behavior.
 - Improved user guidance without removing manual control.
+
+
+ISSUE #4: Logo width settings have no live preview on mobile/tablet views
+
+Context:
+- Header Builder & Legacy Header
+- Logo section (`title_tagline`), setting: `menu_logo_size`
+- Control type: `responsive-input-slider` with `postMessage` transport
+
+Current Behavior:
+1. The `menu_logo_size` setting is a responsive control with desktop/tablet/mobile values.
+2. The postMessage handler in `inc/customizer/js/postmessage-parts/logo.ts` uses `writeResponsiveCSSMultiSelector` to write CSS with media queries for tablet (`@media (max-width: {desktop-1}px)`) and mobile (`@media (max-width: {tablet-1}px)`).
+3. When the user switches the Customizer to tablet or mobile preview, the preview iframe resizes visually but the iframe's actual viewport width may not shrink below the media query breakpoints.
+4. As a result, changing the tablet or mobile logo width value produces no visible live preview — the CSS is written correctly but the media queries don't activate inside the preview iframe.
+
+Problem:
+- Desktop logo width live preview works fine (no media query wrapper).
+- Tablet and mobile logo width changes show no visual feedback until the user publishes and views the site at actual device widths.
+- The same `writeResponsiveCSSMultiSelector` approach is used in `header-styles.php` for server-side rendering (which works correctly on the frontend), so the issue is isolated to the Customizer live preview.
+
+Relevant Files:
+- `inc/customizer/settings/header/logo.php` — defines `menu_logo_size` (line ~38-57)
+- `inc/customizer/js/postmessage-parts/logo.ts` — postMessage handler using `writeResponsiveCSSMultiSelector` (line ~16-35)
+- `inc/customizer/js/customizer-util.ts` — `writeResponsiveCSSMultiSelector` function (line ~411) and `mediaQueries` definition (line ~5-14)
+- `inc/customizer/styles/header-styles.php` — server-side CSS output for logo width (line ~143-185)
+
+Open Questions / Solution Exploration:
+- Should the postMessage handler detect the currently previewed device (via `wp.customize.previewedDevice`) and write CSS without media query wrappers for the active device?
+- Should the responsive control emit per-device change events that write non-media-query CSS when that device is being previewed?
+- Check if other responsive controls (e.g., tagline font size, layout padding) have the same issue.
+
+Expected Outcome:
+- Changing logo width for tablet or mobile in the Customizer should produce immediate visual feedback in the preview iframe.
+
+
+ISSUE #5: SVG hamburger icon and text label are visually misaligned in Menu Trigger widget
+
+Context:
+- Header Builder
+- Menu Trigger widget (both desktop and mobile)
+- SVG icon variants (`variant-1`, `variant-2`, `variant-3`) — NOT the `wpbff` icon font version
+
+Current Behavior:
+1. The menu trigger button renders an SVG icon followed by a text label (`<span class="menu-trigger-button-text">`).
+2. The SVG icons use `width="1em" height="1em"` sizing (in `HeaderBuilderConfig::menuTriggerButtonSvg()`).
+3. The button uses `display: inline-flex; align-items: center; column-gap: 3px;` (in `_navigation.scss`, line ~372-375).
+4. Despite `align-items: center`, the SVG icon and text label appear visually misaligned — the icon sits at a different vertical position than the text.
+
+Problem:
+- The SVG's `viewBox="0 0 32 28"` has the hamburger bars starting at `y="4"` with the last bar ending at `y="23"`, leaving uneven whitespace within the viewBox. This internal padding causes the SVG to not visually center with adjacent text even though the flex container aligns their bounding boxes.
+- The `1em` sizing ties the SVG dimensions to `font-size`, but the visual content within the SVG doesn't fill the viewBox evenly, creating a perceived offset.
+- The `column-gap: 3px` is quite small and may not provide enough visual separation.
+
+Relevant Files:
+- `Customizer/HeaderBuilder/HeaderBuilderConfig.php` — `menuTriggerButtonSvg()` method (line ~309-338), SVG viewBox and rect positions
+- `Customizer/HeaderBuilder/HeaderBuilderOutput.php` — `render_menu_trigger_button_widget()` (line ~658-731), HTML structure
+- `assets/scss/main/_navigation.scss` — `.use-header-builder .wpbf-menu-toggle` flex styles (line ~370-376)
+
+Open Questions / Solution Exploration:
+- Should the SVG viewBox be adjusted so the visual content is vertically centered with minimal internal padding?
+- Should the SVG use `vertical-align` or a negative margin to compensate for the viewBox offset?
+- Should the `column-gap` between icon and text be increased for better visual separation?
+- Check if the issue also affects the Customizer radio-buttonset previews (which use different SVG dimensions: `width="18" height="14" viewBox="0 0 18 14"`).
+
+Expected Outcome:
+- The SVG hamburger icon and text label should appear visually aligned on the same baseline/center.
+- Consistent alignment across all three SVG variants.
+
+
+ISSUE #6: Menu Trigger "Style" setting should be under the "Design" tab
+
+Context:
+- Header Builder
+- Menu Trigger widget sections (both desktop and mobile)
+- Desktop: `wpbf_header_builder_desktop_menu_trigger_section`
+- Mobile: `wpbf_header_builder_mobile_menu_trigger_section`
+
+Current Behavior:
+1. The Menu Trigger section has two tabs: "General" and "Design".
+2. The "Style" radio-buttonset control (`_style`) with options Simple/Outlined/Solid is currently placed under the "General" tab (`->tab('general')`).
+3. The "Design" tab contains: Button Settings (padding, background/border color, border radius) and Icon Settings (icon color, icon size) — all of which are conditional on the Style selection.
+
+Problem:
+- The "Style" control determines the visual appearance of the menu trigger button (simple vs outlined vs solid). This is a design/styling concern, not a general/content concern.
+- Placing it in the "General" tab separates it from its dependent controls in the "Design" tab, making the UX less intuitive.
+- Users must switch between tabs to understand the relationship between Style and its dependent design controls.
+- Other header builder widgets (e.g., Button 1/2) should be checked for consistency in tab placement of similar style controls.
+
+Relevant Files:
+- `inc/customizer/settings/header-builder/desktop/menu-trigger-section.php` — Style control at line ~92-103, placed in `->tab('general')`
+- `inc/customizer/settings/header-builder/mobile/menu-trigger-section.php` — Style control at line ~93-105, placed in `->tab('general')`
+
+Expected Outcome:
+- Move the "Style" radio-buttonset control to the "Design" tab in both desktop and mobile menu trigger sections.
+- Ensure dependent controls (padding, colors, border radius) remain logically grouped with the Style control.
+- Review other widget sections for similar tab placement inconsistencies.
