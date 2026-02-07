@@ -1,4 +1,4 @@
-ISSUE #1: Inconsistent spacing between header widgets in the same column/slot
+ISSUE #1: Inconsistent spacing between header widgets in the same column/slot [OPEN]
 
 Context:
 - Header Builder
@@ -35,7 +35,7 @@ Expected Outcome:
 - Reduce user confusion when widgets touch by default.
 
 
-ISSUE #2: Poor visual spacing in `margin-padding` unit controls
+ISSUE #2: Poor visual spacing in `margin-padding` unit controls [RESOLVED]
 
 Context:
 - `margin-padding` controls
@@ -56,7 +56,7 @@ Expected Outcome:
 - Apply changes consistently across all Margin/Padding controls.
 
 
-ISSUE #3: Search widget UX and behavior in Header Builder
+ISSUE #3: Search widget UX and behavior in Header Builder [OPEN]
 
 Context:
 - Header Builder
@@ -100,7 +100,7 @@ Expected Outcome:
 - Improved user guidance without removing manual control.
 
 
-ISSUE #4: Logo width settings have no live preview on mobile/tablet views
+ISSUE #4: Logo width settings have no live preview on mobile/tablet views [RESOLVED v2.11.9+11]
 
 Context:
 - Header Builder & Legacy Header
@@ -133,7 +133,7 @@ Expected Outcome:
 - Changing logo width for tablet or mobile in the Customizer should produce immediate visual feedback in the preview iframe.
 
 
-ISSUE #5: SVG hamburger icon and text label are visually misaligned in Menu Trigger widget
+ISSUE #5: SVG hamburger icon and text label are visually misaligned in Menu Trigger widget [RESOLVED v2.11.9+10, refined v2.11.9+14]
 
 Context:
 - Header Builder
@@ -167,7 +167,7 @@ Expected Outcome:
 - Consistent alignment across all three SVG variants.
 
 
-ISSUE #6: Menu Trigger "Style" setting should be under the "Design" tab
+ISSUE #6: Menu Trigger "Style" setting should be under the "Design" tab [RESOLVED v2.11.9+09]
 
 Context:
 - Header Builder
@@ -194,3 +194,45 @@ Expected Outcome:
 - Move the "Style" radio-buttonset control to the "Design" tab in both desktop and mobile menu trigger sections.
 - Ensure dependent controls (padding, colors, border radius) remain logically grouped with the Style control.
 - Review other widget sections for similar tab placement inconsistencies.
+
+
+ISSUE #7: Mobile Menu Trigger Padding postMessage conflict [RESOLVED v2.11.9+13]
+
+Context:
+- Header Builder
+- Menu Trigger widget (mobile), padding setting
+- `mobile_menu_trigger_padding` postMessage handler in `menu-triggers.ts`
+- Conflicting logic in `mobile-navigation.ts`
+
+Problem:
+- `mobile-navigation.ts` contained logic that hardcoded `padding: 10px !important` on `.wpbf-mobile-menu-toggle` when Header Builder was enabled and style was solid/outline.
+- The `wpbf_header_builder_mobile_menu_trigger_style` listener also forced `padding: 10px !important` or `padding: 0`, overriding user-defined padding.
+- This prevented `menu-triggers.ts` from applying the user's custom padding values in the live preview.
+
+Solution:
+1. Removed `padding: "unset"` from the "simple" style reset block in `mobile_menu_hamburger_bg_color` listener.
+2. Removed the `else` block that forced `padding: "10px !important"` for solid/outline.
+3. Removed the entire `wpbf_header_builder_mobile_menu_trigger_style` listener that hardcoded padding.
+4. `menu-triggers.ts` is now the sole controller for menu trigger padding in Header Builder mode.
+
+Relevant Files:
+- `inc/customizer/js/postmessage-parts/mobile-navigation.ts`
+- `inc/customizer/js/postmessage-parts/menu-triggers.ts`
+
+
+ISSUE #8: Duplicate postMessage listener for mobile header builder row 1 vertical padding [RESOLVED v2.11.9+12]
+
+Context:
+- Header Builder
+- Mobile Header Builder rows
+- `wpbf_header_builder_mobile_row_1_vertical_padding` setting
+
+Problem:
+- `mobile-header-builder-rows.ts` contained a duplicate `listenToCustomizerValueChange` call for the `wpbf_header_builder_mobile_row_1_vertical_padding` setting.
+- This caused the style writing logic to execute twice for every value change, potentially leading to conflicts or redundant DOM operations.
+
+Solution:
+- Removed the redundant event listener block, keeping only one unique listener for the setting.
+
+Relevant Files:
+- `inc/customizer/js/postmessage-parts/mobile-header-builder-rows.ts`
