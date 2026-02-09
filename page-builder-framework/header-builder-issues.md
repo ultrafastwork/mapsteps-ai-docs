@@ -70,6 +70,8 @@ Current Behavior:
 1. When clicking the Search icon:
    - Input expands (expected).
    - During expansion, the search icon visually shifts, creating a jarring effect.
+   - Happens only in customize preview both with header builder enabled and disaled. Works perfectly fine in frontend.
+   - The master branch doesn't have the issue at all both in customize preview and in frontend. Note: master branch doesn't have header builder feature yet.
 2. When typing in the expanded input:
    - A browser-provided clear (X) button appears.
    - The search icon remains visible.
