@@ -17,13 +17,22 @@ Session v2.11.9+21 resolved a visual alignment issue in the non-Header Builder m
 The search icon shifted on mobile in the default theme (non-HB) when active, and the transition didn't match the WP.org version.
 
 **Solution**:
-1.  Refined transition timings (200ms expansion / 250ms collapse) and syntax in `_navigation.scss` to match theme standards.
+1.  Applied `display: inline-flex` and `align-items: center` to `.wpbf-mobile-nav-item.wpbf-menu-item-search` in `_navigation.scss` for consistent centering.
+2.  Refined transition timings (200ms expansion / 250ms collapse) and syntax in `_navigation.scss` to match WordPress.org standards.
 
 **Files Modified**:
 -   `assets/scss/main/_navigation.scss`
 
 **Code Changes**:
 ```scss
+// Centering fix
+.use-header-builder .wpbf-nav-item.wpbf-menu-item-search,
+.use-header-builder .wpbf-mobile-nav-item.wpbf-menu-item-search,
+.wpbf-mobile-nav-item.wpbf-menu-item-search {
+	display: inline-flex;
+	align-items: center;
+}
+
 // Transition refinement
 .wpbf-vanilla .wpbf-menu-item-search .wpbf-menu-search {
 	transition: width .25s ease-in-out, opacity .25s ease-in-out;
