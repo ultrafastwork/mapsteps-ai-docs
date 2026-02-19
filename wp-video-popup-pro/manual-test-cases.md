@@ -540,7 +540,13 @@ For targeted popups, use the popup `id` as the trigger class:
 <!-- /wp:paragraph -->
 ```
 
-✅ Expect: Opens as a regular popup with no arrows (gallery with 1 item falls back gracefully).
+✅ Expect: Opens as a regular popup with no arrows (gallery with 1 item falls back gracefully). Close button visible; overlay click and Escape key close the popup.
+
+> ⚠️ **Bugs fixed (2025-02-20)** — Prior to the fix, this test case had two bugs in `wp-video-popup-pro/inc/js/wp-video-popup.js`:
+> 1. **Uncloseable popup** — The `data-wp-video-popup-gallery` attribute was left on the wrapper after the single-item fallback, causing all close handlers (overlay click, X button, Escape) to be blocked.
+> 2. **Missing close button** — The PHP shortcode omits the close button HTML when `gallery` is set (because multi-item galleries inject it via JS). The single-item fallback bailed out before that injection, leaving no close button.
+>
+> **Fix:** In `setupGallery()`, before calling `openPopup()` for the single-item path: (a) delete the `wpVideoPopupGallery` dataset property, and (b) programmatically insert a `.wp-video-popup-close` element into the wrapper.
 
 ---
 
@@ -577,6 +583,15 @@ For targeted popups, use the popup `id` as the trigger class:
 ```
 
 ✅ Expect: Starts at 0:10, muted, related from same channel.
+
+---
+
+## Bugs Found & Fixed
+
+| # | File | Description | Fix |
+|---|---|---|---|
+| 1 | `wp-video-popup-pro/inc/js/wp-video-popup.js` | **Test 28 — Single-item gallery uncloseable.** `data-wp-video-popup-gallery` remained on the wrapper after the single-item fallback, blocking all close handlers (overlay, X button, Escape). | Delete `wrappers[0].dataset.wpVideoPopupGallery` before calling `openPopup()` in `setupGallery()`. |
+| 2 | `wp-video-popup-pro/inc/js/wp-video-popup.js` | **Test 28 — Single-item gallery missing close button.** PHP suppresses the close button when `gallery` is set; the JS early-return skipped the dynamic injection that multi-item galleries receive. | Programmatically insert a `.wp-video-popup-close` div into the wrapper before calling `openPopup()` in the single-item fallback path. |
 
 ---
 
