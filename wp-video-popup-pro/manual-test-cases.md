@@ -275,6 +275,8 @@ Used for all free version tests unless stated otherwise. Paste this **once per t
 
 #### 16. Rumble — direct URL
 
+> ⚠️ **Not reliably supported.** Rumble full-page URLs (e.g. `rumble.com/v4lnzu9-title.html`) use a different video ID than the embed URL (e.g. `rumble.com/embed/v4j2rri/`). The plugin attempts to resolve the embed ID via the Iframely public API, but Iframely returns 403 for most Rumble pages. **Use the embed URL (test 15) instead.**
+
 ```
 <!-- wp:shortcode -->
 [wp-video-popup video="https://rumble.com/v4lnzu9-ep-11-kai-vs-speed-cooking-stream.html"]
@@ -285,7 +287,7 @@ Used for all free version tests unless stated otherwise. Paste this **once per t
 <!-- /wp:paragraph -->
 ```
 
-✅ Expect: Rumble video plays (ID extracted directly from URL path).
+❌ Expect: Popup opens but video fails to load (Iframely returns 403 for this URL). No PHP errors — fails silently with empty ID.
 
 ---
 
