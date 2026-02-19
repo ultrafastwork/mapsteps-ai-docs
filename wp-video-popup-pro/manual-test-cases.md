@@ -33,7 +33,7 @@ Used for all free version tests unless stated otherwise. Paste this **once per t
 
 ```
 <!-- wp:shortcode -->
-[wp-video-popup video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+[wp-video-popup video="https://www.youtube.com/watch?v=YlUKcNNmywk"]
 <!-- /wp:shortcode -->
 
 <!-- wp:paragraph {"className":"wp-video-popup"} -->
@@ -49,7 +49,7 @@ Used for all free version tests unless stated otherwise. Paste this **once per t
 
 ```
 <!-- wp:shortcode -->
-[wp-video-popup video="https://youtu.be/dQw4w9WgXcQ"]
+[wp-video-popup video="https://youtu.be/YlUKcNNmywk"]
 <!-- /wp:shortcode -->
 
 <!-- wp:paragraph {"className":"wp-video-popup"} -->
@@ -65,7 +65,7 @@ Used for all free version tests unless stated otherwise. Paste this **once per t
 
 ```
 <!-- wp:shortcode -->
-[wp-video-popup video="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ"]
+[wp-video-popup video="https://www.youtube-nocookie.com/embed/YlUKcNNmywk"]
 <!-- /wp:shortcode -->
 
 <!-- wp:paragraph {"className":"wp-video-popup"} -->
@@ -81,7 +81,7 @@ Used for all free version tests unless stated otherwise. Paste this **once per t
 
 ```
 <!-- wp:shortcode -->
-[wp-video-popup video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" mute="1"]
+[wp-video-popup video="https://www.youtube.com/watch?v=YlUKcNNmywk" mute="1"]
 <!-- /wp:shortcode -->
 
 <!-- wp:paragraph {"className":"wp-video-popup"} -->
@@ -97,7 +97,7 @@ Used for all free version tests unless stated otherwise. Paste this **once per t
 
 ```
 <!-- wp:shortcode -->
-[wp-video-popup video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" start="30"]
+[wp-video-popup video="https://www.youtube.com/watch?v=YlUKcNNmywk" start="30"]
 <!-- /wp:shortcode -->
 
 <!-- wp:paragraph {"className":"wp-video-popup"} -->
@@ -113,7 +113,7 @@ Used for all free version tests unless stated otherwise. Paste this **once per t
 
 ```
 <!-- wp:shortcode -->
-[wp-video-popup video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" hide-related="1"]
+[wp-video-popup video="https://www.youtube.com/watch?v=YlUKcNNmywk" hide-related="1"]
 <!-- /wp:shortcode -->
 
 <!-- wp:paragraph {"className":"wp-video-popup"} -->
@@ -129,7 +129,7 @@ Used for all free version tests unless stated otherwise. Paste this **once per t
 
 ```
 <!-- wp:shortcode -->
-[wp-video-popup video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" mute="1" start="15" hide-related="1"]
+[wp-video-popup video="https://www.youtube.com/watch?v=4wZmRQcIDME" mute="1" start="15" hide-related="1"]
 <!-- /wp:shortcode -->
 
 <!-- wp:paragraph {"className":"wp-video-popup"} -->
@@ -161,11 +161,9 @@ Used for all free version tests unless stated otherwise. Paste this **once per t
 
 #### 9. Vimeo — private (hash in URL path)
 
-> Replace the URL with a real private Vimeo URL you have access to.
-
 ```
 <!-- wp:shortcode -->
-[wp-video-popup video="https://vimeo.com/123456789/abcdef1234"]
+[wp-video-popup video="https://vimeo.com/1122224382/a6f0498bb8"]
 <!-- /wp:shortcode -->
 
 <!-- wp:paragraph {"className":"wp-video-popup"} -->
@@ -179,11 +177,9 @@ Used for all free version tests unless stated otherwise. Paste this **once per t
 
 #### 10. Vimeo — private (hash as query param)
 
-> Replace the URL with a real private Vimeo URL you have access to.
-
 ```
 <!-- wp:shortcode -->
-[wp-video-popup video="https://vimeo.com/123456789?h=abcdef1234"]
+[wp-video-popup video="https://vimeo.com/1122224382?h=a6f0498bb8"]
 <!-- /wp:shortcode -->
 
 <!-- wp:paragraph {"className":"wp-video-popup"} -->
@@ -299,7 +295,7 @@ Used for all free version tests unless stated otherwise. Paste this **once per t
 
 ```
 <!-- wp:shortcode -->
-[ryv-popup video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+[ryv-popup video="https://www.youtube.com/watch?v=YlUKcNNmywk"]
 <!-- /wp:shortcode -->
 
 <!-- wp:paragraph {"className":"wp-video-popup"} -->
@@ -315,7 +311,7 @@ Used for all free version tests unless stated otherwise. Paste this **once per t
 
 ```
 <!-- wp:shortcode -->
-[wp-video-popup video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+[wp-video-popup video="https://www.youtube.com/watch?v=YlUKcNNmywk"]
 <!-- /wp:shortcode -->
 
 <!-- wp:paragraph {"className":"ryv-popup"} -->
@@ -366,7 +362,7 @@ For targeted popups, use the popup `id` as the trigger class:
 
 ```
 <!-- wp:shortcode -->
-[wp-video-popup id="video-a" video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+[wp-video-popup id="video-a" video="https://www.youtube.com/watch?v=YlUKcNNmywk"]
 <!-- /wp:shortcode -->
 
 <!-- wp:shortcode -->
@@ -390,7 +386,7 @@ For targeted popups, use the popup `id` as the trigger class:
 
 ```
 <!-- wp:shortcode -->
-[wp-video-popup id="1video" video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+[wp-video-popup id="1video" video="https://www.youtube.com/watch?v=YlUKcNNmywk"]
 <!-- /wp:shortcode -->
 
 <!-- wp:paragraph {"className":"1video"} -->
@@ -406,7 +402,7 @@ For targeted popups, use the popup `id` as the trigger class:
 
 ```
 <!-- wp:shortcode -->
-[wp-video-popup id="video-a" video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+[wp-video-popup id="video-a" video="https://www.youtube.com/watch?v=YlUKcNNmywk"]
 <!-- /wp:shortcode -->
 
 <!-- wp:shortcode -->
@@ -428,7 +424,7 @@ For targeted popups, use the popup `id` as the trigger class:
 
 ```
 <!-- wp:shortcode -->
-[wp-video-popup autoplay="1" video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+[wp-video-popup autoplay="1" video="https://www.youtube.com/watch?v=4wZmRQcIDME"]
 <!-- /wp:shortcode -->
 ```
 
@@ -480,7 +476,7 @@ For targeted popups, use the popup `id` as the trigger class:
 
 ```
 <!-- wp:shortcode -->
-[wp-video-popup gallery="my-gallery" video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+[wp-video-popup gallery="my-gallery" video="https://www.youtube.com/watch?v=YlUKcNNmywk"]
 <!-- /wp:shortcode -->
 
 <!-- wp:shortcode -->
@@ -500,7 +496,7 @@ For targeted popups, use the popup `id` as the trigger class:
 
 ```
 <!-- wp:shortcode -->
-[wp-video-popup gallery="mixed-gallery" video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+[wp-video-popup gallery="mixed-gallery" video="https://www.youtube.com/watch?v=YlUKcNNmywk"]
 <!-- /wp:shortcode -->
 
 <!-- wp:shortcode -->
@@ -524,7 +520,7 @@ For targeted popups, use the popup `id` as the trigger class:
 
 ```
 <!-- wp:shortcode -->
-[wp-video-popup gallery="auto-gallery" autoplay="1" video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+[wp-video-popup gallery="auto-gallery" autoplay="1" video="https://www.youtube.com/watch?v=4wZmRQcIDME"]
 <!-- /wp:shortcode -->
 
 <!-- wp:shortcode -->
@@ -540,7 +536,7 @@ For targeted popups, use the popup `id` as the trigger class:
 
 ```
 <!-- wp:shortcode -->
-[wp-video-popup gallery="solo" video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+[wp-video-popup gallery="solo" video="https://www.youtube.com/watch?v=YlUKcNNmywk"]
 <!-- /wp:shortcode -->
 
 <!-- wp:paragraph {"className":"wp-video-popup"} -->
@@ -576,7 +572,7 @@ For targeted popups, use the popup `id` as the trigger class:
 
 ```
 <!-- wp:shortcode -->
-[wp-video-popup id="full-test" mute="1" start="10" hide-related="1" video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+[wp-video-popup id="full-test" mute="1" start="10" hide-related="1" video="https://www.youtube.com/watch?v=4wZmRQcIDME"]
 <!-- /wp:shortcode -->
 
 <!-- wp:paragraph {"className":"full-test"} -->
