@@ -7,20 +7,22 @@ Covers both the **free** (`responsive-youtube-vimeo-popup`) and **pro** (`wp-vid
 ## How to Use
 
 1. Create a test page/post in WordPress.
-2. Paste the shortcode(s) into the page content.
-3. Add the trigger markup on the same page.
-4. Preview the page and verify the expected behavior.
+2. Open the block editor, click the **three-dot menu (⋮) → Code editor** (or press `Ctrl+Shift+Alt+M`).
+3. Paste the block markup below directly into the code editor.
+4. Switch back to Visual editor and preview the page.
 
 ---
 
 ## Free Version
 
-### Trigger Markup
+### Default Trigger Block
 
-Use this trigger for all free version tests (unless stated otherwise):
+Used for all free version tests unless stated otherwise. Paste this **once per test page**, alongside the shortcode block.
 
-```html
-<a href="#" class="wp-video-popup">Open Popup</a>
+```
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open Popup</a></p>
+<!-- /wp:paragraph -->
 ```
 
 ---
@@ -28,45 +30,113 @@ Use this trigger for all free version tests (unless stated otherwise):
 ### YouTube
 
 #### 1. Basic YouTube
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open YouTube Popup</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: Popup opens, YouTube video plays with autoplay.
 
+---
+
 #### 2. YouTube short URL
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup video="https://youtu.be/dQw4w9WgXcQ"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open YouTube Short URL</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: Short URL correctly parsed, video plays.
 
+---
+
 #### 3. YouTube nocookie
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup video="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open YouTube Nocookie</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: Embeds from `youtube-nocookie.com`, not `youtube.com`.
 
+---
+
 #### 4. YouTube — muted
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" mute="1"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open Muted YouTube</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: Video plays silently.
 
+---
+
 #### 5. YouTube — start at specific time
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" start="30"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open YouTube at 0:30</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: Video starts at 0:30.
 
+---
+
 #### 6. YouTube — hide related videos
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" hide-related="1"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open YouTube Hide Related</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: Related videos from same channel shown at end (YouTube no longer allows full suppression since 2018).
 
+---
+
 #### 7. YouTube — combined attributes
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup video="https://www.youtube.com/watch?v=dQw4w9WgXcQ" mute="1" start="15" hide-related="1"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open YouTube Combined</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: Starts at 0:15, muted, related from same channel.
 
 ---
@@ -74,45 +144,117 @@ Use this trigger for all free version tests (unless stated otherwise):
 ### Vimeo
 
 #### 8. Vimeo — public
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup video="https://vimeo.com/136696258"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open Vimeo</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: Vimeo video plays.
 
-#### 9. Vimeo — private (hash in URL path)
-```
-[wp-video-popup video="https://vimeo.com/123456789/abcdef1234"]
-```
-✅ Expect: Private Vimeo video plays. Replace with a real private Vimeo URL you have access to.
+---
 
-#### 10. Vimeo — private (hash as query param)
+#### 9. Vimeo — private (hash in URL path)
+
+> Replace the URL with a real private Vimeo URL you have access to.
+
 ```
-[wp-video-popup video="https://vimeo.com/123456789?h=abcdef1234"]
+<!-- wp:shortcode -->
+[wp-video-popup video="https://vimeo.com/123456789/abcdef1234"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open Private Vimeo (path hash)</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: Private Vimeo video plays.
 
+---
+
+#### 10. Vimeo — private (hash as query param)
+
+> Replace the URL with a real private Vimeo URL you have access to.
+
+```
+<!-- wp:shortcode -->
+[wp-video-popup video="https://vimeo.com/123456789?h=abcdef1234"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open Private Vimeo (query hash)</a></p>
+<!-- /wp:paragraph -->
+```
+
+✅ Expect: Private Vimeo video plays.
+
+---
+
 #### 11. Vimeo — embed format URL
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup video="https://player.vimeo.com/video/136696258"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open Vimeo Embed URL</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: Correctly parsed, video plays.
 
+---
+
 #### 12. Vimeo — muted
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup video="https://vimeo.com/136696258" mute="1"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open Muted Vimeo</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: Vimeo plays silently.
 
+---
+
 #### 13. Vimeo — start at specific time
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup video="https://vimeo.com/136696258" start="20"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open Vimeo at 0:20</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: Vimeo starts at 0:20.
 
+---
+
 #### 14. Vimeo — portrait mode
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup video="https://vimeo.com/136696258" portrait="1"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open Vimeo Portrait</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: Popup renders in portrait (vertical) aspect ratio.
 
 ---
@@ -120,15 +262,33 @@ Use this trigger for all free version tests (unless stated otherwise):
 ### Rumble
 
 #### 15. Rumble — embed URL
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup video="https://rumble.com/embed/v4j2rri/?pub=4"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open Rumble Embed</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: Rumble video plays.
 
+---
+
 #### 16. Rumble — direct URL
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup video="https://rumble.com/v4j2rri-some-title.html"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open Rumble Direct URL</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: Rumble video plays (uses Iframely API fallback internally).
 
 ---
@@ -136,16 +296,34 @@ Use this trigger for all free version tests (unless stated otherwise):
 ### Backward Compatibility
 
 #### 17. Legacy shortcode alias
+
 ```
+<!-- wp:shortcode -->
 [ryv-popup video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open via Legacy Shortcode</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: Works identically to `[wp-video-popup]`.
 
+---
+
 #### 18. Legacy trigger class
-```html
-<a href="#" class="ryv-popup">Open Popup</a>
+
 ```
-✅ Expect: Opens the popup.
+<!-- wp:shortcode -->
+[wp-video-popup video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"ryv-popup"} -->
+<p class="ryv-popup"><a href="#">Open via Legacy Trigger Class</a></p>
+<!-- /wp:paragraph -->
+```
+
+✅ Expect: Opens the popup using the legacy `ryv-popup` trigger class.
 
 ---
 
@@ -164,18 +342,20 @@ After opening any popup above:
 
 ## Pro Version
 
-### Trigger Markup
+### Default Trigger Block
 
-Default trigger (targets first popup on page):
-
-```html
-<a href="#" class="wp-video-popup">Open Popup</a>
+```
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open Popup</a></p>
+<!-- /wp:paragraph -->
 ```
 
-Targeted trigger (replace `my-id` with the `id` used in the shortcode):
+For targeted popups, use the popup `id` as the trigger class:
 
-```html
-<a href="#" class="my-id">Open Specific Popup</a>
+```
+<!-- wp:paragraph {"className":"my-id"} -->
+<p class="my-id"><a href="#">Open Specific Popup</a></p>
+<!-- /wp:paragraph -->
 ```
 
 ---
@@ -183,33 +363,61 @@ Targeted trigger (replace `my-id` with the `id` used in the shortcode):
 ### Multiple Popups & ID Targeting
 
 #### 19. Multiple popups — targeted by ID
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup id="video-a" video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
 [wp-video-popup id="video-b" video="https://vimeo.com/136696258"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"video-a"} -->
+<p class="video-a"><a href="#">Open YouTube</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"className":"video-b"} -->
+<p class="video-b"><a href="#">Open Vimeo</a></p>
+<!-- /wp:paragraph -->
 ```
-```html
-<a href="#" class="video-a">Open YouTube</a>
-<a href="#" class="video-b">Open Vimeo</a>
-```
+
 ✅ Expect: Each trigger opens its own popup independently.
 
+---
+
 #### 20. Popup ID starting with a number
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup id="1video" video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"1video"} -->
+<p class="1video"><a href="#">Open Popup (numeric ID)</a></p>
+<!-- /wp:paragraph -->
 ```
-```html
-<a href="#" class="1video">Open Popup</a>
-```
+
 ✅ Expect: Works correctly (uses `[class~="1video"]` selector internally).
 
+---
+
 #### 21. Default trigger with multiple popups on page
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup id="video-a" video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
 [wp-video-popup id="video-b" video="https://vimeo.com/136696258"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open First Popup</a></p>
+<!-- /wp:paragraph -->
 ```
-```html
-<a href="#" class="wp-video-popup">Open First Popup</a>
-```
+
 ✅ Expect: Opens the first popup (`video-a`).
 
 ---
@@ -217,25 +425,51 @@ Targeted trigger (replace `my-id` with the `id` used in the shortcode):
 ### Autoplay on Page Load
 
 #### 22. Autoplay on page load
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup autoplay="1" video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+<!-- /wp:shortcode -->
 ```
-✅ Expect: Popup opens automatically when the page loads (no trigger click needed).
+
+✅ Expect: Popup opens automatically when the page loads. No trigger needed.
 
 ---
 
 ### Self-Hosted Videos
 
 #### 23. Self-hosted video — basic
+
+> Replace the URL with a real `.mp4` URL accessible from your server.
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup video="https://your-domain.com/path/to/video.mp4"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open Self-Hosted Video</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: `<video>` element used instead of iframe, video plays with controls.
 
+---
+
 #### 24. Self-hosted — muted + start time
+
+> Replace the URL with a real `.mp4` URL accessible from your server.
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup video="https://your-domain.com/path/to/video.mp4" mute="1" start="10"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open Self-Hosted Muted at 10s</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: Starts at 10s, muted.
 
 ---
@@ -243,40 +477,77 @@ Targeted trigger (replace `my-id` with the `id` used in the shortcode):
 ### Video Galleries
 
 #### 25. Gallery — basic (2 videos)
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup gallery="my-gallery" video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
 [wp-video-popup gallery="my-gallery" video="https://vimeo.com/136696258"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open Gallery</a></p>
+<!-- /wp:paragraph -->
 ```
-```html
-<a href="#" class="wp-video-popup">Open Gallery</a>
-```
+
 ✅ Expect: Gallery opens at first video, prev/next arrows navigate between videos.
 
+---
+
 #### 26. Gallery — 3 videos (mixed providers)
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup gallery="mixed-gallery" video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
 [wp-video-popup gallery="mixed-gallery" video="https://vimeo.com/136696258"]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
 [wp-video-popup gallery="mixed-gallery" video="https://rumble.com/embed/v4j2rri/?pub=4"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open Mixed Gallery</a></p>
+<!-- /wp:paragraph -->
 ```
-```html
-<a href="#" class="wp-video-popup">Open Gallery</a>
-```
+
 ✅ Expect: 3-video gallery, prev/next arrows work, keyboard left/right arrow navigation works, Escape closes.
 
+---
+
 #### 27. Gallery — autoplay on page load
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup gallery="auto-gallery" autoplay="1" video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
 [wp-video-popup gallery="auto-gallery" video="https://vimeo.com/136696258"]
+<!-- /wp:shortcode -->
 ```
+
 ✅ Expect: Gallery opens automatically on page load at the first video.
 
+---
+
 #### 28. Gallery — single item (fallback to regular popup)
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup gallery="solo" video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open Solo Gallery</a></p>
+<!-- /wp:paragraph -->
 ```
-```html
-<a href="#" class="wp-video-popup">Open</a>
-```
+
 ✅ Expect: Opens as a regular popup with no arrows (gallery with 1 item falls back gracefully).
 
 ---
@@ -284,9 +555,17 @@ Targeted trigger (replace `my-id` with the `id` used in the shortcode):
 ### Portrait Mode
 
 #### 29. Portrait mode
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup portrait="1" video="https://vimeo.com/136696258"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup"} -->
+<p class="wp-video-popup"><a href="#">Open Portrait Popup</a></p>
+<!-- /wp:paragraph -->
 ```
+
 ✅ Expect: Popup renders in portrait (vertical) aspect ratio, no `is-resizable` class applied.
 
 ---
@@ -294,12 +573,17 @@ Targeted trigger (replace `my-id` with the `id` used in the shortcode):
 ### All Shortcode Attributes Combined (Pro)
 
 #### 30. Full attribute test
+
 ```
+<!-- wp:shortcode -->
 [wp-video-popup id="full-test" mute="1" start="10" hide-related="1" video="https://www.youtube.com/watch?v=dQw4w9WgXcQ"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"full-test"} -->
+<p class="full-test"><a href="#">Open Full Attribute Test</a></p>
+<!-- /wp:paragraph -->
 ```
-```html
-<a href="#" class="full-test">Open Full Test</a>
-```
+
 ✅ Expect: Starts at 0:10, muted, related from same channel.
 
 ---
