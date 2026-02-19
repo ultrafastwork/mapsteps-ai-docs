@@ -436,11 +436,9 @@ For targeted popups, use the popup `id` as the trigger class:
 
 #### 23. Self-hosted video — basic
 
-> Replace the URL with a real `.mp4` URL accessible from your server.
-
 ```
 <!-- wp:shortcode -->
-[wp-video-popup video="https://your-domain.com/path/to/video.mp4"]
+[wp-video-popup video="/wp-content/uploads/2026/02/Its-Raining-Tacos-Reanimated.mp4"]
 <!-- /wp:shortcode -->
 
 <!-- wp:paragraph {"className":"wp-video-popup"} -->
@@ -454,11 +452,9 @@ For targeted popups, use the popup `id` as the trigger class:
 
 #### 24. Self-hosted — muted + start time
 
-> Replace the URL with a real `.mp4` URL accessible from your server.
-
 ```
 <!-- wp:shortcode -->
-[wp-video-popup video="https://your-domain.com/path/to/video.mp4" mute="1" start="10"]
+[wp-video-popup video="/wp-content/uploads/2026/02/Its-Raining-Tacos-Reanimated.mp4" mute="1" start="10"]
 <!-- /wp:shortcode -->
 
 <!-- wp:paragraph {"className":"wp-video-popup"} -->
