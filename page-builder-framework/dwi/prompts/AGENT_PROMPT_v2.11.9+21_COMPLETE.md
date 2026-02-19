@@ -12,18 +12,18 @@ Strictly follow:
 1. `.antigravityrules` (Root-level operating principles)
 
 **Session Info**:
-- Last Completed Session: **v2.11.9+23**
-- Current Session: **v2.11.9+24**
+- Last Completed Session: **v2.11.9+21**
+- Current Session: **v2.11.9+22**
 
 **Objective**:
 Waiting for next task.
 
-**Previous Session Summary (v2.11.9+23)**:
-✅ Header Builder Row Classes:
-1.  Fixed missing `use-header-builder` class in Premium mobile header classes filter.
-2.  Added `use-header-builder` class to all desktop and mobile rows in `HeaderBuilderOutput.php`.
-3.  Ensured consistent flexbox alignment for components across all builder rows.
-4.  Updated walkthrough documentation to cover all recent Customizer fixes.
+**Previous Session Summary (v2.11.9+21)**:
+✅ Search Alignment & Style Cleanup:
+1.  Fixed non-HB mobile search icon alignment via flexbox.
+2.  Scoped `header-builder-styles.php` inclusion to only when active.
+3.  Refined search animation transition timings (200ms/250ms).
+4.  Rebuild minified CSS via `pnpm build-style`.
 
 **Instructions**:
 1. Read `PROGRESS_HANDOFF.md` for full context and next tasks.
