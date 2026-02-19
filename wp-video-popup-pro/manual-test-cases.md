@@ -275,6 +275,8 @@ Used for all free version tests unless stated otherwise. Paste this **once per t
 
 #### 16. Rumble — direct URL
 
+> ⚠️ Requires the Iframely API (`iframely.com/api/try`) to be reachable from the server and to recognize the URL. If it returns a non-200 response or no `code` key, the popup will not load. Use the embed URL format (test 15) for reliable results.
+
 ```
 <!-- wp:shortcode -->
 [wp-video-popup video="https://rumble.com/v4j2rri-some-title.html"]
@@ -285,7 +287,8 @@ Used for all free version tests unless stated otherwise. Paste this **once per t
 <!-- /wp:paragraph -->
 ```
 
-✅ Expect: Rumble video plays (uses Iframely API fallback internally).
+✅ Expect: Rumble video plays if Iframely API resolves the URL successfully.
+❌ If popup is blank: Iframely could not resolve the URL — use embed URL format instead.
 
 ---
 
