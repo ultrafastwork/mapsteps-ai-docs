@@ -20,6 +20,13 @@
 - **Shared rendering**: Both use `HeaderBuilderOutput::render_menu_trigger_button_widget()` with device parameter
 - **Controls movement**: Legacy mobile controls are moved via `setup-controls-movement.ts` when header builder is enabled
 
+**Classic Mode (Header Builder Disabled):**
+
+- **Desktop**: No menu trigger widget; uses traditional menu layouts (horizontal menu, or off-canvas via premium plugin with `menu_off_canvas_hamburger_*` controls)
+- **Mobile**: Uses legacy `mobile_menu_hamburger_*` controls in original `wpbf_mobile_menu_options` section (not moved)
+- **CSS**: `header-styles.php` handles mobile hamburger styling; premium's `off-canvas-menu-styles.php` handles desktop off-canvas
+- **postMessage**: `menu-triggers.ts` checks `headerBuilderEnabled()` and skips execution to avoid conflicts with legacy handlers
+
 ### Files Reviewed
 
 - `inc/customizer/settings/header-builder/desktop/menu-trigger-section.php`

@@ -2,7 +2,7 @@
 
 ## Project Context
 
-We are working on the "page-builder-framework" WordPress theme located in `wp-content/themes/page-builder-framework`.
+We are working on the "page-builder-framework" WordPress theme located in `wp-content/themes/page-builder-framework`. We also call this theme as "PBF".
 
 ## Directory Structure
 

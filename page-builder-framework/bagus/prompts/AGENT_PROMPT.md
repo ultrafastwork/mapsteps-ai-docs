@@ -60,6 +60,20 @@ The Header Builder feature (enabled via `wpbf_enable_header_builder` control) pr
 
 6. **CSS output**: `header-builder-menu-styles.php` conditionally uses different setting IDs based on device.
 
+### Behavior When Header Builder is Disabled (Classic Mode)
+
+When `wpbf_enable_header_builder` is **false**:
+
+1. **Desktop menu trigger**: Not available. Desktop uses traditional menu layouts (horizontal menu, off-canvas via premium plugin, etc.).
+
+2. **Mobile menu trigger**: Uses the legacy `mobile_menu_hamburger_*` controls in their original section (`wpbf_mobile_menu_options`). These controls are NOT moved.
+
+3. **CSS output**: `header-styles.php` handles mobile hamburger styling using the legacy control values directly.
+
+4. **postMessage handlers**: `mobile-navigation.ts` handles the legacy controls. The `menu-triggers.ts` handlers check `headerBuilderEnabled()` and skip execution when disabled to avoid conflicts.
+
+5. **Premium plugin**: When header builder is disabled, the premium plugin's off-canvas menu feature uses its own controls (`menu_off_canvas_hamburger_color`, `menu_off_canvas_hamburger_size`, etc.) for the desktop off-canvas trigger, handled in `off-canvas-menu-styles.php`.
+
 ### Relevant Files
 
 - `inc/customizer/settings/header-builder/desktop/menu-trigger-section.php` — Desktop controls
