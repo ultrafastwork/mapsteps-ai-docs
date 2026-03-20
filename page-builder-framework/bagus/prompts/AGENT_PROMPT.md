@@ -7,11 +7,38 @@
 **Project Rules**: `ai-docs/page-builder-framework/rules.md`
 
 **Date**: 2026-03-19
-**Last Completed Session**: v2.11.8+88
-**Current Session**: v2.11.8+89
-**Status**: Active
+**Last Completed Session**: v2.11.8+89
+**Current Session**: v2.11.8+90
+**Status**: ✅ COMPLETED
 
-**Objective**: Investigate and document the relationship between `desktop_menu_trigger` and `mobile_menu_trigger` widgets in Header Builder.
+**Objective**: Answer the questions below about `desktop_menu_trigger` and `mobile_menu_trigger` widgets in Header Builder through deep codebase analysis.
+
+---
+
+## ✅ COMPLETED: Questions Answered (v2.11.8+89)
+
+All questions have been answered with detailed code evidence. See `PROGRESS_HANDOFF.md` for the summary.
+
+### Q1: Are desktop and mobile menu_trigger using the same setting fields?
+**NO** — They use different setting IDs but similar field types.
+
+### Q2: Are they partially using the same?
+**YES** — Hybrid approach:
+- **Shared (different IDs)**: icon, text, style, padding, margin
+- **Mobile reuses legacy**: icon_color, icon_size, bg_color, border_radius use `mobile_menu_hamburger_*` controls
+
+### Q3: Do frontend rendering/styles share the same setting fields?
+**NO for setting IDs, YES for rendering logic** — Both use `render_menu_trigger_button_widget()` with device parameter. CSS output uses conditional setting IDs.
+
+### Q4: What happens in classic mode?
+- **Mobile**: Uses legacy controls in original section (not moved)
+- **Desktop**: No menu trigger; uses traditional layouts or premium off-canvas
+- **Guards**: postMessage handlers check `headerBuilderEnabled()` to prevent conflicts
+
+### Q5: Any bugs or inconsistencies?
+**No obvious bugs** — Guards work correctly. Minor concerns:
+- Cross-dependency between legacy and new controls
+- Inconsistent control locations (PHP-defined vs JS-moved)
 
 ---
 
@@ -21,11 +48,11 @@ The Header Builder feature (enabled via `wpbf_enable_header_builder` control) pr
 
 ---
 
-## Investigation Summary
+## Reference Material (Starting Context)
 
-### Question: Do desktop and mobile menu_trigger widgets share settings?
+**NOTE: This section provides initial context to help you start. You must still perform your own deep analysis to answer the questions above with full evidence and code references.**
 
-**Answer: Partially shared.**
+### Initial Findings (Verify and Expand)
 
 #### Shared Settings (same field types, different setting IDs)
 
@@ -87,7 +114,17 @@ When `wpbf_enable_header_builder` is **false**:
 
 ---
 
-## Next Steps
+## Instructions for AI Agent
+
+1. **DO NOT** just update documentation or mark this as complete.
+2. **DO** perform deep codebase analysis to answer each question above.
+3. **DO** provide code snippets and file references as evidence.
+4. **DO** test your understanding by tracing the full flow from control → postMessage → CSS output.
+5. **AFTER** answering all questions, summarize findings and recommend next steps.
+
+## After Answering Questions
+
+Once all questions are answered with evidence:
 
 1. **Determine if unification is needed**: Should mobile menu trigger have its own dedicated controls like desktop, or is the current approach (reusing legacy) acceptable?
 
