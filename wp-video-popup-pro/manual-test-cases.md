@@ -418,6 +418,58 @@ For targeted popups, use the popup `id` as the trigger class:
 
 ---
 
+#### 21b. Regression — generic class + per-id class on same trigger
+
+> 🐞 **Regression test for commit `c332f60` → fixed by `0b55aa3`.**
+>
+> The bug: when a trigger element carried **both** the generic `wp-video-popup` (or legacy `ryv-popup`) class **and** a unique per-id class (e.g. `class="wp-video-popup video-b"`), two click listeners fired on every click — the per-id one (correct) and the generic one which fell back to `popups[0]`. The first popup on the page played layered behind the clicked one. Audio leak audible if the videos are unmuted.
+
+```
+<!-- wp:shortcode -->
+[wp-video-popup id="repro-vid-1" video="https://www.youtube.com/watch?v=YlUKcNNmywk"]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
+[wp-video-popup id="repro-vid-2" video="https://vimeo.com/136696258"]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
+[wp-video-popup id="repro-vid-3" video="https://rumble.com/embed/v4j2rri/?pub=4"]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"className":"wp-video-popup repro-vid-1"} -->
+<p class="wp-video-popup repro-vid-1"><a href="#">Play video 1</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"className":"wp-video-popup repro-vid-2"} -->
+<p class="wp-video-popup repro-vid-2"><a href="#">Play video 2</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"className":"wp-video-popup repro-vid-3"} -->
+<p class="wp-video-popup repro-vid-3"><a href="#">Play video 3</a></p>
+<!-- /wp:paragraph -->
+```
+
+✅ Expect: clicking any single trigger plays **only** that one video. No audio leak. In DevTools, only the clicked popup's `.wp-video-popup-wrapper` should have its iframe `src` populated.
+
+❌ On `c332f60` (buggy): clicking video 2 or 3 also starts video 1 playing layered behind the popup.
+
+Repeat with the legacy alias to cover both generic selectors:
+
+```
+<!-- wp:paragraph {"className":"ryv-popup repro-ryv-1"} -->
+<p class="ryv-popup repro-ryv-1"><a href="#">Play video 1 (legacy class)</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"className":"ryv-popup repro-ryv-2"} -->
+<p class="ryv-popup repro-ryv-2"><a href="#">Play video 2 (legacy class)</a></p>
+<!-- /wp:paragraph -->
+```
+
+(Pair with two `[wp-video-popup id="repro-ryv-1" …]` / `[wp-video-popup id="repro-ryv-2" …]` shortcodes.)
+
+---
+
 ### Autoplay on Page Load
 
 #### 22. Autoplay on page load
@@ -592,6 +644,7 @@ For targeted popups, use the popup `id` as the trigger class:
 |---|---|---|---|
 | 1 | `wp-video-popup-pro/inc/js/wp-video-popup.js` | **Test 28 — Single-item gallery uncloseable.** `data-wp-video-popup-gallery` remained on the wrapper after the single-item fallback, blocking all close handlers (overlay, X button, Escape). | Delete `wrappers[0].dataset.wpVideoPopupGallery` before calling `openPopup()` in `setupGallery()`. |
 | 2 | `wp-video-popup-pro/inc/js/wp-video-popup.js` | **Test 28 — Single-item gallery missing close button.** PHP suppresses the close button when `gallery` is set; the JS early-return skipped the dynamic injection that multi-item galleries receive. | Programmatically insert a `.wp-video-popup-close` div into the wrapper before calling `openPopup()` in the single-item fallback path. |
+| 3 | `wp-video-popup-pro/inc/js/wp-video-popup.js` | **Test 21b — Multiple popups, first plays layered behind clicked one.** Regression introduced in `c332f60` (the `popups.length === 1` guard around the generic `.wp-video-popup` / `.ryv-popup` listeners was removed). When a trigger carried both the generic class and a per-id class, two click listeners fired and the generic one opened `popups[0]`. | `0b55aa3` — collect all per-id selectors during setup and skip them in the generic fallback via an `excludeSelectors` argument to `setupOpenTriggers()`. |
 
 ---
 
