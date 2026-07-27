@@ -8,7 +8,7 @@ This document contains actionable **technical issues requiring code fixes**, ana
 
 | # | Title | Status | Priority | Target File(s) |
 |---|---|---|---|---|
-| 1 | WebP Image Support Missing in Login Customizer Sanitizer | `[ ] Open` | High | [`class-content-helper.php`](file:///d:/projects/mapsteps/wp-content/plugins/ultimate-dashboard/helpers/class-content-helper.php#L35-L66) |
+| 1 | WebP Image Support Missing in Login Customizer Sanitizer | `[x] Completed` | High | [`class-content-helper.php`](file:///d:/projects/mapsteps/wp-content/plugins/ultimate-dashboard/helpers/class-content-helper.php#L35-L66) |
 | 2 | Elementor Theme Builder Compatibility & Access Denied Error | `[ ] Open` | High | [`class-admin-menu-output.php`](file:///d:/projects/mapsteps/wp-content/plugins/ultimate-dashboard-pro/modules/admin-menu/class-admin-menu-output.php) |
 | 3 | Admin Menu Hover Color Overridden by Elementor's CSS | `[ ] Open` | Medium | [`admin-styles-default.css.php`](file:///d:/projects/mapsteps/wp-content/plugins/ultimate-dashboard-pro/modules/branding/inc/admin-styles-default.css.php) |
 | 4 | Elementor & Element Pack Menus Bypassing Hide Settings | `[x] Completed` | Medium | [`class-admin-menu-output.php`](file:///d:/projects/mapsteps/wp-content/plugins/ultimate-dashboard-pro/modules/admin-menu/class-admin-menu-output.php) |
@@ -20,7 +20,7 @@ This document contains actionable **technical issues requiring code fixes**, ana
 ## 🛠️ Technical Issues Backlog
 
 ### 1. WebP Image Support Missing in Login Customizer Sanitizer
-* **Status:** `[ ] Open (Not Fixed) ❌`
+* **Status:** `[x] Completed ✅`
 * **Severity/Priority:** High (Confirmed Bug / Quick Fix)
 * **Source:** Ticket #7 (Part 1)
 * **Target Files:** [`wp-content/plugins/ultimate-dashboard/helpers/class-content-helper.php`](file:///d:/projects/mapsteps/wp-content/plugins/ultimate-dashboard/helpers/class-content-helper.php#L35-L66)
@@ -31,12 +31,12 @@ This document contains actionable **technical issues requiring code fixes**, ana
 - **Root Cause:** `sanitize_image()` in `class-content-helper.php` checks against a MIME type whitelist that does not include `'webp' => 'image/webp'`.
 
 #### 🛠️ Action Items
-- [ ] Add `'webp' => 'image/webp'` to the `$mimes` array whitelist inside `Content_Helper::sanitize_image()`.
-- [ ] Test saving a `.webp` background image in the Login Customizer.
+- [x] Add `'webp' => 'image/webp'` and `'avif' => 'image/avif'` to the base `$mimes` whitelist and dynamically merge site-allowed image MIME types inside `Content_Helper::sanitize_image()`.
+- [x] Test saving a `.webp` background image in the Login Customizer.
 
 #### ✅ Acceptance Criteria & Verification
-- [ ] `.webp` file URLs remain saved in `udb_login['bg_image']` option after saving in WP Customizer.
-- [ ] Login screen renders the `.webp` background image properly without fallback to empty string.
+- [x] `.webp` file URLs remain saved in `udb_login['bg_image']` option after saving in WP Customizer.
+- [x] Login screen renders the `.webp` background image properly without fallback to empty string.
 
 ---
 
