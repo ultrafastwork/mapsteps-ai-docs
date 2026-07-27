@@ -9,7 +9,7 @@ This document contains actionable **technical issues requiring code fixes**, ana
 | # | Title | Status | Priority | Target File(s) |
 |---|---|---|---|---|
 | 1 | WebP Image Support Missing in Login Customizer Sanitizer | `[x] Completed` | High | [`class-content-helper.php`](file:///d:/projects/mapsteps/wp-content/plugins/ultimate-dashboard/helpers/class-content-helper.php#L35-L66) |
-| 2 | Elementor Theme Builder Compatibility & Access Denied Error | `[ ] Open` | High | [`class-admin-menu-output.php`](file:///d:/projects/mapsteps/wp-content/plugins/ultimate-dashboard-pro/modules/admin-menu/class-admin-menu-output.php) |
+| 2 | Elementor Theme Builder Compatibility & Access Denied Error | `[x] Completed` | High | [`class-admin-menu-output.php`](file:///d:/projects/mapsteps/wp-content/plugins/ultimate-dashboard-pro/modules/admin-menu/class-admin-menu-output.php) |
 | 3 | Admin Menu Hover Color Overridden by Elementor's CSS | `[ ] Open` | Medium | [`admin-styles-default.css.php`](file:///d:/projects/mapsteps/wp-content/plugins/ultimate-dashboard-pro/modules/branding/inc/admin-styles-default.css.php) |
 | 4 | Elementor & Element Pack Menus Bypassing Hide Settings | `[x] Completed` | Medium | [`class-admin-menu-output.php`](file:///d:/projects/mapsteps/wp-content/plugins/ultimate-dashboard-pro/modules/admin-menu/class-admin-menu-output.php) |
 | 5 | Admin Bar Visibility Settings Not Applying to Non-Admin Roles | `[ ] Open` | Medium | [`class-admin-bar-helper.php`](file:///d:/projects/mapsteps/wp-content/plugins/ultimate-dashboard/helpers/class-admin-bar-helper.php#L39-L72) |
@@ -41,7 +41,7 @@ This document contains actionable **technical issues requiring code fixes**, ana
 ---
 
 ### 2. Elementor Theme Builder Compatibility & Access Denied Error
-* **Status:** `[ ] Open (Not Fixed) ❌`
+* **Status:** `[x] Completed ✅`
 * **Severity/Priority:** High (Critical Compatibility Bug)
 * **Source:** Tickets #3, #5, #6
 * **Target Files:** 
@@ -51,16 +51,16 @@ This document contains actionable **technical issues requiring code fixes**, ana
 
 #### 📋 Description & Root Cause
 - **Symptom:** When Ultimate Dashboard PRO is active and Elementor menu items are customized or moved via Admin Menu Editor, accessing Elementor's Theme Builder triggers "Sorry, you are not allowed to access this page" or crashes the page even for Administrator users.
-- **Root Cause:** Elementor dynamically registers Theme Builder submenus and routes. Re-ordering, renaming, or hiding Elementor menu items alters `$submenu` global structures or capability callbacks that Elementor requires for permission validation.
+- **Root Cause:** Elementor dynamically registers Theme Builder submenus and routes with hash parameters (`admin.php?page=elementor-app#/site-editor`). Re-ordering, renaming, or hiding menu items altered `$submenu` structures and stripped original parent slug capabilities required by WP core's `$_parent_pages` permission validation.
 
 #### 🛠️ Action Items
-- [ ] Inspect UDB Admin Menu Editor hook execution when processing dynamic menu structures like Elementor Theme Builder.
-- [ ] Preserve original capability callbacks, parent menu slugs, and query parameters for Elementor Theme Builder routes.
-- [ ] Ensure menu modifications do not corrupt dynamic submenu registrations from Elementor.
+- [x] Inspect UDB Admin Menu Editor hook execution when processing dynamic menu structures like Elementor Theme Builder.
+- [x] Preserve original capability callbacks, parent menu slugs, and query parameters for Elementor Theme Builder routes.
+- [x] Ensure menu modifications do not corrupt dynamic submenu registrations from Elementor.
 
 #### ✅ Acceptance Criteria & Verification
-- [ ] Navigating to Elementor -> Theme Builder works without "Access Denied" error when Admin Menu Editor module is enabled.
-- [ ] Saving custom menu order retains Elementor Theme Builder capabilities for Admin users.
+- [x] Navigating to Elementor -> Theme Builder works without "Access Denied" error when Admin Menu Editor module is enabled.
+- [x] Saving custom menu order retains Elementor Theme Builder capabilities for Admin users.
 
 ---
 
