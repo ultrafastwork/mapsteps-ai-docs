@@ -32,6 +32,8 @@ The `ai-docs/wpbf-premium/{developer}/` directory contains documentation to faci
 
 ### 3. Handoff (End of Session)
 
+> **IMPORTANT**: **DO NOT EVER execute the handoff process unless explicitly requested by the user.** AI agents must never perform handoff operations (updating handoff files, archiving prompts, etc.) automatically at the end of a task or session unless the user explicitly instructs to do so.
+
 - **1. Update Handoff File**:
   - Update `ai-docs/wpbf-premium/{developer}/progress-handoffs/PROGRESS_HANDOFF.md`.
   - **Status**: Mark as `Completed` (for this session).
